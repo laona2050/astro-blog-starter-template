@@ -2,7 +2,6 @@
 title: 'Horizon PC68 豪华动力双体游艇'
 description: 'Horizon PC68 豪华动力双体游艇完整资料'
 pubDate: '2026-02-23'
-heroImage: "https://placehold.co/600x400/2337ff/fff?text=Yacht"
 ---
 
 # 🚤 Horizon PC68 豪华动力双体游艇完整资料

@@ -3,18 +3,80 @@ import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { getCollection } from 'astro:content';
+import FormattedDate from '../components/FormattedDate.astro';
+
+const posts = (await getCollection('blog')).sort(
+	(a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf(),
+);
 ---
 
 <!doctype html>
 <html lang="zh">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+			main {
+				width: 720px;
+				max-width: 100%;
+				margin: 0 auto;
+				padding: 2rem 1rem;
+			}
+			ul {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+			}
+			li {
+				margin-bottom: 0.75rem;
+				padding-bottom: 0.75rem;
+				border-bottom: 1px solid #eee;
+			}
+			li:last-child {
+				border-bottom: none;
+			}
+			a {
+				text-decoration: none;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				color: rgb(15, 18, 25);
+			}
+			a:hover .title {
+				color: #2337ff;
+			}
+			.title {
+				margin: 0;
+				font-size: 1rem;
+				font-weight: 500;
+			}
+			.date {
+				color: rgb(96, 115, 159);
+				font-size: 0.875rem;
+				white-space: nowrap;
+				margin-left: 1rem;
+			}
+		</style>
 	</head>
 	<body>
 		<Header />
 		<main>
-			<h1>👋 老鹏友欢迎你</h1>
-			<p>共享我们的爱好，分享经济热点，共研AI技术，玩转剩余人生！</p>
+			<section>
+				<ul>
+					{
+						posts.map((post) => (
+							<li>
+								<a href={`/blog/${post.id}/`}>
+									<span class="title">{post.data.title}</span>
+									<span class="date">
+										<FormattedDate date={post.data.pubDate} />
+									</span>
+								</a>
+							</li>
+						))
+					}
+				</ul>
+			</section>
 		</main>
 		<Footer />
 	</body>

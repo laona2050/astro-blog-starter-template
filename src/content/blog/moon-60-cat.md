@@ -2,7 +2,6 @@
 title: 'Moon 60 Cat 动力双体游艇'
 description: 'Moon 60 Cat 动力双体游艇视频概要'
 pubDate: '2026-02-23'
-heroImage: "https://placehold.co/600x400/2337ff/fff?text=Yacht"
 ---
 
 # 🚤 Moon 60 Cat 动力双体游艇
