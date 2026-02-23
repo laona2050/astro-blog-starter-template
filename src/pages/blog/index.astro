@@ -7,7 +7,7 @@ import { getCollection } from 'astro:content';
 import FormattedDate from '../../components/FormattedDate.astro';
 
 const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+	(a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf(),
 );
 ---
 
@@ -28,8 +28,8 @@ const posts = (await getCollection('blog')).sort(
 				margin: 0;
 			}
 			li {
-				margin-bottom: 1.5rem;
-				padding-bottom: 1.5rem;
+				margin-bottom: 0.75rem;
+				padding-bottom: 0.75rem;
 				border-bottom: 1px solid #eee;
 			}
 			li:last-child {
@@ -37,25 +37,24 @@ const posts = (await getCollection('blog')).sort(
 			}
 			a {
 				text-decoration: none;
-				display: block;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				color: rgb(15, 18, 25);
 			}
 			a:hover .title {
 				color: #2337ff;
 			}
 			.title {
-				margin: 0 0 0.5rem 0;
-				color: rgb(15, 18, 25);
-				font-size: 1.5rem;
-				line-height: 1.3;
-			}
-			.description {
-				margin: 0 0 0.5rem 0;
-				color: rgb(96, 115, 159);
+				margin: 0;
 				font-size: 1rem;
+				font-weight: 500;
 			}
 			.date {
 				color: rgb(96, 115, 159);
 				font-size: 0.875rem;
+				white-space: nowrap;
+				margin-left: 1rem;
 			}
 		</style>
 	</head>
@@ -68,11 +67,10 @@ const posts = (await getCollection('blog')).sort(
 						posts.map((post) => (
 							<li>
 								<a href={`/blog/${post.id}/`}>
-									<h3 class="title">{post.data.title}</h3>
-									<p class="description">{post.data.description}</p>
-									<p class="date">
+									<span class="title">{post.data.title}</span>
+									<span class="date">
 										<FormattedDate date={post.data.pubDate} />
-									</p>
+									</span>
 								</a>
 							</li>
 						))
