@@ -2,6 +2,7 @@
 title: "新能源双体动力游艇选购指南"
 description: "天行者S60e与玛泽润55尺、75尺混合动力游艇综合比较分析"
 pubDate: 2026-02-24
+fullWidth: true
 ---
 
 <style>{`
@@ -10,129 +11,392 @@ pubDate: 2026-02-24
   --ivory: #fef7ed;
   --gray-blue: #475569;
   --accent: #f59e0b;
+  --green: #22c55e;
+  --blue: #3b82f6;
+  --purple: #a855f7;
+  --red: #ef4444;
 }
 body {
-  font-family: 'Inter', sans-serif;
-  background: linear-gradient(135deg, var(--navy) 0%, var(--gray-blue) 100%);
-  color: var(--ivory);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #1f2937;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
   line-height: 1.7;
   margin: 0;
+  min-height: 100vh;
 }
-.serif { font-family: 'Playfair Display', serif; }
+.serif { font-family: Georgia, serif; }
 .glass-effect {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-.hero-gradient {
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(71, 85, 105, 0.85) 50%, rgba(245, 158, 11, 0.1) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 .highlight-box {
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05));
-  border-left: 4px solid var(--accent);
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.05));
+  border-left: 4px solid #f59e0b;
 }
 .section-divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  background: linear-gradient(90deg, transparent, #f59e0b, transparent);
   margin: 3rem 0;
 }
 .comparison-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 1rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
 }
-@media (max-width: 768px) {
-  .comparison-grid { grid-template-columns: 1fr; gap: 1.5rem; }
-}
+@media (max-width: 900px) { .comparison-grid { grid-template-columns: 1fr; } }
+h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+h2 { font-size: 2rem; margin-bottom: 1.5rem; }
+h3 { font-size: 1.5rem; margin-bottom: 1rem; }
+h4 { font-size: 1.25rem; margin-bottom: 0.75rem; }
+p { margin-bottom: 1rem; line-height: 1.8; }
+.text-white { color: #fff !important; }
+.text-amber { color: #fbbf24 !important; }
+.text-green { color: #4ade80 !important; }
+.text-blue { color: #60a5fa !important; }
+.text-purple { color: #c084fc !important; }
+.text-gray { color: #9ca3af !important; }
+.text-dark { color: #1f2937 !important; }
+.bg-white { background: rgba(255,255,255,0.95) !important; }
+.bg-dark { background: #0f172a !important; }
+table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+th, td { padding: 0.75rem; text-align: left; border: 1px solid rgba(255,255,255,0.2); }
+th { background: rgba(255,255,255,0.1); font-weight: 600; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+@media (max-width: 768px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+.rounded { border-radius: 0.75rem; }
+.p-6 { padding: 1.5rem; }
+.mb-4 { margin-bottom: 1rem; }
+.mb-8 { margin-bottom: 2rem; }
+.mt-4 { margin-top: 1rem; }
+.text-center { text-align: center; }
+.font-bold { font-weight: 700; }
 `}</style>
 
-<section class="hero-gradient" style="min-height: 60vh; display: flex; align-items: center; justify-content: center; padding: 4rem 2rem; text-align: center;">
-  <div>
-    <h1 class="serif" style="font-size: 3rem; font-weight: bold; margin-bottom: 1rem;">
-      <span style="color: #fbbf24;">新能源双体动力游艇</span><br/>选购指南
-    </h1>
-    <p style="font-size: 1.25rem; color: #d1d5db; margin-bottom: 2rem;">
-      天行者S60e与玛泽润55尺、75尺混合动力游艇综合比较分析
-    </p>
-    <div style="display: flex; gap: 2rem; justify-content: center; font-size: 0.875rem; color: #9ca3af;">
-      <span>🔋 282kWh最大电池容量</span>
-      <span>☀️ 10kWp标准太阳能</span>
-      <span>🚢 800海里续航</span>
+<!-- Hero Section -->
+<section style="min-height: 60vh; display: flex; align-items: center; justify-content: center; padding: 4rem 2rem; position: relative; overflow: hidden;">
+  <div style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(71, 85, 105, 0.85) 50%, rgba(245, 158, 11, 0.1) 100%);"></div>
+  <div style="position: relative; z-10; max-width: 1200px; margin: 0 auto; width: 100%;">
+    <div class="grid-2" style="align-items: center;">
+      <div style="text-align: center;">
+        <h1 class="serif text-white">
+          <span class="text-amber" style="font-style: italic;">新能源双体动力游艇</span><br/>选购指南
+        </h1>
+        <p style="font-size: 1.25rem; color: #d1d5db; margin: 1.5rem 0;">天行者S60e与玛泽润55尺、75尺混合动力游艇综合比较分析</p>
+        <div style="display: flex; gap: 2rem; justify-content: center; font-size: 0.9rem; color: #9ca3af; flex-wrap: wrap;">
+          <span>🔋 282kWh最大电池容量</span>
+          <span>☀️ 10kWp标准太阳能</span>
+          <span>🚢 800海里续航</span>
+        </div>
+      </div>
+      <div class="glass-effect rounded p-6">
+        <h3 class="serif text-amber mb-4">核心优势</h3>
+        <ul style="font-size: 0.9rem; color: #e5e7eb; list-style: none; padding: 0;">
+          <li style="margin-bottom: 0.75rem;">✅ <span class="text-white">串联式混动，纯电优先</span></li>
+          <li style="margin-bottom: 0.75rem;">🔇 <span class="text-white">舱内噪音低于60分贝</span></li>
+          <li style="margin-bottom: 0.75rem;">⚓ <span class="text-white">0.85米浅吃水设计</span></li>
+          <li>⚡ <span class="text-white">800海里超长续航</span></li>
+        </ul>
+        <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1);">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+            <span class="text-gray">长途巡航</span>
+            <span class="text-green">★★★★★</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+            <span class="text-gray">环保出行</span>
+            <span class="text-green">★★★★★</span>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <span class="text-gray">高速性能</span>
+            <span style="color: #fbbf24;">★★★☆☆</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<section style="max-width: 6xl; margin: 0 auto; padding: 4rem 2rem;">
-  <div class="highlight-box" style="padding: 2rem; border-radius: 1rem; margin-bottom: 3rem;">
-    <h2 class="serif" style="font-size: 1.5rem; margin-bottom: 1.5rem;">核心数据</h2>
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; text-align: center;">
-      <div>
-        <div style="font-size: 2.25rem; font-weight: bold; color: #fbbf24;">282kWh</div>
-        <div style="font-size: 0.875rem; color: #d1d5db;">天行者S60e电池容量</div>
-      </div>
-      <div>
-        <div style="font-size: 2.25rem; font-weight: bold; color: #fbbf24;">10kWp</div>
-        <div style="font-size: 0.875rem; color: #d1d5db;">标准太阳能配置</div>
-      </div>
-      <div>
-        <div style="font-size: 2.25rem; font-weight: bold; color: #fbbf24;">800海里</div>
-        <div style="font-size: 0.875rem; color: #d1d5db;">混合动力续航</div>
-      </div>
-    </div>
-  </div>
-
-  <h2 class="serif" style="font-size: 2rem; margin-bottom: 2rem; text-align: center;">三型游艇核心技术参数对比</h2>
+<!-- Main Content -->
+<section style="max-width: 1100px; margin: 0 auto; padding: 2rem;">
   
-  <div class="comparison-grid" style="margin-bottom: 3rem;">
-    <div class="glass-effect" style="padding: 1.5rem; border-radius: 0.75rem;">
-      <h3 class="serif" style="color: #fbbf24; margin-bottom: 1rem;">天行者S60e</h3>
-      <ul style="font-size: 0.875rem; list-style: none; padding: 0;">
-        <li style="display: flex; justify-content: space-between; padding: 0.5rem 0;"><span>电池容量</span> <span style="color: #4ade80;">282kWh</span></li>
-        <li style="display: flex; justify-content: space-between; padding: 0.5rem 0;"><span>太阳能</span> <span style="color: #4ade80;">10kWp</span></li>
-        <li style="display: flex; justify-content: space-between; padding: 0.5rem 0;"><span>续航</span> <span style="color: #4ade80;">800海里</span></li>
-        <li style="display: flex; justify-content: space-between; padding: 0.5rem 0;"><span>最高航速</span> <span>12节</span></li>
+  <h2 class="serif text-white text-center">执行摘要</h2>
+  
+  <div class="highlight-box rounded p-6 mb-8">
+    <h3 class="serif text-amber mb-4">核心数据</h3>
+    <div class="grid-3">
+      <div class="text-center">
+        <div style="font-size: 2.5rem; font-weight: bold; color: #fbbf24;">282kWh</div>
+        <div style="font-size: 0.9rem; color: #d1d5db;">天行者S60e电池容量</div>
+      </div>
+      <div class="text-center">
+        <div style="font-size: 2.5rem; font-weight: bold; color: #fbbf24;">10kWp</div>
+        <div style="font-size: 0.9rem; color: #d1d5db;">标准太阳能配置</div>
+      </div>
+      <div class="text-center">
+        <div style="font-size: 2.5rem; font-weight: bold; color: #fbbf24;">800海里</div>
+        <div style="font-size: 0.9rem; color: #d1d5db;">混合动力续航</div>
+      </div>
+    </div>
+  </div>
+
+  <p style="font-size: 1.1rem; color: #e5e7eb;">
+    在新能源双体动力游艇的选购决策中，<strong class="text-white">天行者S60e</strong>以其<strong class="text-white">282kWh的超大电池容量</strong>和<strong class="text-white">10kWp的标准太阳能配置</strong>脱颖而出，成为追求环保长途巡航用户的明确首选。其800海里的混合动力续航能力和串联式混动架构，专为注重可持续性的远洋航行而优化设计。
+  </p>
+  
+  <p style="font-size: 1.1rem; color: #e5e7eb;">
+    相较之下，<strong class="text-white">玛泽润55尺</strong>混合动力版以<strong class="text-white">16节的最高航速</strong>和并联式混动架构，为追求即时交付和高速性能的用户提供了更为务实的选择。而<strong class="text-white">玛泽润75尺</strong>则凭借其超大的船体空间和德国iYacht设计背书，为重视空间体验和定制潜力的用户提供了高端选择，可通过定制实现15-20kWp的太阳能配置。
+  </p>
+
+  <div class="section-divider"></div>
+
+  <h2 class="serif text-white text-center">三型游艇核心技术参数对比</h2>
+
+  <!-- Power System -->
+  <h3 class="text-white mb-4">一、动力系统架构对比</h3>
+  <div class="comparison-grid mb-8">
+    <div class="glass-effect rounded p-6">
+      <h4 class="serif text-amber">天行者S60e</h4>
+      <table style="font-size: 0.85rem;">
+        <tr><td>电动机</td><td class="text-green">双150kW永磁同步</td></tr>
+        <tr><td>发电机</td><td>双45kW柴油机组</td></tr>
+        <tr><td>系统类型</td><td class="text-blue">串联式混动</td></tr>
+        <tr><td>最高航速</td><td>12节</td></tr>
+      </table>
+      <div style="margin-top: 0.75rem; padding: 0.5rem; background: rgba(59, 130, 246, 0.2); border-radius: 0.5rem; font-size: 0.8rem;">
+        <strong class="text-white">优势：</strong><span class="text-gray"> 纯电优先，舱内噪音低于60分贝</span>
+      </div>
+    </div>
+    <div class="glass-effect rounded p-6">
+      <h4 class="serif text-amber">玛泽润55尺</h4>
+      <table style="font-size: 0.85rem;">
+        <tr><td>电动机</td><td class="text-green">双150kW Danfoss</td></tr>
+        <tr><td>发电机</td><td>单72kW Yanmar</td></tr>
+        <tr><td>系统类型</td><td class="text-purple">并联式混动</td></tr>
+        <tr><td>最高航速</td><td class="text-amber font-bold">16节</td></tr>
+      </table>
+      <div style="margin-top: 0.75rem; padding: 0.5rem; background: rgba(168, 85, 247, 0.2); border-radius: 0.5rem; font-size: 0.8rem;">
+        <strong class="text-white">优势：</strong><span class="text-gray"> 三型中速度最快</span>
+      </div>
+    </div>
+    <div class="glass-effect rounded p-6">
+      <h4 class="serif text-amber">玛泽润75尺</h4>
+      <table style="font-size: 0.85rem;">
+        <tr><td>电动机</td><td class="text-green">双80kW/峰值135kW UQM</td></tr>
+        <tr><td>发电机</td><td class="text-amber font-bold">单150kW REGEN</td></tr>
+        <tr><td>系统类型</td><td class="text-red">大功率增程式</td></tr>
+        <tr><td>最高航速</td><td class="text-gray">未公开</td></tr>
+      </table>
+      <div style="margin-top: 0.75rem; padding: 0.5rem; background: rgba(239, 68, 68, 0.2); border-radius: 0.5rem; font-size: 0.8rem;">
+        <strong class="text-white">优势：</strong><span class="text-gray"> 发电机功率最大</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Battery -->
+  <h3 class="text-white mb-4">二、电池系统对比</h3>
+  <div class="glass-effect rounded p-6 mb-8">
+    <table>
+      <thead>
+        <tr><th>排名</th><th>型号</th><th>电池容量</th><th>特点</th></tr>
+      </thead>
+      <tbody>
+        <tr style="background: rgba(34, 197, 94, 0.1);">
+          <td>🥇</td><td class="text-white font-bold">天行者S60e</td><td class="text-amber font-bold">282kWh</td><td class="text-gray">串联式混动，LFP安全性最优</td>
+        </tr>
+        <tr style="background: rgba(59, 130, 246, 0.1);">
+          <td>🥈</td><td class="text-white font-bold">玛泽润75尺</td><td class="text-amber">268kWh</td><td class="text-gray">空间大，大功率充电补偿</td>
+        </tr>
+        <tr style="background: rgba(168, 85, 247, 0.1);">
+          <td>🥉</td><td class="text-white font-bold">玛泽润55尺</td><td class="text-amber">225kWh</td><td class="text-gray">成熟方案，成本较低</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Solar -->
+  <h3 class="text-white mb-4">三、太阳能发电系统对比</h3>
+  <div class="comparison-grid mb-8">
+    <div class="glass-effect rounded p-6">
+      <h5 class="text-amber font-bold mb-3">天行者S60e</h5>
+      <table style="font-size: 0.85rem;">
+        <tr><td>标称功率</td><td class="text-green font-bold">10kWp</td></tr>
+        <tr><td>铺设面积</td><td>50-60m²</td></tr>
+        <tr><td>日发电量</td><td class="text-amber font-bold">40-50kWh</td></tr>
+        <tr><td>标准配置</td><td class="text-green">✓ 标配</td></tr>
+      </table>
+    </div>
+    <div class="glass-effect rounded p-6">
+      <h5 class="text-amber font-bold mb-3">玛泽润55尺</h5>
+      <table style="font-size: 0.85rem;">
+        <tr><td>标称功率</td><td>~2.5-3kWp</td></tr>
+        <tr><td>铺设面积</td><td>12-15m²</td></tr>
+        <tr><td>日发电量</td><td>10-12kWh</td></tr>
+        <tr><td>标准配置</td><td class="text-green">✓ 标配</td></tr>
+      </table>
+    </div>
+    <div class="glass-effect rounded p-6">
+      <h5 class="text-amber font-bold mb-3">玛泽润75尺</h5>
+      <table style="font-size: 0.85rem;">
+        <tr><td>标称功率</td><td>需选装</td></tr>
+        <tr><td>铺设面积</td><td>可扩展80-100m²</td></tr>
+        <tr><td>升级潜力</td><td class="text-amber font-bold">15-20kWp</td></tr>
+        <tr><td>标准配置</td><td class="text-red">✗ 需选装</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Performance -->
+  <h3 class="text-white mb-4">四、续航与性能</h3>
+  <div class="grid-2 mb-8">
+    <div class="glass-effect rounded p-6">
+      <h4 class="serif text-amber mb-4">混合动力续航</h4>
+      <div style="display: flex; justify-content: space-between; padding: 0.75rem; background: rgba(34, 197, 94, 0.15); border-radius: 0.5rem; margin-bottom: 0.5rem;">
+        <span class="text-white">天行者S60e</span>
+        <span class="text-green font-bold" style="font-size: 1.25rem;">800海里</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; padding: 0.75rem; background: rgba(59, 130, 246, 0.15); border-radius: 0.5rem; margin-bottom: 0.5rem;">
+        <span class="text-white">玛泽润55尺</span>
+        <span class="text-blue font-bold">500海里</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; padding: 0.75rem; background: rgba(168, 85, 247, 0.15); border-radius: 0.5rem;">
+        <span class="text-white">玛泽润75尺</span>
+        <span class="text-purple font-bold">600-800海里</span>
+      </div>
+      <p style="font-size: 0.8rem; color: #9ca3af; margin-top: 0.75rem;">*S60e的800海里续航意味着从迈阿密至巴哈马往返</p>
+    </div>
+    <div class="glass-effect rounded p-6">
+      <h4 class="serif text-amber mb-4">航速性能</h4>
+      <div style="display: flex; justify-content: space-between; padding: 0.75rem; background: rgba(168, 85, 247, 0.15); border-radius: 0.5rem; margin-bottom: 0.5rem;">
+        <span class="text-white">玛泽润55尺</span>
+        <span class="text-amber font-bold" style="font-size: 1.25rem;">16节</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; padding: 0.75rem; background: rgba(34, 197, 94, 0.15); border-radius: 0.5rem; margin-bottom: 0.5rem;">
+        <span class="text-white">天行者S60e</span>
+        <span class="text-green font-bold">12节</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; padding: 0.75rem; background: rgba(59, 130, 246, 0.15); border-radius: 0.5rem;">
+        <span class="text-white">玛泽润75尺</span>
+        <span class="text-blue font-bold">预计14-16节</span>
+      </div>
+      <p style="font-size: 0.8rem; color: #9ca3af; margin-top: 0.75rem;">*55尺的16节航速反映并联混动直驱优势</p>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- Hull Structure -->
+  <h2 class="serif text-white text-center mb-8">船体结构与建造工艺</h2>
+  <div class="grid-3 mb-8">
+    <div class="glass-effect rounded p-6">
+      <h4 class="serif text-amber mb-4">天行者S60e</h4>
+      <div style="font-size: 0.9rem;">
+        <p><strong class="text-white">材料工艺：</strong><span class="text-gray"> GRP真空导流成型 + 铝合金上层建筑</span></p>
+        <p><strong class="text-white">船型设计：</strong><span class="text-gray"> 双体穿浪型，片体细长比11:1</span></p>
+        <p><strong class="text-white">吃水深度：</strong><span class="text-gray"> 仅0.85米</span></p>
+        <p><strong class="text-white">认证标准：</strong><span class="text-gray"> CE B类（推测）</span></p>
+      </div>
+    </div>
+    <div class="glass-effect rounded p-6">
+      <h4 class="serif text-amber mb-4">玛泽润55尺</h4>
+      <div style="font-size: 0.9rem;">
+        <p><strong class="text-white">材料工艺：</strong><span class="text-gray"> GRP+碳纤维增强</span></p>
+        <p><strong class="text-white">船型设计：</strong><span class="text-gray"> 可转换船型</span></p>
+        <p><strong class="text-white">吃水深度：</strong><span class="text-gray"> -</span></p>
+        <p><strong class="text-white">认证标准：</strong><span class="text-green"> CE A类 + GL Yacht Plus</span></p>
+      </div>
+    </div>
+    <div class="glass-effect rounded p-6">
+      <h4 class="serif text-amber mb-4">玛泽润75尺</h4>
+      <div style="font-size: 0.9rem;">
+        <p><strong class="text-white">材料工艺：</strong><span class="text-gray"> GRP/CFRP三明治复合材料</span></p>
+        <p><strong class="text-white">船型设计：</strong><span class="text-gray"> 德国iYacht全权设计</span></p>
+        <p><strong class="text-white">吃水深度：</strong><span class="text-gray"> -</span></p>
+        <p><strong class="text-white">认证标准：</strong><span class="text-gray"> 未公开</span></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- Equipment -->
+  <h2 class="serif text-white text-center mb-8">关键设备系统</h2>
+  <div class="grid-2 mb-8">
+    <div class="glass-effect rounded p-6">
+      <h4 class="serif text-amber mb-4">电力管理系统</h4>
+      <ul style="font-size: 0.9rem; color: #d1d5db; padding-left: 1.25rem;">
+        <li style="margin-bottom: 0.5rem;"><strong class="text-white">配电架构：</strong>400V三相交流 + 24V/12V直流</li>
+        <li style="margin-bottom: 0.5rem;"><strong class="text-white">智能监控：</strong>BMS+EMS双层架构</li>
+        <li><strong class="text-white">岸电充电：</strong>63A/125A，22-44kW</li>
       </ul>
     </div>
-    <div class="glass-effect" style="padding: 1.5rem; border-radius: 0.75rem;">
-      <h3 class="serif" style="color: #fbbf24; margin-bottom: 1rem;">玛泽润55尺</h3>
-      <ul style="font-size: 0.875rem; list-style: none; padding: 0;">
-        <li style="display: flex; justify-content: space-between; padding: 0.5rem 0;"><span>电池容量</span> <span>225kWh</span></li>
-        <li style="display: flex; justify-content: space-between; padding: 0.5rem 0;"><span>太阳能</span> <span>~2.5-3kWp</span></li>
-        <li style="display: flex; justify-content: space-between; padding: 0.5rem 0;"><span>续航</span> <span>500海里</span></li>
-        <li style="display: flex; justify-content: space-between; padding: 0.5rem 0;"><span>最高航速</span> <span style="color: #fbbf24; font-weight: bold;">16节</span></li>
-      </ul>
-    </div>
-    <div class="glass-effect" style="padding: 1.5rem; border-radius: 0.75rem;">
-      <h3 class="serif" style="color: #fbbf24; margin-bottom: 1rem;">玛泽润75尺</h3>
-      <ul style="font-size: 0.875rem; list-style: none; padding: 0;">
-        <li style="display: flex; justify-content: space-between; padding: 0.5rem 0;"><span>电池容量</span> <span>268kWh</span></li>
-        <li style="display: flex; justify-content: space-between; padding: 0.5rem 0;"><span>太阳能</span> <span>需选装</span></li>
-        <li style="display: flex; justify-content: space-between; padding: 0.5rem 0;"><span>续航</span> <span>600-800海里</span></li>
-        <li style="display: flex; justify-content: space-between; padding: 0.5rem 0;"><span>发电机</span> <span style="color: #fbbf24; font-weight: bold;">150kW</span></li>
+    <div class="glass-effect rounded p-6">
+      <h4 class="serif text-amber mb-4">推进与操纵系统</h4>
+      <ul style="font-size: 0.9rem; color: #d1d5db; padding-left: 1.25rem;">
+        <li style="margin-bottom: 0.5rem;"><strong class="text-white">螺旋桨：</strong>固定桨优化匹配电动机</li>
+        <li style="margin-bottom: 0.5rem;"><strong class="text-white">侧推器：</strong>艏侧推+艉侧推双系统</li>
+        <li><strong class="text-white">操舵系统：</strong>液压舵机，Joystick单杆操控</li>
       </ul>
     </div>
   </div>
 
-  <h2 class="serif" style="font-size: 2rem; margin-bottom: 2rem;">选购建议</h2>
-  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;">
-    <div class="glass-effect" style="padding: 1.5rem; border-radius: 0.75rem;">
-      <h3 style="color: #4ade80; margin-bottom: 0.5rem;">🥇 环保长途巡航</h3>
-      <p style="font-size: 0.875rem; color: #d1d5db;">推荐：天行者S60e<br/>串联式混动，800海里续航，静音舒适</p>
+  <!-- Living Systems -->
+  <div class="grid-3 mb-8">
+    <div class="glass-effect rounded p-6">
+      <h5 class="text-amber font-bold mb-3">💧 淡水系统</h5>
+      <table style="font-size: 0.85rem;">
+        <tr><td>S60e</td><td>800L</td></tr>
+        <tr><td>55尺</td><td>800-1400L</td></tr>
+        <tr><td>75尺</td><td>1400-2100L</td></tr>
+      </table>
     </div>
-    <div class="glass-effect" style="padding: 1.5rem; border-radius: 0.75rem;">
-      <h3 style="color: #a78bfa; margin-bottom: 0.5rem;">🥈 高速性能</h3>
-      <p style="font-size: 0.875rem; color: #d1d5db;">推荐：玛泽润55尺<br/>16节最高航速，即时交付成熟方案</p>
+    <div class="glass-effect rounded p-6">
+      <h5 class="text-amber font-bold mb-3">❄️ 空调系统</h5>
+      <table style="font-size: 0.85rem;">
+        <tr><td>S60e</td><td>60,000-80,000 BTU</td></tr>
+        <tr><td>55尺</td><td>同级别</td></tr>
+        <tr><td>75尺</td><td>100,000-120,000 BTU</td></tr>
+      </table>
     </div>
-    <div class="glass-effect" style="padding: 1.5rem; border-radius: 0.75rem;">
-      <h3 style="color: #fb923c; margin-bottom: 0.5rem;">🥉 空间定制</h3>
-      <p style="font-size: 0.875rem; color: #d1d5db;">推荐：玛泽润75尺<br/>超大船体空间，德国iYacht设计</p>
+    <div class="glass-effect rounded p-6">
+      <h5 class="text-amber font-bold mb-3">🍳 厨房卫浴</h5>
+      <ul style="font-size: 0.8rem; color: #d1d5db; padding-left: 1rem;">
+        <li>全电厨房</li>
+        <li>嵌入式冰箱</li>
+        <li>真空马桶</li>
+      </ul>
     </div>
   </div>
 
-  <div class="highlight-box" style="padding: 2rem; border-radius: 1rem; margin-top: 3rem;">
-    <h3 class="serif" style="font-size: 1.25rem; margin-bottom: 1rem;">总结</h3>
-    <p style="color: #d1d5db;">
-      天行者S60e以其282kWh的超大电池容量和10kWp的标准太阳能配置脱颖而出，成为追求环保长途巡航用户的明确首选。玛泽润55尺以16节的最高航速为追求高速性能的用户提供务实选择。玛泽润75尺则凭借超大空间和定制潜力为高端用户提供选择。
+  <div class="section-divider"></div>
+
+  <!-- Decision -->
+  <h2 class="serif text-white text-center mb-8">选购建议</h2>
+  <div class="grid-3 mb-8">
+    <div class="glass-effect rounded p-6" style="border-left: 4px solid #22c55e;">
+      <h4 class="text-green mb-3">🥇 环保长途巡航</h4>
+      <p style="font-size: 0.9rem; color: #d1d5db;"><strong class="text-white">推荐：天行者S60e</strong><br/>串联式混动架构，专为远洋航行优化，最大电池+标准太阳能，静音舒适体验</p>
+    </div>
+    <div class="glass-effect rounded p-6" style="border-left: 4px solid #a855f7;">
+      <h4 class="text-purple mb-3">🥈 高速性能</h4>
+      <p style="font-size: 0.9rem; color: #d1d5db;"><strong class="text-white">推荐：玛泽润55尺</strong><br/>16节最高航速，并联式混动直驱优势，即时交付成熟方案</p>
+    </div>
+    <div class="glass-effect rounded p-6" style="border-left: 4px solid #f59e0b;">
+      <h4 class="text-amber mb-3">🥉 空间定制</h4>
+      <p style="font-size: 0.9rem; color: #d1d5db;"><strong class="text-white">推荐：玛泽润75尺</strong><br/>超大船体空间，德国iYacht设计背书，高度定制潜力</p>
+    </div>
+  </div>
+
+  <div class="highlight-box rounded p-6">
+    <h3 class="serif text-amber mb-4">总结</h3>
+    <p style="color: #e5e7eb; font-size: 1rem;">
+      <strong class="text-white">天行者S60e</strong>以其282kWh的超大电池容量和10kWp的标准太阳能配置脱颖而出，成为追求环保长途巡航用户的明确首选。
+      <strong class="text-white">玛泽润55尺</strong>以16节的最高航速为追求高速性能的用户提供务实选择。
+      <strong class="text-white">玛泽润75尺</strong>则凭借超大空间和定制潜力为高端用户提供选择。
+    </p>
+    <p style="color: #9ca3af; font-size: 0.85rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1);">
+      * 本报告基于2026年2月市场调研数据
     </p>
   </div>
+
 </section>
