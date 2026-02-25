@@ -1,1 +1,1456 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>eGo S150W 柔性光伏板深度解析</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <style>
+        :root {
+            --primary: #1e293b;
+            --secondary: #475569;
+            --accent: #0ea5e9;
+            --muted: #64748b;
+            --background: #f8fafc;
+            --surface: #ffffff;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+            color: var(--primary);
+            background-color: var(--background);
+        }
+        
+        .serif {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+        
+        .toc-fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: var(--surface);
+            border-right: 1px solid #e2e8f0;
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 2rem 1.5rem;
+        }
+        
+        .main-content {
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-overlay {
+            background: linear-gradient(45deg, rgba(14, 165, 233, 0.1) 0%, rgba(14, 165, 233, 0.05) 100%);
+            position: absolute;
+            inset: 0;
+        }
+        
+        .bento-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 2rem;
+            height: 100%;
+        }
+        
+        .hero-content {
+            grid-column: 1;
+            grid-row: 1 / 3;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem;
+        }
+        
+        .hero-visual {
+            grid-column: 2;
+            grid-row: 1;
+            position: relative;
+            overflow: hidden;
+            border-radius: 1rem;
+        }
+        
+        .hero-stats {
+            grid-column: 2;
+            grid-row: 2;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            padding: 2rem;
+        }
+        
+        .section-card {
+            background: var(--surface);
+            border-radius: 1rem;
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            border: 1px solid #f1f5f9;
+        }
+        
+        .data-highlight {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0.5rem;
+        }
+        
+        .citation {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .citation:hover {
+            color: #0284c7;
+            text-decoration: underline;
+        }
+        
+        .toc-link {
+            display: block;
+            padding: 0.5rem 0;
+            color: var(--secondary);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-left: 2px solid transparent;
+            padding-left: 1rem;
+        }
+        
+        .toc-link:hover,
+        .toc-link.active {
+            color: var(--accent);
+            border-left-color: var(--accent);
+            background: rgba(14, 165, 233, 0.05);
+        }
+        
+        .toc-section {
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .comparison-table {
+            overflow-x: auto;
+            margin: 2rem 0;
+        }
+        
+        .comparison-table table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .comparison-table th {
+            background: #f8fafc;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+        
+        .rating-stars {
+            color: #f59e0b;
+            margin-left: 0.5rem;
+        }
+        
+        @media (max-width: 1024px) {
+            .toc-fixed {
+                display: none;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .bento-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+            }
+            .hero-content {
+                grid-column: 1;
+                grid-row: 1;
+            }
+            .hero-visual {
+                grid-column: 1;
+                grid-row: 2;
+            }
+            .hero-stats {
+                grid-column: 1;
+                grid-row: 3;
+            }
+        }
 
+        @media (max-width: 768px) {
+            .hero-section .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            .hero-content {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            .bento-grid {
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 390px) {
+            .section-card {
+                padding: 1rem;
+            }
+        }
+    </style>
+  <base target="_blank">
+</head>
+
+  <body>
+    <!-- Fixed Table of Contents -->
+    <nav class="toc-fixed">
+      <div class="mb-6">
+        <h3 class="text-lg font-bold text-slate-800 mb-4">目录导航</h3>
+      </div>
+
+      <div class="space-y-2">
+        <div class="toc-section">核心概览</div>
+        <a href="#overview" class="toc-link">产品概况</a>
+        <a href="#specs" class="toc-link">技术参数</a>
+
+        <div class="toc-section">产品系列</div>
+        <a href="#series" class="toc-link">版本区分</a>
+        <a href="#performance" class="toc-link">性能表现</a>
+
+        <div class="toc-section">市场分析</div>
+        <a href="#feedback" class="toc-link">用户反馈</a>
+        <a href="#pricing" class="toc-link">价格体系</a>
+
+        <div class="toc-section">竞争对比</div>
+        <a href="#comparison" class="toc-link">竞品分析</a>
+        <a href="#advantages" class="toc-link">优势定位</a>
+
+        <div class="toc-section">应用方案</div>
+        <a href="#yacht" class="toc-link">飞桥安装</a>
+        <a href="#recommendation" class="toc-link">选型建议</a>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Hero Section -->
+      <section class="hero-section min-h-screen relative">
+        <div class="hero-overlay"></div>
+        <div class="container mx-auto px-6 py-12 relative z-10">
+          <div class="bento-grid min-h-screen">
+            <!-- Hero Content -->
+            <div class="hero-content">
+              <div class="mb-8">
+                <span class="inline-block px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm font-medium mb-6">
+                  专业光伏解决方案
+                </span>
+                <h1 class="hero-title serif font-bold mb-6">
+                  eGo S150W
+                  <br/>
+                  <span class="text-cyan-300">柔性光伏板</span>
+                  <br/>
+                  深度解析
+                </h1>
+                <p class="text-xl text-slate-300 mb-8 max-w-2xl leading-relaxed">
+                  深圳安宏力新能源打造的高效率柔性光伏板，采用SunPower级背接触电池与ETFE表面封装，
+                  转换效率达23.5%–24.4%，为双体动力游艇飞桥光伏方案提供革命性解决方案
+                </p>
+                <div class="flex flex-wrap gap-4">
+                  <div class="bg-white/10 backdrop-blur-sm rounded-lg px-6 py-4">
+                    <div class="text-2xl font-bold text-cyan-300">24.4%</div>
+                    <div class="text-sm text-slate-300">最高转换效率</div>
+                  </div>
+                  <div class="bg-white/10 backdrop-blur-sm rounded-lg px-6 py-4">
+                    <div class="text-2xl font-bold text-cyan-300">3.5kg</div>
+                    <div class="text-sm text-slate-300">超轻重量</div>
+                  </div>
+                  <div class="bg-white/10 backdrop-blur-sm rounded-lg px-6 py-4">
+                    <div class="text-2xl font-bold text-cyan-300">~1000元</div>
+                    <div class="text-sm text-slate-300">极致性价比</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hero Visual -->
+            <div class="hero-visual">
+              <img src="https://kimi-web-img.moonshot.cn/img/www.jsszsolar.com/7b8cef8759311733e880c7bf27501db71b110bdb.png" alt="安装在游艇飞桥上的柔性太阳能电池板" class="w-full h-full object-cover rounded-lg" size="large" aspect="wide" style="photo" query="游艇飞桥柔性太阳能电池板安装" referrerpolicy="no-referrer" data-modified="1" data-score="0.00"/>
+            </div>
+
+            <!-- Hero Stats -->
+            <div class="hero-stats">
+              <h3 class="text-lg font-semibold mb-4">核心优势</h3>
+              <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                  <span class="text-sm">效率优势</span>
+                  <span class="font-semibold text-cyan-300">+68%</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-sm">成本优势</span>
+                  <span class="font-semibold text-cyan-300">-91%</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-sm">重量控制</span>
+                  <span class="font-semibold text-cyan-300">-60%</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-sm">安装灵活</span>
+                  <span class="font-semibold text-cyan-300">30°弯曲</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Product Overview -->
+      <section id="overview" class="py-16 px-6">
+        <div class="container mx-auto max-w-6xl">
+          <div class="section-card">
+            <h2 class="text-3xl serif font-bold mb-8 text-center">产品核心概况</h2>
+
+            <div class="prose prose-lg max-w-none">
+              <p class="text-xl leading-relaxed mb-8 text-slate-600">
+                eGo S150W是由中国深圳安宏力（Ahony Power）生产的高效率柔性光伏板，
+                采用SunPower级背接触电池与ETFE表面封装，转换效率达<strong class="text-slate-800">23.5%–24.4%</strong>，
+                重量<strong class="text-slate-800">3.5–3.7kg</strong>，厚度仅<strong class="text-slate-800">3mm</strong>，
+                批发价格约<strong class="text-slate-800">960–1140元人民币/件</strong>。
+              </p>
+
+              <div class="data-highlight">
+                <h3 class="text-lg font-semibold mb-3 flex items-center">
+                  <i class="fas fa-chart-line text-cyan-600 mr-2"></i>
+                  TL;DR 核心结论
+                </h3>
+                <p class="mb-0">
+                  与欧洲顶级品牌Solbian相比，其效率相当但价格仅为<strong class="text-slate-800">1/10–1/12</strong>，
+                  性价比极为突出；与国内竞品CiFi SUN相比，效率略优且价格更低；
+                  与CIGS薄膜技术相比，效率优势显著（+9.5%绝对值）。
+                </p>
+              </div>
+
+              <p>
+                对于双体动力游艇飞桥光伏方案，eGo S150W凭借<strong class="text-slate-800">可控重量、低风阻轮廓、30°弯曲适配能力及优异的海洋环境耐久性</strong>，
+                成为<strong class="text-slate-800">预算敏感型项目的首选方案</strong>，综合推荐度高。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Technical Specifications -->
+      <section id="specs" class="py-16 px-6 bg-slate-50">
+        <div class="container mx-auto max-w-6xl">
+          <div class="section-card">
+            <h2 class="text-3xl serif font-bold mb-8 text-center">技术参数详解</h2>
+
+            <div class="grid md:grid-cols-2 gap-8">
+              <!-- Electrical Parameters -->
+              <div>
+                <h3 class="text-xl font-semibold mb-6 flex items-center">
+                  <i class="fas fa-bolt text-yellow-500 mr-2"></i>
+                  电气特性参数
+                </h3>
+
+                <div class="space-y-4">
+                  <div class="bg-slate-50 p-4 rounded-lg">
+                    <h4 class="font-semibold mb-2">标准版电气参数</h4>
+                    <ul class="space-y-2 text-sm">
+                      <li><strong>峰值功率：</strong>150W (±5%)</li>
+                      <li><strong>最大功率电压：</strong>20.3V</li>
+                      <li><strong>最大功率电流：</strong>7.4A</li>
+                      <li><strong>开路电压：</strong>24.0V</li>
+                      <li><strong>短路电流：</strong>8.0A</li>
+                    </ul>
+                  </div>
+
+                  <div class="bg-slate-50 p-4 rounded-lg">
+                    <h4 class="font-semibold mb-2">SO全柔性版</h4>
+                    <ul class="space-y-2 text-sm">
+                      <li><strong>最大功率电压：</strong>25.52V</li>
+                      <li><strong>最大功率电流：</strong>5.88A</li>
+                      <li><strong>开路电压：</strong>30.11V</li>
+                      <li><strong>短路电流：</strong>6.35A</li>
+                    </ul>
+                  </div>
+
+                  <div class="data-highlight">
+                    <p class="text-sm mb-0">
+                      <strong>系统兼容性：</strong>最大系统电压1000V，功率温度系数-0.43%/℃，
+                      工作温度范围-40℃至+85℃
+                      <a href="https://www.archiexpo.cn/prod/shenzhen-ahony-power-co-ltd/product-188843-2298750.html" class="citation">[307]</a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Physical Parameters -->
+              <div>
+                <h3 class="text-xl font-semibold mb-6 flex items-center">
+                  <i class="fas fa-ruler text-blue-500 mr-2"></i>
+                  物理结构参数
+                </h3>
+
+                <div class="space-y-4">
+                  <div class="bg-slate-50 p-4 rounded-lg">
+                    <h4 class="font-semibold mb-2">标准版尺寸</h4>
+                    <ul class="space-y-2 text-sm">
+                      <li><strong>长度：</strong>1145mm</li>
+                      <li><strong>宽度：</strong>660mm</li>
+                      <li><strong>厚度：</strong>3mm</li>
+                      <li><strong>有效面积：</strong>0.756㎡</li>
+                      <li><strong>功率密度：</strong>198W/㎡</li>
+                    </ul>
+                  </div>
+
+                  <div class="bg-slate-50 p-4 rounded-lg">
+                    <h4 class="font-semibold mb-2">重量参数</h4>
+                    <ul class="space-y-2 text-sm">
+                      <li><strong>净重：</strong>3.5-3.7kg</li>
+                      <li><strong>单位面积重量：</strong>4.6-4.9kg/㎡</li>
+                      <li><strong>单位功率重量：</strong>23.3-24.7g/W</li>
+                    </ul>
+                  </div>
+
+                  <div class="data-highlight">
+                    <p class="text-sm mb-0">
+                      <strong>版本差异化：</strong>提供1220×660mm（面积0.805㎡）和1460×540mm（细长型）等尺寸选择
+                      <a href="https://www.nauticexpo.cn/prod/shenzhen-ahony-power-co-ltd/product-198811-603227.html" class="citation">[307]</a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Product Series -->
+      <section id="series" class="py-16 px-6">
+        <div class="container mx-auto max-w-6xl">
+          <div class="section-card">
+            <h2 class="text-3xl serif font-bold mb-8 text-center">产品系列版本区分</h2>
+
+            <div class="grid lg:grid-cols-3 gap-8">
+              <!-- Standard Version -->
+              <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-lg">
+                <div class="flex items-center mb-4">
+                  <i class="fas fa-solar-panel text-blue-600 text-2xl mr-3"></i>
+                  <h3 class="text-xl font-semibold">标准版</h3>
+                </div>
+                <div class="space-y-3 text-sm">
+                  <p><strong>结构特点：</strong>半柔性设计，适度弯曲能力（10°-15°）</p>
+                  <p><strong>电池技术：</strong>PERC单晶硅电池</p>
+                  <p><strong>电气架构：</strong>20.3V/7.4A，12V系统优化</p>
+                  <p><strong>适用场景：</strong>常规曲面，预算优先项目</p>
+                </div>
+                <div class="mt-4 p-3 bg-blue-200/50 rounded text-xs">
+                  <strong>建议弯曲半径：</strong>&gt;500mm
+                </div>
+              </div>
+
+              <!-- SO Version -->
+              <div class="bg-gradient-to-br from-emerald-50 to-emerald-100 p-6 rounded-lg">
+                <div class="flex items-center mb-4">
+                  <i class="fas fa-ribbon text-emerald-600 text-2xl mr-3"></i>
+                  <h3 class="text-xl font-semibold">全柔性版 SO</h3>
+                </div>
+                <div class="space-y-3 text-sm">
+                  <p><strong>结构特点：</strong>最大30°弯曲角度</p>
+                  <p><strong>电池技术：</strong>SunPower Maxeon Gen III</p>
+                  <p><strong>电气架构：</strong>25.52V/5.88A，高压低电流</p>
+                  <p><strong>智能旁路：</strong>细粒度遮挡保护</p>
+                </div>
+                <div class="mt-4 p-3 bg-emerald-200/50 rounded text-xs">
+                  <strong>建议弯曲半径：</strong>200-300mm
+                </div>
+              </div>
+
+              <!-- PRO Version -->
+              <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-lg">
+                <div class="flex items-center mb-4">
+                  <i class="fas fa-crown text-purple-600 text-2xl mr-3"></i>
+                  <h3 class="text-xl font-semibold">增强版 PRO</h3>
+                </div>
+                <div class="space-y-3 text-sm">
+                  <p><strong>结构特点：</strong>200°弧度适应能力</p>
+                  <p><strong>美学设计：</strong>全黑外观选项</p>
+                  <p><strong>耐候强化：</strong>增厚ETFE膜</p>
+                  <p><strong>目标市场：</strong>高端定制项目</p>
+                </div>
+                <div class="mt-4 p-3 bg-purple-200/50 rounded text-xs">
+                  <strong>建议弯曲半径：</strong>~200mm（极端曲面）
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-8 data-highlight">
+              <h4 class="text-lg font-semibold mb-3">技术升级路径</h4>
+              <p class="mb-0">
+                从标准版到SO/PRO版的技术升级体现在电池技术（PERC→IBC）、弯曲能力（15°→30°→200°）、
+                以及智能化程度（传统旁路→智能旁路设计）的全面提升
+                <a href="https://www.nauticexpo.cn/prod/shenzhen-ahony-power-co-ltd/product-198811-603227.html" class="citation">[246]</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Performance Analysis -->
+      <section id="performance" class="py-16 px-6 bg-slate-50">
+        <div class="container mx-auto max-w-6xl">
+          <div class="section-card">
+            <h2 class="text-3xl serif font-bold mb-8 text-center">实际性能表现与应用特性</h2>
+
+            <div class="grid lg:grid-cols-2 gap-8">
+              <!-- Power Generation Performance -->
+              <div>
+                <h3 class="text-xl font-semibold mb-6 flex items-center">
+                  <i class="fas fa-chart-area text-green-600 mr-2"></i>
+                  发电性能表现
+                </h3>
+
+                <div class="space-y-4">
+                  <div class="bg-white p-4 rounded-lg border">
+                    <h4 class="font-semibold mb-2">标准测试条件</h4>
+                    <p class="text-sm text-slate-600 mb-2">
+                      STC条件下（1000W/㎡，25℃，AM1.5G）稳定输出150W额定功率
+                    </p>
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                      <div><strong>弱光响应：</strong>&gt;90%相对效率（200-500W/㎡）</div>
+                      <div><strong>温度特性：</strong>70℃时输出约121W</div>
+                    </div>
+                  </div>
+
+                  <div class="bg-white p-4 rounded-lg border">
+                    <h4 class="font-semibold mb-2">海洋环境适应性</h4>
+                    <ul class="text-sm space-y-1">
+                      <li>• 通过IEC 61701盐雾测试</li>
+                      <li>• 抗PID设计，无边框结构</li>
+                      <li>• ETFE低吸水性（&lt;0.1%）&lt;&gt;
+                      </li>
+                      <li>• 硅胶填充接线盒防护</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Mechanical Performance -->
+              <div>
+                <h3 class="text-xl font-semibold mb-6 flex items-center">
+                  <i class="fas fa-tools text-orange-600 mr-2"></i>
+                  机械性能表现
+                </h3>
+
+                <div class="space-y-4">
+                  <div class="bg-white p-4 rounded-lg border">
+                    <h4 class="font-semibold mb-2">载荷能力</h4>
+                    <div class="grid grid-cols-2 gap-2 text-sm">
+                      <div>
+                        <strong>抗风压：</strong>2400Pa
+                        <br/>
+                        <small class="text-slate-600">约60m/s风速</small>
+                      </div>
+                      <div>
+                        <strong>抗雪载：</strong>5400Pa
+                        <br/>
+                        <small class="text-slate-600">约2m湿雪</small>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="bg-white p-4 rounded-lg border">
+                    <h4 class="font-semibold mb-2">安装特性</h4>
+                    <p class="text-sm text-slate-600 mb-2">
+                      无玻璃结构的抗冲击优势，ETFE表面弹性变形吸收能量
+                    </p>
+                    <div class="text-xs text-slate-500">
+                      安装实践：渐进贴合原则，弹性垫层应用，边缘加强固定
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-8 data-highlight">
+              <h4 class="text-lg font-semibold mb-3">耐久性验证</h4>
+              <p class="mb-0">
+                ETFE材料抗UV老化机制基于C-F键的高解离能（485kJ/mol），25年设计寿命的功率保持承诺
+                （线性衰减≤0.7%/年）具有材料科学支撑
+                <a href="https://www.nauticexpo.cn/prod/shenzhen-ahony-power-co-ltd/product-198811-603227.html" class="citation">[334]</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- User Feedback -->
+      <section id="feedback" class="py-16 px-6">
+        <div class="container mx-auto max-w-6xl">
+          <div class="section-card">
+            <h2 class="text-3xl serif font-bold mb-8 text-center">市场反馈与用户评价</h2>
+
+            <div class="grid lg:grid-cols-2 gap-8">
+              <!-- Professional Platform Ratings -->
+              <div>
+                <h3 class="text-xl font-semibold mb-6 flex items-center">
+                  <i class="fas fa-star text-yellow-500 mr-2"></i>
+                  专业平台评分
+                </h3>
+
+                <div class="space-y-4">
+                  <div class="bg-gradient-to-r from-blue-50 to-blue-100 p-4 rounded-lg">
+                    <div class="flex items-center justify-between mb-2">
+                      <h4 class="font-semibold">NauticExpo平台</h4>
+                      <div class="flex items-center">
+                        <span class="font-bold text-blue-600 mr-2">4.8/5</span>
+                        <div class="rating-stars">
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <p class="text-sm text-slate-600">
+                      基于4次买家评价，海洋应用专项认可度高
+                      <a href="https://www.nauticexpo.cn/prod/shenzhen-ahony-power-co-ltd/product-198811-603227.html" class="citation">[320]</a>
+                    </p>
+                  </div>
+
+                  <div class="bg-gradient-to-r from-emerald-50 to-emerald-100 p-4 rounded-lg">
+                    <div class="flex items-center justify-between mb-2">
+                      <h4 class="font-semibold">阿里巴巴平台</h4>
+                      <div class="flex items-center">
+                        <span class="font-bold text-emerald-600 mr-2">5.0/5</span>
+                        <div class="rating-stars">
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <p class="text-sm text-slate-600">
+                      531条评价，复购率高达39%，远超B2B平台平均水平
+                      <a href="https://chinese.alibaba.com/product-detail/12V-150-Watt-Flexible-Solar-Panel-1601579385806.html" class="citation">[321]</a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- User Feedback Themes -->
+              <div>
+                <h3 class="text-xl font-semibold mb-6 flex items-center">
+                  <i class="fas fa-comments text-purple-600 mr-2"></i>
+                  用户反馈主题
+                </h3>
+
+                <div class="space-y-4">
+                  <div class="bg-white p-4 rounded-lg border-l-4 border-green-500">
+                    <h4 class="font-semibold text-green-700 mb-2">正面评价</h4>
+                    <ul class="text-sm space-y-1">
+                      <li>• 安装便捷性：单人操作，2小时完成</li>
+                      <li>• 性价比优势：Solbian品质的80%，价格仅10%</li>
+                      <li>• 曲面适配能力：Bimini遮阳棚完美贴合</li>
+                      <li>• 海洋耐久性：ETFE表面无明显黄变</li>
+                    </ul>
+                  </div>
+
+                  <div class="bg-white p-4 rounded-lg border-l-4 border-orange-500">
+                    <h4 class="font-semibold text-orange-700 mb-2">应用场景验证</h4>
+                    <div class="text-sm space-y-2">
+                      <div>
+                        <strong>房车车顶：</strong>2-4块配置，300-600W
+                        <br/>
+                        <small class="text-slate-600">&#34;高速行驶风噪低&#34;、&#34;雨后自然洁净&#34;</small>
+                      </div>
+                      <div>
+                        <strong>游艇飞桥：</strong>4-12块配置，600-1800W
+                        <br/>
+                        <small class="text-slate-600">&#34;与深色船体视觉融合&#34;、&#34;阴影下发电稳定&#34;</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pricing System -->
+      <section id="pricing" class="py-16 px-6 bg-slate-50">
+        <div class="container mx-auto max-w-6xl">
+          <div class="section-card">
+            <h2 class="text-3xl serif font-bold mb-8 text-center">购买渠道与价格体系</h2>
+
+            <div class="grid lg:grid-cols-3 gap-8">
+              <!-- Purchase Channels -->
+              <div>
+                <h3 class="text-xl font-semibold mb-6 flex items-center">
+                  <i class="fas fa-store text-blue-600 mr-2"></i>
+                  官方渠道
+                </h3>
+
+                <div class="space-y-4">
+                  <div class="bg-blue-50 p-4 rounded-lg">
+                    <h4 class="font-semibold mb-2">制造商直供</h4>
+                    <p class="text-sm text-slate-600">
+                      深圳安宏力新能源有限公司提供最直接的技术支持和定制化能力
+                      <a href="https://www.ahonypower.com" class="citation">[官网]</a>
+                    </p>
+                  </div>
+
+                  <div class="bg-emerald-50 p-4 rounded-lg">
+                    <h4 class="font-semibold mb-2">国际B2B平台</h4>
+                    <ul class="text-sm space-y-1">
+                      <li>• 阿里巴巴国际站（主力交易）</li>
+                      <li>• NauticExpo（航海专业展示）</li>
+                      <li>• ArchiExpo（建筑能源平台）</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Pricing Tiers -->
+              <div>
+                <h3 class="text-xl font-semibold mb-6 flex items-center">
+                  <i class="fas fa-tags text-orange-600 mr-2"></i>
+                  价格区间
+                </h3>
+
+                <div class="space-y-4">
+                  <div class="bg-orange-50 p-4 rounded-lg">
+                    <h4 class="font-semibold mb-2">批发价格</h4>
+                    <div class="text-sm space-y-1">
+                      <div><strong>标准版：</strong>960-1140元/件</div>
+                      <div><strong>SO版：</strong>约1062元/件</div>
+                      <div><strong>PRO版：</strong>1200-1500元（估计）</div>
+                      <div class="text-xs text-slate-500">MOQ≥4-10件</div>
+                    </div>
+                  </div>
+
+                  <div class="bg-purple-50 p-4 rounded-lg">
+                    <h4 class="font-semibold mb-2">定制费用</h4>
+                    <div class="text-sm space-y-1">
+                      <div>• LOGO印刷：10-15元/件（100件起）</div>
+                      <div>• 特殊包装：13.7元/件（100件起）</div>
+                      <div class="text-xs text-slate-500">深度定制需专项报价</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Delivery &amp; Lead Time -->
+              <div>
+                <h3 class="text-xl font-semibold mb-6 flex items-center">
+                  <i class="fas fa-shipping-fast text-green-600 mr-2"></i>
+                  交货周期
+                </h3>
+
+                <div class="space-y-4">
+                  <div class="bg-green-50 p-4 rounded-lg">
+                    <h4 class="font-semibold mb-2">标准交货周期</h4>
+                    <div class="text-sm space-y-1">
+                      <div><strong>1-5件：</strong>8天（标准版）</div>
+                      <div><strong>6-100件：</strong>20天</div>
+                      <div><strong>101-500件：</strong>25天</div>
+                      <div><strong>SO版：</strong>额外+5-10天</div>
+                    </div>
+                  </div>
+
+                  <div class="data-highlight">
+                    <p class="text-sm mb-0">
+                      <strong>认证配置：</strong>CE、ROHS、SGS、IEC 61215/61730标准认证
+                      <a href="https://chinese.alibaba.com/product-detail/Customizable-150W-12V-Slim-Gunes-Flexible-62008278096.html" class="citation">[335]</a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Competition Comparison -->
+      <section id="comparison" class="py-16 px-6">
+        <div class="container mx-auto max-w-6xl">
+          <div class="section-card">
+            <h2 class="text-3xl serif font-bold mb-8 text-center">同类产品竞争对比</h2>
+
+            <!-- Solbian Comparison -->
+            <div class="mb-12">
+              <h3 class="text-2xl font-semibold mb-6">国际品牌对比：Solbian SP系列</h3>
+
+              <div class="comparison-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>对比维度</th>
+                      <th>eGo S150W（SO版）</th>
+                      <th>Solbian SP150</th>
+                      <th>差距分析</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>转换效率</strong></td>
+                      <td>23.5%–24.4%</td>
+                      <td>~24%</td>
+                      <td class="text-green-600">基本相当</td>
+                    </tr>
+                    <tr>
+                      <td><strong>重量</strong></td>
+                      <td>3.5 kg</td>
+                      <td>1.9–2.5 kg</td>
+                      <td class="text-orange-600">Solbian轻28–46%</td>
+                    </tr>
+                    <tr>
+                      <td><strong>单位功率重量</strong></td>
+                      <td>23.3 g/W</td>
+                      <td>12.7–16.7 g/W</td>
+                      <td class="text-orange-600">Solbian领先40–45%</td>
+                    </tr>
+                    <tr>
+                      <td><strong>价格（人民币）</strong></td>
+                      <td>~1062元</td>
+                      <td>~12,000元</td>
+                      <td class="text-green-600 font-semibold">eGo低91%</td>
+                    </tr>
+                    <tr>
+                      <td><strong>质保期限</strong></td>
+                      <td>1年</td>
+                      <td>5年产品+25年功率</td>
+                      <td class="text-orange-600">Solbian显著领先</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="mt-4 data-highlight">
+                <p class="mb-0">
+                  <strong>核心洞察：</strong>Solbian的极致轻量化和长期质保体系是其核心护城河，
+                  但91%的价格差距在大多数应用场景中难以通过性能差异合理化。
+                  eGo S150W以&#34;效率等效、重量可接受、成本剧减&#34;的性价比公式，
+                  成为预算敏感型专业市场的理性选择。
+                  <a href="https://www.nauticexpo.cn/prod/shenzhen-ahony-power-co-ltd/product-198811-603227.html" class="citation">[246]</a>
+                </p>
+              </div>
+            </div>
+
+            <!-- Domestic Brand Comparison -->
+            <div class="mb-12">
+              <h3 class="text-2xl font-semibold mb-6">国内品牌对比：CiFi SUN 150W ETFE</h3>
+
+              <div class="comparison-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>对比维度</th>
+                      <th>eGo S150W</th>
+                      <th>CiFi SUN 150W</th>
+                      <th>差距分析</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>转换效率</strong></td>
+                      <td>23.5%–24.4%</td>
+                      <td>23.5%</td>
+                      <td class="text-blue-600">eGo上限略优</td>
+                    </tr>
+                    <tr>
+                      <td><strong>重量</strong></td>
+                      <td>3.5–3.7 kg</td>
+                      <td><strong>2.76 kg</strong></td>
+                      <td class="text-orange-600">CiFi SUN轻21–25%</td>
+                    </tr>
+                    <tr>
+                      <td><strong>厚度</strong></td>
+                      <td>3 mm</td>
+                      <td><strong>1.8 mm</strong></td>
+                      <td class="text-orange-600">CiFi SUN薄40%</td>
+                    </tr>
+                    <tr>
+                      <td><strong>价格（估计）</strong></td>
+                      <td>~1000元</td>
+                      <td>~1200元</td>
+                      <td class="text-green-600">eGo低约17%</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- CIGS Technology Comparison -->
+            <div>
+              <h3 class="text-2xl font-semibold mb-6">薄膜技术对比：Renogy 150W CIGS</h3>
+
+              <div class="comparison-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>对比维度</th>
+                      <th>eGo S150W（晶体硅）</th>
+                      <th>Renogy 150W CIGS</th>
+                      <th>差距分析</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>技术路线</strong></td>
+                      <td>单晶硅IBC</td>
+                      <td>铜铟镓硒薄膜</td>
+                      <td class="text-purple-600">根本差异</td>
+                    </tr>
+                    <tr>
+                      <td><strong>转换效率</strong></td>
+                      <td><strong>23.5%–24.4%</strong></td>
+                      <td>~14%</td>
+                      <td class="text-green-600 font-semibold">eGo高9.5%绝对值，+68%相对值</td>
+                    </tr>
+                    <tr>
+                      <td><strong>弯曲能力</strong></td>
+                      <td>30°</td>
+                      <td><strong>&gt;360°（可卷绕）</strong></td>
+                      <td class="text-orange-600">CIGS显著优势</td>
+                    </tr>
+                    <tr>
+                      <td><strong>长期稳定性</strong></td>
+                      <td><strong>优异（25年验证）</strong></td>
+                      <td>衰减较快（5年10–15%）</td>
+                      <td class="text-green-600">eGo显著优势</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="mt-4 data-highlight">
+                <p class="mb-0">
+                  <strong>核心结论：</strong>CIGS的极致柔性和可卷绕特性在便携场景不可替代，
+                  但14% vs. 24%的效率鸿沟意味着：同等功率需求下，CIGS需增加68%安装面积；
+                  同等面积下，eGo多发电68%。对于飞桥面积受限的游艇，晶体硅技术是更理性的选择。
+                  <a href="https://eu.renogy.com/products/renogy-150watt-cigs-flexible-solar-panel" class="citation">[291]</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Advantages Analysis -->
+      <section id="advantages" class="py-16 px-6 bg-slate-50">
+        <div class="container mx-auto max-w-6xl">
+          <div class="section-card">
+            <h2 class="text-3xl serif font-bold mb-8 text-center">竞争优势分析</h2>
+
+            <div class="grid lg:grid-cols-3 gap-8">
+              <!-- Price-Performance Positioning -->
+              <div>
+                <h3 class="text-xl font-semibold mb-6 flex items-center">
+                  <i class="fas fa-balance-scale text-blue-600 mr-2"></i>
+                  性价比定位
+                </h3>
+
+                <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                  <h4 class="font-semibold mb-2">核心优势公式</h4>
+                  <ul class="text-sm space-y-1">
+                    <li>• 与Solbian：效率parity + 价格1/10–1/12</li>
+                    <li>• 与CIGS：效率+68% + 价格-33%</li>
+                    <li>• 与CiFi：效率略优 + 价格-17%</li>
+                  </ul>
+                </div>
+
+                <div class="text-xs text-slate-600">
+                  性价比来源：中国光伏产业集群供应链红利、精简渠道体系、聚焦大众专业市场
+                </div>
+              </div>
+
+              <!-- Technical Differentiation -->
+              <div>
+                <h3 class="text-xl font-semibold mb-6 flex items-center">
+                  <i class="fas fa-cog text-emerald-600 mr-2"></i>
+                  技术差异化
+                </h3>
+
+                <div class="space-y-3">
+                  <div class="bg-emerald-50 p-3 rounded-lg">
+                    <h4 class="font-semibold text-sm mb-1">背接触电池</h4>
+                    <p class="text-xs text-slate-600">SunPower Maxeon Gen III技术，效率与可靠性双重背书</p>
+                  </div>
+
+                  <div class="bg-emerald-50 p-3 rounded-lg">
+                    <h4 class="font-semibold text-sm mb-1">ETFE全系列标配</h4>
+                    <p class="text-xs text-slate-600">25年耐久性 vs. 10-15年PET竞品</p>
+                  </div>
+
+                  <div class="bg-emerald-50 p-3 rounded-lg">
+                    <h4 class="font-semibold text-sm mb-1">智能旁路设计</h4>
+                    <p class="text-xs text-slate-600">SO版细粒度遮挡保护，发电量+15-30%</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Market Position Gaps -->
+              <div>
+                <h3 class="text-xl font-semibold mb-6 flex items-center">
+                  <i class="fas fa-target text-orange-600 mr-2"></i>
+                  市场定位差距
+                </h3>
+
+                <div class="bg-orange-50 p-4 rounded-lg">
+                  <h4 class="font-semibold mb-2">改进空间</h4>
+                  <div class="text-sm space-y-1">
+                    <div>• <strong>极致轻量化：</strong>3.5kg vs. Solbian 1.9kg</div>
+                    <div>• <strong>品牌认知：</strong>欧洲高端市场溢价能力有限</div>
+                    <div>• <strong>质保期限：</strong>1年 vs. 行业5-25年</div>
+                  </div>
+                </div>
+
+                <div class="mt-3 text-xs text-slate-600">
+                  改进路径：材料革新、标志性项目案例、第三方认证强化
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-8 data-highlight">
+              <h4 class="text-lg font-semibold mb-3">技术护城河深度</h4>
+              <p class="mb-0">
+                背接触电池技术的采用构成eGo S150W的技术护城河。SunPower的专利壁垒与工艺复杂度构成进入门槛，
+                而eGo通过授权合作或同类替代方案实现了技术平权。
+                <a href="https://www.nauticexpo.cn/prod/shenzhen-ahony-power-co-ltd/product-198811-603229.html" class="citation">[312]</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Yacht Application -->
+      <section id="yacht" class="py-16 px-6">
+        <div class="container mx-auto max-w-6xl">
+          <div class="section-card">
+            <h2 class="text-3xl serif font-bold mb-8 text-center">双体动力游艇飞桥光伏方案适用性</h2>
+
+            <!-- Flybridge Characteristics -->
+            <div class="mb-12">
+              <h3 class="text-2xl font-semibold mb-6">飞桥安装环境特征</h3>
+
+              <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                  <h4 class="text-lg font-semibold mb-4 flex items-center">
+                    <i class="fas fa-ruler-combined text-blue-600 mr-2"></i>
+                    空间与结构约束
+                  </h4>
+
+                  <div class="space-y-3">
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                      <h5 class="font-semibold mb-2">可用面积分析</h5>
+                      <ul class="text-sm space-y-1">
+                        <li>• 40英尺级：10-15㎡，净安装面积4-9㎡</li>
+                        <li>• 60英尺级：15-25㎡，净安装面积6-15㎡</li>
+                        <li>• 80英尺+：25-30㎡+，净安装面积10-18㎡</li>
+                      </ul>
+                      <div class="mt-2 text-xs text-slate-600">
+                        净安装面积通常只占可用面积的40-60%
+                        <a href="https://www.simpsonmarine.com/zh-hans/news-zh-hans/%E5%85%A8%E6%96%B0%E8%93%9D%E9%AB%9851%E9%A6%96%E6%AC%A1%E8%AF%95%E8%88%AA%EF%BC%8C%E7%AC%AC%E4%B8%80%E6%89%B9%E5%9B%BE%E7%89%87%E5%8F%91%E5%B8%83/" class="citation">[267]</a>
+                      </div>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-lg">
+                      <h5 class="font-semibold mb-2">表面形态特征</h5>
+                      <p class="text-sm text-slate-600">
+                        复合曲面特征，纵向从前缘尖锐弧度过渡至中部平缓区域，
+                        横向可能中央隆起或两侧下垂，追求双曲面流线型美学
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 class="text-lg font-semibold mb-4 flex items-center">
+                    <i class="fas fa-wind text-orange-600 mr-2"></i>
+                    环境载荷条件
+                  </h4>
+
+                  <div class="space-y-3">
+                    <div class="bg-orange-50 p-4 rounded-lg">
+                      <h5 class="font-semibold mb-2">主要挑战因素</h5>
+                      <div class="grid grid-cols-2 gap-2 text-sm">
+                        <div>
+                          <strong>盐雾腐蚀</strong>
+                          <br/>
+                          <small class="text-slate-600">3.5%盐度，氯离子穿透</small>
+                        </div>
+                        <div>
+                          <strong>紫外辐射</strong>
+                          <br/>
+                          <small class="text-slate-600">热带年累计300-400 kWh/㎡</small>
+                        </div>
+                        <div>
+                          <strong>风载荷</strong>
+                          <br/>
+                          <small class="text-slate-600">高速航行相对风速40-50 m/s</small>
+                        </div>
+                        <div>
+                          <strong>振动冲击</strong>
+                          <br/>
+                          <small class="text-slate-600">引擎10-200 Hz，加速度5g</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- eGo S150W Adaptability -->
+            <div class="mb-12">
+              <h3 class="text-2xl font-semibold mb-6">eGo S150W适配性评估</h3>
+
+              <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-lg">
+                  <h4 class="font-semibold mb-4 flex items-center">
+                    <i class="fas fa-weight text-green-600 mr-2"></i>
+                    物理适配优势
+                  </h4>
+                  <div class="space-y-3 text-sm">
+                    <div><strong>重量可控：</strong>3.5-3.7kg/块，2.4kW系统总重&lt;80kg&lt; /div&gt;
+                        <div><strong>低风阻轮廓：</strong>3mm厚度，Cd≈0.02</div>
+                        <div><strong>弯曲适配：</strong>标准版15°，SO/PRO版30°</div>
+                        <div><strong>大面积单元：</strong>0.756㎡/块，减少接缝</div>
+                    </div>
+                  </div>
+
+                  <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-lg">
+                    <h4 class="font-semibold mb-4 flex items-center">
+                      <i class="fas fa-plug text-blue-600 mr-2"></i>
+                      电气系统匹配
+                    </h4>
+                    <div class="space-y-3 text-sm">
+                      <div><strong>12V系统：</strong>单块+PWM/MPPT</div>
+                      <div><strong>24V系统：</strong>双块串联+MPPT</div>
+                      <div><strong>48V系统：</strong>四块串联+MPPT</div>
+                      <div><strong>高压系统：</strong>6-10块串联</div>
+                    </div>
+                  </div>
+
+                  <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-lg">
+                    <h4 class="font-semibold mb-4 flex items-center">
+                      <i class="fas fa-shield-alt text-purple-600 mr-2"></i>
+                      环境耐久验证
+                    </h4>
+                    <div class="space-y-3 text-sm">
+                      <div><strong>防水防护：</strong>IP65/IP67接线盒</div>
+                      <div><strong>盐雾腐蚀：</strong>IEC 61701测试通过</div>
+                      <div><strong>UV老化：</strong>ETFE本征稳定性</div>
+                      <div><strong>振动疲劳：</strong>IEC 61215振动测试</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Typical Configuration Schemes -->
+              <div>
+                <h3 class="text-2xl font-semibold mb-6">典型配置方案</h3>
+
+                <div class="grid lg:grid-cols-3 gap-6">
+                  <!-- Small Flybridge -->
+                  <div class="bg-white p-6 rounded-lg border">
+                    <h4 class="font-semibold mb-4 text-blue-700">小型飞桥</h4>
+                    <div class="text-sm space-y-2 mb-4">
+                      <div><strong>可用面积：</strong>10-15㎡</div>
+                      <div><strong>组件数量：</strong>6-10块×150W</div>
+                      <div><strong>系统功率：</strong>900-1500W</div>
+                      <div><strong>预期日发电：</strong>3-5 kWh</div>
+                      <div><strong>适用船型：</strong>40-50英尺</div>
+                    </div>
+                    <div class="bg-blue-50 p-3 rounded text-xs">
+                      <strong>设计要点：</strong>优先利用侧翼纵向条形空间，
+                      中心区域保留驾驶视野
+                    </div>
+                  </div>
+
+                  <!-- Medium Flybridge -->
+                  <div class="bg-white p-6 rounded-lg border">
+                    <h4 class="font-semibold mb-4 text-emerald-700">中型飞桥</h4>
+                    <div class="text-sm space-y-2 mb-4">
+                      <div><strong>可用面积：</strong>15-25㎡</div>
+                      <div><strong>组件数量：</strong>10-16块×150W</div>
+                      <div><strong>系统功率：</strong>1500-2400W</div>
+                      <div><strong>预期日发电：</strong>5-8 kWh</div>
+                      <div><strong>适用船型：</strong>50-65英尺</div>
+                    </div>
+                    <div class="bg-emerald-50 p-3 rounded text-xs">
+                      <strong>设计要点：</strong>分区优化朝向，混合串并联，
+                      预留20%功率裕度
+                    </div>
+                  </div>
+
+                  <!-- Large Flybridge -->
+                  <div class="bg-white p-6 rounded-lg border">
+                    <h4 class="font-semibold mb-4 text-purple-700">大型飞桥</h4>
+                    <div class="text-sm space-y-2 mb-4">
+                      <div><strong>可用面积：</strong>25-30㎡+</div>
+                      <div><strong>组件数量：</strong>16-24块×150W</div>
+                      <div><strong>系统功率：</strong>2400-3600W</div>
+                      <div><strong>预期日发电：</strong>8-12 kWh</div>
+                      <div><strong>适用船型：</strong>65-80英尺+</div>
+                    </div>
+                    <div class="bg-purple-50 p-3 rounded text-xs">
+                      <strong>设计要点：</strong>结构一体化设计，主动热管理，
+                      智能能源调度
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div></section>
+
+      <!-- Recommendation -->
+      <section id="recommendation" class="py-16 px-6 bg-gradient-to-br from-slate-50 to-blue-50">
+        <div class="container mx-auto max-w-6xl">
+          <div class="section-card">
+            <h2 class="text-3xl serif font-bold mb-8 text-center">选购决策建议</h2>
+
+            <div class="grid lg:grid-cols-2 gap-8">
+              <!-- Version Selection Guide -->
+              <div>
+                <h3 class="text-xl font-semibold mb-6 flex items-center">
+                  <i class="fas fa-hand-pointer text-blue-600 mr-2"></i>
+                  版本选择指南
+                </h3>
+
+                <div class="space-y-4">
+                  <div class="bg-white p-4 rounded-lg border-l-4 border-blue-500">
+                    <h4 class="font-semibold text-blue-700 mb-2">标准版 eGo S150W</h4>
+                    <div class="text-sm space-y-1">
+                      <div><strong>核心特征：</strong>适度弯曲（15°），20.3V/7.4A</div>
+                      <div><strong>适用场景：</strong>常规曲面，预算优先，供应稳定</div>
+                      <div><strong>决策要点：</strong>确认曲率半径&gt;500mm，12V系统直接匹配</div>
+                    </div>
+                  </div>
+
+                  <div class="bg-white p-4 rounded-lg border-l-4 border-emerald-500">
+                    <h4 class="font-semibold text-emerald-700 mb-2">全柔性版 SO</h4>
+                    <div class="text-sm space-y-1">
+                      <div><strong>核心特征：</strong>30°弯曲，25.52V/5.88A，SunPower电池</div>
+                      <div><strong>适用场景：</strong>复杂曲面，阴影频繁，效率优先</div>
+                      <div><strong>决策要点：</strong>阴影场景发电量提升15-30%，线损降低</div>
+                    </div>
+                  </div>
+
+                  <div class="bg-white p-4 rounded-lg border-l-4 border-purple-500">
+                    <h4 class="font-semibold text-purple-700 mb-2">增强版 PRO</h4>
+                    <div class="text-sm space-y-1">
+                      <div><strong>核心特征：</strong>黑色外观，200°弧度，强化耐候</div>
+                      <div><strong>适用场景：</strong>高端定制，隐蔽安装，极端环境</div>
+                      <div><strong>决策要点：</strong>美学一致性溢价20-40%</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Procurement Strategy -->
+              <div>
+                <h3 class="text-xl font-semibold mb-6 flex items-center">
+                  <i class="fas fa-shopping-cart text-emerald-600 mr-2"></i>
+                  采购策略建议
+                </h3>
+
+                <div class="space-y-4">
+                  <div class="bg-emerald-50 p-4 rounded-lg">
+                    <h4 class="font-semibold mb-2">批量采购优化</h4>
+                    <ul class="text-sm space-y-1">
+                      <li>• <strong>起订量：</strong>建议≥10件获取SO版最优单价</li>
+                      <li>• <strong>交货规划：</strong>标准版20-25天，SO版30-40天</li>
+                      <li>• <strong>认证核实：</strong>索取CE/IEC证书副本确认覆盖范围</li>
+                      <li>• <strong>质保协商：</strong>批量订单可谈判功率线性质保</li>
+                    </ul>
+                  </div>
+
+                  <div class="bg-blue-50 p-4 rounded-lg">
+                    <h4 class="font-semibold mb-2">系统集成考量</h4>
+                    <div class="text-sm space-y-2">
+                      <div><strong>充电控制器：</strong>Victron SmartSolar MPPT系列</div>
+                      <div><strong>储能电池：</strong>12V/24V/48V磷酸铁锂</div>
+                      <div><strong>线缆：</strong>船用级tinned copper，按3%压降计算</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Risk Considerations -->
+            <div class="mt-8">
+              <h3 class="text-xl font-semibold mb-6 flex items-center">
+                <i class="fas fa-exclamation-triangle text-red-600 mr-2"></i>
+                风险与注意事项
+              </h3>
+
+              <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-red-50 p-4 rounded-lg">
+                  <h4 class="font-semibold text-red-700 mb-3">技术风险</h4>
+                  <div class="space-y-2 text-sm">
+                    <div class="flex items-start">
+                      <i class="fas fa-dot-circle text-red-500 mt-1 mr-2"></i>
+                      <div>
+                        <strong>版本参数混淆：</strong>
+                        <br/>
+                        <span class="text-slate-600">误购标准版而期望全柔性性能</span>
+                        <br/>
+                        <span class="text-xs font-semibold">缓解：采购前书面确认型号、Vmp/Imp、弯曲角度</span>
+                      </div>
+                    </div>
+                    <div class="flex items-start">
+                      <i class="fas fa-dot-circle text-red-500 mt-1 mr-2"></i>
+                      <div>
+                        <strong>超规格弯曲：</strong>
+                        <br/>
+                        <span class="text-slate-600">曲率半径&lt;200mm导致电池隐裂&lt; /span&gt;
+                            <br/>
+                            <span class="text-xs font-semibold">缓解：现场测量确认，保留20%安全裕度</span>
+                      </span></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bg-orange-50 p-4 rounded-lg">
+                  <h4 class="font-semibold text-orange-700 mb-3">供应链风险</h4>
+                  <div class="space-y-2 text-sm">
+                    <div class="flex items-start">
+                      <i class="fas fa-dot-circle text-orange-500 mt-1 mr-2"></i>
+                      <div>
+                        <strong>认证时效性：</strong>
+                        <br/>
+                        <span class="text-slate-600">CE/IEC证书过期或型号不匹配</span>
+                        <br/>
+                        <span class="text-xs font-semibold">缓解：索取证书原件，核实签发日期与覆盖范围</span>
+                      </div>
+                    </div>
+                    <div class="flex items-start">
+                      <i class="fas fa-dot-circle text-orange-500 mt-1 mr-2"></i>
+                      <div>
+                        <strong>质保履约能力：</strong>
+                        <br/>
+                        <span class="text-slate-600">供应商经营不稳定，索赔困难</span>
+                        <br/>
+                        <span class="text-xs font-semibold">缓解：优先选择Trade Assurance订单，购买第三方保险</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Final Rating -->
+            <div class="mt-8 bg-gradient-to-r from-slate-50 to-blue-50 p-6 rounded-lg">
+              <h3 class="text-xl font-semibold mb-4 text-center">综合推荐评级</h3>
+              <div class="grid md:grid-cols-5 gap-4 text-center">
+                <div>
+                  <div class="text-lg font-bold text-blue-600">★★★★★</div>
+                  <div class="text-sm">性价比</div>
+                </div>
+                <div>
+                  <div class="text-lg font-bold text-blue-600">★★★★☆</div>
+                  <div class="text-sm">技术性能</div>
+                </div>
+                <div>
+                  <div class="text-lg font-bold text-blue-600">★★★★★</div>
+                  <div class="text-sm">海洋适用性</div>
+                </div>
+                <div>
+                  <div class="text-lg font-bold text-blue-600">★★★★☆</div>
+                  <div class="text-sm">供应链稳定性</div>
+                </div>
+                <div>
+                  <div class="text-lg font-bold text-green-600">高</div>
+                  <div class="text-sm font-semibold">综合推荐度</div>
+                </div>
+              </div>
+              <div class="mt-4 text-center">
+                <p class="text-lg font-semibold text-slate-800">
+                  预算敏感型双体游艇飞桥光伏方案首选
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+        // Table of Contents Navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            const tocLinks = document.querySelectorAll('.toc-link');
+            const sections = document.querySelectorAll('section[id]');
+            
+            // Smooth scrolling for TOC links
+            tocLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+            
+            // Active section highlighting
+            function updateActiveTOC() {
+                let current = '';
+                sections.forEach(section => {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top <= 100) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                tocLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#' + current) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+            
+            window.addEventListener('scroll', updateActiveTOC);
+            updateActiveTOC(); // Initial call
+        });
+    </script>
+  
+
+</body></html>
