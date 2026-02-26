@@ -1,20 +1,350 @@
 ---
-import Layout from '../layouts/BlogPost.astro';
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE } from '../consts';
 ---
 
-<Layout
-	title="About Me"
-	description="Lorem ipsum dolor sit amet"
-	pubDate={new Date('August 08 2021')}
-	heroImage="/blog-placeholder-about.jpg"
->
-	<p>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-		labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo
-		viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam
-		adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus
-		et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus
-		vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque
-		sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.
-	</p>
-</Layout>
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<BaseHead title={`关于 | ${SITE_TITLE}`} description="关于老鹏友博客和博主" />
+		<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+	</head>
+	<body>
+		<Header />
+		
+		<main>
+			<!-- Page Header -->
+			<section class="page-header">
+				<div class="header-content">
+					<div class="breadcrumb">
+						<a href="/"><i class="fas fa-home"></i></a>
+						<span class="separator">/</span>
+						<span>关于</span>
+					</div>
+					<h1>关于博客</h1>
+				</div>
+			</section>
+			
+			<!-- About Content -->
+			<section class="about-section">
+				<div class="about-grid">
+					<div class="profile-card">
+						<div class="profile-image">
+							<img src="/logo.jpg" alt="老鹏友" />
+							<div class="profile-badge"><i class="fas fa-anchor"></i></div>
+						</div>
+						<h2>老鹏友</h2>
+						<p class="profile-tagline">航海爱好者 · 游艇探索者</p>
+						<div class="profile-social">
+							<a href="https://github.com/laona2050" target="_blank" rel="noopener" class="social-btn" aria-label="GitHub">
+								<i class="fab fa-github"></i>
+							</a>
+							<a href="mailto:contact@homesh.top" class="social-btn" aria-label="Email">
+								<i class="fas fa-envelope"></i>
+							</a>
+						</div>
+					</div>
+					
+					<div class="about-content">
+						<div class="content-block">
+							<h3><i class="fas fa-compass"></i> 关于这个博客</h3>
+							<p>
+								欢迎来到老鹏友的航海日志！这里是我记录航海梦想、游艇探索之旅以及对海洋生活热爱的空间。
+								通过分享我的经验和见解，希望能够与志同道合的朋友一起探索这片蔚蓝。
+							</p>
+						</div>
+						
+						<div class="content-block">
+							<h3><i class="fas fa-ship"></i> 内容涵盖</h3>
+							<ul class="feature-list">
+								<li><i class="fas fa-check"></i> 双体动力游艇选购指南与对比分析</li>
+								<li><i class="fas fa-check"></i> 新能源双体动力游艇技术解析</li>
+								<li><i class="fas fa-check"></i> 航海生活方式与船上生活经验分享</li>
+								<li><i class="fas fa-check"></i> YouTube航海博主推荐与分析</li>
+								<li><i class="fas fa-check"></i> 太阳能电池板等船上设备调研</li>
+							</ul>
+						</div>
+						
+						<div class="content-block">
+							<h3><i class="fas fa-heart"></i> 联系方式</h3>
+							<p>
+								如果您对航海、游艇或者博客内容有任何问题或建议，欢迎通过以下方式联系我：
+							</p>
+							<div class="contact-links">
+								<a href="mailto:contact@homesh.top" class="contact-btn">
+									<i class="fas fa-envelope"></i>
+									<span>contact@homesh.top</span>
+								</a>
+								<a href="https://github.com/laona2050" target="_blank" rel="noopener" class="contact-btn">
+									<i class="fab fa-github"></i>
+									<span>GitHub</span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</main>
+		
+		<Footer />
+	</body>
+</html>
+
+<style>
+	/* Page Header */
+	.page-header {
+		padding: 3rem 0 2rem;
+		background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+		margin: 0 -1.5rem 3rem;
+		padding-left: 1.5rem;
+		padding-right: 1.5rem;
+	}
+	
+	@media (max-width: 768px) {
+		.page-header {
+			margin: 0 -1rem 2rem;
+			padding-left: 1rem;
+			padding-right: 1rem;
+		}
+	}
+	
+	.header-content {
+		max-width: 1200px;
+		margin: 0 auto;
+	}
+	
+	.breadcrumb {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		margin-bottom: 1rem;
+		font-size: 0.875rem;
+	}
+	
+	.breadcrumb a {
+		color: rgba(255, 255, 255, 0.8);
+		text-decoration: none;
+		transition: color 0.2s;
+	}
+	
+	.breadcrumb a:hover {
+		color: white;
+	}
+	
+	.breadcrumb .separator {
+		color: rgba(255, 255, 255, 0.5);
+	}
+	
+	.breadcrumb span:last-child {
+		color: white;
+		font-weight: 500;
+	}
+	
+	.page-header h1 {
+		color: white;
+		font-size: 2.5rem;
+		margin: 0;
+		font-family: 'Noto Sans SC', sans-serif;
+	}
+	
+	/* About Section */
+	.about-section {
+		padding: 0 0 4rem;
+	}
+	
+	.about-grid {
+		display: grid;
+		grid-template-columns: 300px 1fr;
+		gap: 3rem;
+		max-width: 1000px;
+		margin: 0 auto;
+	}
+	
+	@media (max-width: 768px) {
+		.about-grid {
+			grid-template-columns: 1fr;
+			gap: 2rem;
+		}
+	}
+	
+	/* Profile Card */
+	.profile-card {
+		background: var(--white);
+		border-radius: 20px;
+		padding: 2rem;
+		text-align: center;
+		box-shadow: var(--shadow-md);
+		height: fit-content;
+		position: sticky;
+		top: 100px;
+	}
+	
+	@media (max-width: 768px) {
+		.profile-card {
+			position: static;
+		}
+	}
+	
+	.profile-image {
+		position: relative;
+		width: 120px;
+		height: 120px;
+		margin: 0 auto 1.5rem;
+	}
+	
+	.profile-image img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border-radius: 50%;
+		border: 4px solid var(--accent);
+	}
+	
+	.profile-badge {
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		width: 36px;
+		height: 36px;
+		background: var(--primary);
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: white;
+		border: 3px solid var(--white);
+	}
+	
+	.profile-card h2 {
+		font-size: 1.5rem;
+		margin: 0 0 0.5rem;
+		color: var(--primary);
+	}
+	
+	.profile-tagline {
+		color: rgb(var(--gray));
+		margin: 0 0 1.5rem;
+		font-size: 0.9rem;
+	}
+	
+	.profile-social {
+		display: flex;
+		justify-content: center;
+		gap: 0.75rem;
+	}
+	
+	.social-btn {
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		background: var(--wave-blue);
+		color: var(--primary);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		text-decoration: none;
+		transition: all 0.2s;
+	}
+	
+	.social-btn:hover {
+		background: var(--primary);
+		color: white;
+		transform: translateY(-2px);
+	}
+	
+	/* About Content */
+	.about-content {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+	}
+	
+	.content-block {
+		background: var(--white);
+		border-radius: 16px;
+		padding: 2rem;
+		box-shadow: var(--shadow-sm);
+	}
+	
+	.content-block h3 {
+		font-size: 1.25rem;
+		color: var(--primary);
+		margin: 0 0 1rem;
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+	}
+	
+	.content-block h3 i {
+		color: var(--accent);
+	}
+	
+	.content-block p {
+		color: rgb(var(--gray-dark));
+		line-height: 1.8;
+		margin: 0;
+	}
+	
+	.feature-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+	}
+	
+	.feature-list li {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		color: rgb(var(--gray-dark));
+	}
+	
+	.feature-list i {
+		color: var(--accent);
+		width: 20px;
+	}
+	
+	.contact-links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem;
+		margin-top: 1.5rem;
+	}
+	
+	.contact-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.75rem 1.25rem;
+		background: var(--wave-blue);
+		color: var(--primary);
+		border-radius: 8px;
+		text-decoration: none;
+		font-weight: 500;
+		transition: all 0.2s;
+	}
+	
+	.contact-btn:hover {
+		background: var(--primary);
+		color: white;
+	}
+	
+	@media (max-width: 640px) {
+		.page-header h1 {
+			font-size: 1.875rem;
+		}
+		
+		.content-block {
+			padding: 1.5rem;
+		}
+		
+		.contact-links {
+			flex-direction: column;
+		}
+	}
+</style>

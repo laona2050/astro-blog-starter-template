@@ -4,14 +4,19 @@ interface Props {
 }
 
 const { date } = Astro.props;
+
+// 格式化为中文日期
+const year = date.getFullYear();
+const month = date.getMonth() + 1;
+const day = date.getDate();
 ---
 
-<time datetime={date.toISOString()}>
-	{
-		date.toLocaleDateString('en-us', {
-			year: 'numeric',
-			month: 'short',
-			day: 'numeric',
-		})
-	}
+<time datetime={date.toISOString()} class="formatted-date">
+	{year}年{month}月{day}日
 </time>
+
+<style>
+	.formatted-date {
+		font-variant-numeric: tabular-nums;
+	}
+</style>

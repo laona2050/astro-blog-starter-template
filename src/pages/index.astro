@@ -9,75 +9,402 @@ import FormattedDate from '../components/FormattedDate.astro';
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
+
+const featuredPosts = posts.slice(0, 6);
+const totalPosts = posts.length;
 ---
 
 <!doctype html>
-<html lang="zh">
+<html lang="zh-CN">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
-			main {
-				width: 720px;
-				max-width: 100%;
-				margin: 0 auto;
-				padding: 2rem 1rem;
-			}
-			ul {
-				list-style: none;
-				padding: 0;
-				margin: 0;
-			}
-			li {
-				margin-bottom: 0.75rem;
-				padding-bottom: 0.75rem;
-				border-bottom: 1px solid #eee;
-			}
-			li:last-child {
-				border-bottom: none;
-			}
-			a {
-				text-decoration: none;
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
-				color: rgb(15, 18, 25);
-			}
-			a:hover .title {
-				color: #2337ff;
-			}
-			.title {
-				margin: 0;
-				font-size: 1rem;
-				font-weight: 500;
-			}
-			.date {
-				color: rgb(96, 115, 159);
-				font-size: 0.875rem;
-				white-space: nowrap;
-				margin-left: 1rem;
-			}
-		</style>
+		<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 	</head>
 	<body>
 		<Header />
+		
 		<main>
-			<section>
-				<ul>
+			<!-- Hero Section -->
+			<section class="hero">
+				<div class="hero-content">
+					<div class="hero-badge">
+						<i class="fas fa-anchor"></i>
+						<span>探索海洋的无限可能</span>
+					</div>
+					<h1 class="hero-title">
+						欢迎来到<br />
+						<span class="highlight">老鹏友的航海日志</span>
+					</h1>
+					<p class="hero-description">
+						这里记录着我的航海梦想、游艇探索之旅，以及对海洋生活的热爱与思考。
+						<br />
+						愿与志同道合的朋友一起分享这片蔚蓝。
+					</p>
+					<div class="hero-stats">
+						<div class="stat">
+							<span class="stat-number">{totalPosts}</span>
+							<span class="stat-label">篇文章</span>
+						</div>
+						<div class="stat-divider"></div>
+						<div class="stat">
+							<span class="stat-number">∞</span>
+							<span class="stat-label">探索精神</span>
+						</div>
+						<div class="stat-divider"></div>
+						<div class="stat">
+							<span class="stat-number">🌊</span>
+							<span class="stat-label">海洋梦想</span>
+						</div>
+					</div>
+					<div class="hero-actions">
+						<a href="/blog" class="btn btn-primary">
+							<i class="fas fa-compass"></i>
+							开始探索
+						</a>
+						<a href="/about" class="btn btn-secondary">
+							<i class="fas fa-user"></i>
+							了解更多
+						</a>
+					</div>
+				</div>
+				<div class="hero-visual">
+					<div class="wave-decoration">
+						<svg viewBox="0 0 1440 320" class="wave">
+							<path fill="#1a365d" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+						</svg>
+					</div>
+				</div>
+			</section>
+			
+			<!-- Featured Posts Section -->
+			<section class="featured-section">
+				<div class="section-header">
+					<div class="section-tag">
+						<i class="fas fa-star"></i>
+						<span>最新文章</span>
+					</div>
+					<h2>探索精彩内容</h2>
+				</div>
+				
+				<div class="posts-grid">
 					{
-						posts.map((post) => (
-							<li>
-								<a href={`/blog/${post.id}/`}>
-									<span class="title">{post.data.title}</span>
-									<span class="date">
-										<FormattedDate date={post.data.pubDate} />
-									</span>
+						featuredPosts.map((post, index) => (
+							<article class="post-card" style={`--delay: ${index * 0.1}s`}>
+								<a href={`/blog/${post.id}/`} class="post-link">
+									<div class="post-content">
+										<div class="post-meta">
+											<span class="post-date">
+												<i class="far fa-calendar"></i>
+												<FormattedDate date={post.data.pubDate} />
+											</span>
+										</div>
+										<h3 class="post-title">{post.data.title}</h3>
+										<p class="post-excerpt">
+											{post.data.description?.slice(0, 80) || '点击阅读更多...'}
+											{post.data.description?.length > 80 ? '...' : ''}
+										</p>
+										<div class="post-footer">
+											<span class="read-more">
+												阅读全文 <i class="fas fa-arrow-right"></i>
+											</span>
+										</div>
+									</div>
 								</a>
-							</li>
+							</article>
 						))
 					}
-				</ul>
+				</div>
+				
+				<div class="section-footer">
+					<a href="/blog" class="btn btn-primary">
+						查看全部文章 <i class="fas fa-arrow-right"></i>
+					</a>
+				</div>
 			</section>
 		</main>
+		
 		<Footer />
 	</body>
 </html>
+
+<style>
+	/* Hero Section */
+	.hero {
+		position: relative;
+		padding: 4rem 0 6rem;
+		overflow: hidden;
+	}
+	
+	.hero-content {
+		position: relative;
+		z-index: 2;
+		text-align: center;
+		max-width: 800px;
+		margin: 0 auto;
+	}
+	
+	.hero-badge {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.5rem 1rem;
+		background: var(--wave-blue);
+		color: var(--primary);
+		border-radius: 50px;
+		font-size: 0.875rem;
+		font-weight: 500;
+		margin-bottom: 1.5rem;
+	}
+	
+	.hero-badge i {
+		color: var(--accent);
+	}
+	
+	.hero-title {
+		font-size: 3rem;
+		font-weight: 700;
+		margin-bottom: 1rem;
+		line-height: 1.2;
+		font-family: 'Noto Sans SC', sans-serif;
+	}
+	
+	.hero-title .highlight {
+		background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 50%, var(--accent) 100%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+		font-family: 'Playfair Display', serif;
+	}
+	
+	@media (max-width: 768px) {
+		.hero-title {
+			font-size: 2rem;
+		}
+	}
+	
+	.hero-description {
+		font-size: 1.125rem;
+		color: rgb(var(--gray));
+		max-width: 600px;
+		margin: 0 auto 2rem;
+		line-height: 1.8;
+	}
+	
+	.hero-stats {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 2rem;
+		margin-bottom: 2rem;
+	}
+	
+	@media (max-width: 640px) {
+		.hero-stats {
+			gap: 1rem;
+		}
+	}
+	
+	.stat {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.25rem;
+	}
+	
+	.stat-number {
+		font-size: 1.75rem;
+		font-weight: 700;
+		color: var(--primary);
+	}
+	
+	.stat-label {
+		font-size: 0.875rem;
+		color: rgb(var(--gray));
+	}
+	
+	.stat-divider {
+		width: 1px;
+		height: 40px;
+		background: rgb(var(--gray-light));
+	}
+	
+	.hero-actions {
+		display: flex;
+		justify-content: center;
+		gap: 1rem;
+		flex-wrap: wrap;
+	}
+	
+	.hero-visual {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		z-index: 1;
+	}
+	
+	.wave-decoration {
+		position: absolute;
+		bottom: -1px;
+		left: 0;
+		right: 0;
+	}
+	
+	.wave {
+		display: block;
+		width: 100%;
+		height: auto;
+	}
+	
+	/* Featured Section */
+	.featured-section {
+		padding: 3rem 0 4rem;
+	}
+	
+	.section-header {
+		text-align: center;
+		margin-bottom: 3rem;
+	}
+	
+	.section-tag {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.5rem 1rem;
+		background: var(--wave-blue);
+		color: var(--primary);
+		border-radius: 50px;
+		font-size: 0.875rem;
+		font-weight: 500;
+		margin-bottom: 1rem;
+	}
+	
+	.section-tag i {
+		color: var(--accent);
+	}
+	
+	.section-header h2 {
+		font-size: 2rem;
+		color: var(--primary);
+		margin: 0;
+	}
+	
+	/* Posts Grid */
+	.posts-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+		gap: 1.5rem;
+		margin-bottom: 3rem;
+	}
+	
+	@media (max-width: 640px) {
+		.posts-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+	
+	.post-card {
+		background: var(--white);
+		border-radius: 16px;
+		box-shadow: var(--shadow-md);
+		overflow: hidden;
+		transition: all 0.3s ease;
+		opacity: 0;
+		animation: fadeInUp 0.6s ease forwards;
+		animation-delay: var(--delay, 0s);
+	}
+	
+	@keyframes fadeInUp {
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+	
+	.post-card:hover {
+		box-shadow: var(--shadow-xl);
+		transform: translateY(-4px);
+	}
+	
+	.post-link {
+		display: block;
+		text-decoration: none;
+		color: inherit;
+		padding: 1.5rem;
+		height: 100%;
+	}
+	
+	.post-content {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+	}
+	
+	.post-meta {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		margin-bottom: 0.75rem;
+	}
+	
+	.post-date {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		font-size: 0.8rem;
+		color: rgb(var(--gray));
+	}
+	
+	.post-date i {
+		color: var(--accent);
+	}
+	
+	.post-title {
+		font-size: 1.125rem;
+		font-weight: 600;
+		color: var(--primary);
+		margin: 0 0 0.75rem 0;
+		line-height: 1.4;
+		transition: color 0.2s;
+	}
+	
+	.post-card:hover .post-title {
+		color: var(--primary-light);
+	}
+	
+	.post-excerpt {
+		font-size: 0.9rem;
+		color: rgb(var(--gray));
+		margin: 0 0 1rem 0;
+		line-height: 1.6;
+		flex-grow: 1;
+	}
+	
+	.post-footer {
+		margin-top: auto;
+	}
+	
+	.read-more {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		font-size: 0.875rem;
+		font-weight: 500;
+		color: var(--primary);
+		transition: gap 0.2s;
+	}
+	
+	.post-card:hover .read-more {
+		gap: 0.75rem;
+		color: var(--accent);
+	}
+	
+	.section-footer {
+		text-align: center;
+	}
+</style>
