@@ -1,0 +1,30 @@
+---
+// YouTube 视频嵌入组件
+interface Props {
+  videoId: string;
+  title?: string;
+  width?: string;
+  height?: string;
+}
+
+const { videoId, title = "YouTube video", width = "100%", height = "500px" } = Astro.props;
+---
+
+<div class="youtube-embed" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; margin: 2rem 0;">
+  <iframe
+    src="https://www.youtube.com/embed/{videoId}"
+    title={title}
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+  ></iframe>
+</div>
+
+<style>
+  .youtube-embed {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+</style>
