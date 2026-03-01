@@ -1,0 +1,28 @@
+# 博客管理技能 - 忽略文件
+# Blog Manager Skill - Ignored Files
+
+# 敏感信息
+*.env
+.env.local
+.env.production
+token.txt
+token.json
+credentials.json
+
+# 临时文件
+*.tmp
+*.temp
+*.log
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 编辑器文件
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node modules (如果在 skill 目录内开发)
+node_modules/
