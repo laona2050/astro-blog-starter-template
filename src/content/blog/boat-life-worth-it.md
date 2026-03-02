@@ -2,6 +2,7 @@
 title: '船上生活值得吗？两位老船员的真实体验'
 description: '两位美国海岸警卫队老兵首次体验帆船航海生活'
 pubDate: '2026-02-23'
+category: '生活思考'
 ---
 
 > 视频来源：YouTube @Sailing SV Delos

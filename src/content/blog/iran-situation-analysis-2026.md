@@ -2,6 +2,7 @@
 title: '2026 年中东局势分析：伊朗当前形势深度解读'
 description: '深度分析 2026 年伊朗政治、经济及地缘政治局势，解读中东地区最新发展动态'
 pubDate: '2026-03-01'
+category: '国际时政'
 heroImage: '/iran-flag.jpg'
 ---
 

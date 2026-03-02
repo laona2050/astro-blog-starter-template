@@ -11,6 +11,13 @@ const posts = (await getCollection('blog')).sort(
 );
 
 const totalPosts = posts.length;
+
+// 统计各分类文章数量
+const categoryCount = {
+	'航海': posts.filter(p => p.data.category === '航海').length,
+	'国际时政': posts.filter(p => p.data.category === '国际时政').length,
+	'生活思考': posts.filter(p => p.data.category === '生活思考').length,
+};
 ---
 
 <!doctype html>
@@ -33,7 +40,33 @@ const totalPosts = posts.length;
 						<span>文章列表</span>
 					</div>
 					<h1>文章列表</h1>
-					<p class="subtitle">共收录 {totalPosts} 篇航海探索文章</p>
+					<p class="subtitle">共收录 {totalPosts} 篇文章</p>
+				</div>
+			</section>
+			
+			<!-- Category Filter -->
+			<section class="category-filter">
+				<div class="filter-container">
+					<button class="filter-btn active" data-category="all">
+						<i class="fas fa-th-large"></i>
+						<span>全部</span>
+						<span class="count">{totalPosts}</span>
+					</button>
+					<button class="filter-btn" data-category="航海">
+						<i class="fas fa-anchor"></i>
+						<span>航海</span>
+						<span class="count">{categoryCount['航海']}</span>
+					</button>
+					<button class="filter-btn" data-category="国际时政">
+						<i class="fas fa-globe"></i>
+						<span>国际时政</span>
+						<span class="count">{categoryCount['国际时政']}</span>
+					</button>
+					<button class="filter-btn" data-category="生活思考">
+						<i class="fas fa-heart"></i>
+						<span>生活思考</span>
+						<span class="count">{categoryCount['生活思考']}</span>
+					</button>
 				</div>
 			</section>
 			
@@ -42,13 +75,17 @@ const totalPosts = posts.length;
 				<div class="posts-container">
 					{
 						posts.map((post, index) => (
-							<article class="post-item" style={`--delay: ${index * 0.05}s`}>
+							<article class="post-item" style={`--delay: ${index * 0.05}s`} data-category={post.data.category || '航海'}>
 								<div class="post-marker">
 									<div class="marker-dot"></div>
 									<div class="marker-line"></div>
 								</div>
 								<a href={`/blog/${post.id}/`} class="post-content">
 									<div class="post-main">
+										<div class="post-category-badge">
+											<i class={`fas ${post.data.category === '航海' ? 'fa-anchor' : post.data.category === '国际时政' ? 'fa-globe' : 'fa-heart'}`}></i>
+											<span>{post.data.category || '航海'}</span>
+										</div>
 										<h2 class="post-title">{post.data.title}</h2>
 										<p class="post-description">
 											{post.data.description || '点击查看详情...'}
@@ -77,6 +114,33 @@ const totalPosts = posts.length;
 		</main>
 		
 		<Footer />
+		
+		<script>
+			// 分类筛选功能
+			const filterBtns = document.querySelectorAll('.filter-btn');
+			const postItems = document.querySelectorAll('.post-item');
+			
+			filterBtns.forEach(btn => {
+				btn.addEventListener('click', () => {
+					// 移除所有按钮的 active 类
+					filterBtns.forEach(b => b.classList.remove('active'));
+					// 添加当前按钮的 active 类
+					btn.classList.add('active');
+					
+					const category = btn.getAttribute('data-category');
+					
+					// 筛选文章
+					postItems.forEach(item => {
+						const itemCategory = item.getAttribute('data-category');
+						if (category === 'all' || itemCategory === category) {
+							item.style.display = 'flex';
+						} else {
+							item.style.display = 'none';
+						}
+					});
+				});
+			});
+		</script>
 	</body>
 </html>
 
@@ -140,6 +204,78 @@ const totalPosts = posts.length;
 		color: rgba(255, 255, 255, 0.8);
 		margin: 0;
 		font-size: 1rem;
+	}
+	
+	/* Category Filter */
+	.category-filter {
+		padding: 0 0 2rem;
+	}
+	
+	.filter-container {
+		max-width: 1200px;
+		margin: 0 auto;
+		display: flex;
+		gap: 1rem;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+	
+	.filter-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.75rem 1.5rem;
+		background: var(--white);
+		border: 2px solid rgb(var(--gray-light));
+		border-radius: 50px;
+		color: rgb(var(--gray));
+		font-size: 0.9rem;
+		font-weight: 500;
+		cursor: pointer;
+		transition: all 0.2s ease;
+	}
+	
+	.filter-btn:hover {
+		border-color: var(--primary);
+		color: var(--primary);
+		transform: translateY(-2px);
+		box-shadow: var(--shadow-md);
+	}
+	
+	.filter-btn.active {
+		background: var(--primary);
+		border-color: var(--primary);
+		color: var(--white);
+	}
+	
+	.filter-btn i {
+		font-size: 1rem;
+	}
+	
+	.filter-btn .count {
+		background: rgba(0, 0, 0, 0.1);
+		padding: 0.125rem 0.5rem;
+		border-radius: 12px;
+		font-size: 0.75rem;
+	}
+	
+	.filter-btn.active .count {
+		background: rgba(255, 255, 255, 0.2);
+	}
+	
+	@media (max-width: 640px) {
+		.filter-container {
+			gap: 0.5rem;
+		}
+		
+		.filter-btn {
+			padding: 0.5rem 1rem;
+			font-size: 0.8rem;
+		}
+		
+		.filter-btn span:not(.count) {
+			display: none;
+		}
 	}
 	
 	/* Posts Section */
@@ -224,6 +360,25 @@ const totalPosts = posts.length;
 		display: flex;
 		flex-direction: column;
 		gap: 0.5rem;
+	}
+	
+	.post-category-badge {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.375rem;
+		padding: 0.25rem 0.75rem;
+		background: var(--wave-blue);
+		color: var(--primary);
+		border-radius: 20px;
+		font-size: 0.75rem;
+		font-weight: 500;
+		width: fit-content;
+		margin-bottom: 0.25rem;
+	}
+	
+	.post-category-badge i {
+		font-size: 0.7rem;
+		color: var(--accent);
 	}
 	
 	.post-title {

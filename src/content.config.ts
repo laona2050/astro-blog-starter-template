@@ -12,6 +12,8 @@ const blog = defineCollection({
 		pubDate: z.coerce.date(),
 		updatedDate: z.coerce.date().optional(),
 		heroImage: z.string().optional(),
+		category: z.enum(['航海', '国际时政', '生活思考']).default('航海'),
+		tags: z.array(z.string()).optional(),
 	}),
 });
 
