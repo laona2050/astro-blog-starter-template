@@ -1,12 +1,13 @@
-name: 🇮🇷 伊朗局势每小时追踪
+name: 🇮🇷 伊朗局势追踪（每 6 小时）
 
 permissions:
   contents: write
 
 on:
   schedule:
-    # 每小时执行一次（每小时的第 0 分钟）
-    - cron: '0 * * * *'
+    # 每 6 小时执行一次（UTC 时间 0:00, 6:00, 12:00, 18:00）
+    # 对应北京时间：8:00, 14:00, 20:00, 次日 2:00
+    - cron: '0 */6 * * *'
   workflow_dispatch:
     inputs:
       force_new_day:
@@ -17,7 +18,7 @@ on:
 jobs:
   iran-tracker:
     runs-on: ubuntu-latest
-    name: 伊朗局势追踪
+    name: 伊朗局势追踪（6 小时间隔）
     
     steps:
       - name: 📥 检出仓库
