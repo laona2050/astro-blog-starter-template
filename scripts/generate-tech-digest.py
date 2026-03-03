@@ -1,0 +1,167 @@
+#!/usr/bin/env python3
+"""生成科技日报博客文章"""
+import json
+import sys
+from datetime import datetime
+
+def main():
+    if len(sys.argv) < 2:
+        print("Usage: generate-tech-digest.py <date_YYYYMMDD>")
+        sys.exit(1)
+    
+    date_str = sys.argv[1]
+    date_obj = datetime.strptime(date_str, "%Y%m%d")
+    pub_date = date_obj.strftime("%Y-%m-%d")
+    
+    with open('tech-news.json', 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    
+    topics = data.get('topics', {})
+    all_articles = []
+    for topic, topic_data in topics.items():
+        for article in topic_data.get('articles', []):
+            article['topic'] = topic
+            all_articles.append(article)
+    
+    sorted_articles = sorted(all_articles, key=lambda x: x.get('quality_score', 0), reverse=True)[:30]
+    
+    llm_count = len([a for a in sorted_articles if a.get('topic') == 'llm'])
+    agent_count = len([a for a in sorted_articles if a.get('topic') == 'ai-agent'])
+    frontier_count = len([a for a in sorted_articles if a.get('topic') == 'frontier-tech'])
+    crypto_count = len([a for a in sorted_articles if a.get('topic') == 'crypto'])
+    
+    top1_title = sorted_articles[0].get('title', 'N/A')[:60] if sorted_articles else 'N/A'
+    top2_title = sorted_articles[1].get('title', 'N/A')[:60] if len(sorted_articles) > 1 else 'N/A'
+    top3_title = sorted_articles[2].get('title', 'N/A')[:60] if len(sorted_articles) > 2 else 'N/A'
+    
+    total_articles = data.get('output_stats', {}).get('total_articles', 0)
+    total_input = data.get('input_sources', {}).get('total_input', 0)
+    
+    markdown = f"""---
+title: '科技日报 {pub_date}: {top1_title}'
+description: '今日科技热点：{top1_title}; {top2_title}; {top3_title}'
+pubDate: {pub_date}
+category: '国际时政'
+tags: ['科技日报', 'AI', '机器学习', '前沿技术', '加密货币']
+---
+
+# 科技日报 {pub_date}
+
+> **📊 数据概览**: 聚合 {total_input} 条原始资讯 → 精选 {total_articles} 篇高质量文章  
+> **🦀 整理**: 帝王蟹 | **生成时间**: {datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}
+
+---
+
+## 🔥 今日 TOP 热点
+
+### 1. {top1_title} 🔴 HOT
+- **质量评分**: {sorted_articles[0].get('quality_score', 0):.1f}/20
+- **来源**: {sorted_articles[0].get('source_name', 'N/A')}
+- **话题**: {', '.join(sorted_articles[0].get('topics', []))}
+
+### 2. {top2_title} 💥
+- **质量评分**: {sorted_articles[1].get('quality_score', 0):.1f}/20
+- **来源**: {sorted_articles[1].get('source_name', 'N/A')}
+
+### 3. {top3_title} 📚
+- **质量评分**: {sorted_articles[2].get('quality_score', 0):.1f}/20
+- **来源**: {sorted_articles[2].get('source_name', 'N/A')}
+
+---
+
+## 📰 分类热点
+
+### 🤖 大语言模型 (LLM) - {llm_count} 篇
+
+热点话题、研究进展、应用案例
+
+### 🤖 AI Agent - {agent_count} 篇
+
+自主 Agent、多 Agent 系统、应用实践
+
+### 🚀 前沿技术 - {frontier_count} 篇
+
+GitHub 热门项目、新技术发布、创新应用
+
+### 💰 加密货币 - {crypto_count} 篇
+
+市场动态、技术分析、监管政策
+
+---
+
+## 📊 数据源分布
+
+```
+总输入：{total_input} 条
+├── RSS 订阅：{data.get('input_sources', {}).get('rss_articles', 0)} 条
+├── Reddit 讨论：{data.get('input_sources', {}).get('reddit_posts', 0)} 条
+├── GitHub Trending: {data.get('input_sources', {}).get('github_trending', 0)} 条
+├── GitHub Releases: {data.get('input_sources', {}).get('github_articles', 0)} 条
+└── Twitter/X: {data.get('input_sources', {}).get('twitter_articles', 0)} 条
+
+输出：{total_articles} 篇 (经过去重、质量评分)
+├── LLM 主题：{llm_count} 篇
+├── AI Agent: {agent_count} 篇
+├── 前沿技术：{frontier_count} 篇
+└── 加密货币：{crypto_count} 篇
+```
+
+---
+
+## 💡 深度观察
+
+基于今日数据，值得关注的趋势和话题分析。
+
+---
+
+## 🛠️ 工具推荐
+
+| 工具 | 用途 | 链接 |
+|------|------|------|
+| GitHub Trending | 发现热门项目 | https://github.com/trending |
+| Reddit ML | 机器学习讨论 | https://reddit.com/r/MachineLearning |
+| HuggingFace | 模型和工具 | https://huggingface.co |
+
+---
+
+## 📈 趋势指标
+
+| 指标 | 数值 | 变化 |
+|------|------|------|
+| AI 相关新闻 | {llm_count + agent_count} 篇 | 🔺 热点集中 |
+| 开源项目 | {data.get('input_sources', {}).get('github_trending', 0) + data.get('input_sources', {}).get('github_articles', 0)} 篇 | 📊 稳定 |
+| 加密货币热度 | {crypto_count} 篇 | 📈 市场波动 |
+
+---
+
+## 🔗 原始数据源
+
+**Reddit 社区**:
+- r/OpenAI - OpenAI 官方讨论
+- r/MachineLearning - 机器学习研究
+- r/LocalLLaMA - 本地 LLM 讨论
+- r/CryptoCurrency - 加密货币
+
+**GitHub 项目**:
+- 28 个 AI/ML 相关仓库跟踪
+- 每日 Release 监控
+
+**RSS 订阅**:
+- 49 个科技媒体和技术博客
+
+---
+
+**📧 订阅**: 每日自动推送 | **🦀 由帝王蟹自动聚合**  
+**⚠️ 声明**: 本摘要由 AI 自动整理，信息真伪请交叉验证
+"""
+    
+    filename = f"src/content/blog/tech-digest-{date_str}.md"
+    with open(filename, 'w', encoding='utf-8') as f:
+        f.write(markdown)
+    
+    print(f"✅ 生成文章：{filename}")
+    print(f"📊 总文章数：{total_articles}")
+    print(f"🤖 LLM: {llm_count} | AI Agent: {agent_count} | Frontier: {frontier_count} | Crypto: {crypto_count}")
+
+if __name__ == "__main__":
+    main()
