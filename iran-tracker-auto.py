@@ -16,10 +16,11 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 # 配置
-BLOG_DIR = Path("/home/node/.openclaw/workspace/astro-blog")
-SKILLS_DIR = Path("/home/node/.openclaw/workspace/skills")
+# 使用当前脚本所在目录作为基准（兼容 GitHub Actions 和本地）
+SCRIPT_DIR = Path(__file__).parent.resolve()
+BLOG_DIR = SCRIPT_DIR
 OUTPUT_DIR = BLOG_DIR / "src/content/blog"
-STATE_FILE = Path("/home/node/.openclaw/workspace/iran-tracker-state.json")
+STATE_FILE = SCRIPT_DIR / "iran-tracker-state.json"
 
 # 搜索关键词
 SEARCH_TOPICS = {
