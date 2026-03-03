@@ -90,12 +90,17 @@ def tavily_deep_search(keyword, max_results=10):
             "api_key": api_key,
             "query": keyword,
             "max_results": max_results,
-            "search_depth": "basic"
+            "search_depth": "basic",
+            "include_answer": True
         }
         response = requests.post(url, json=payload, timeout=30)
         if response.status_code == 200:
             data = response.json()
             results = data.get("results", [])
+            # 调试：打印第一条结果的所有键
+            if results and len(results) > 0:
+                log(f"Tavily 返回字段：{list(results[0].keys())}")
+                log(f"第一条结果：title={results[0].get('title', 'N/A')[:50]}, content={results[0].get('content', 'N/A')[:100]}")
             log(f"Tavily 搜索成功：{keyword} → {len(results)} 条结果")
             return results
         else:
