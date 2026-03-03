@@ -1,267 +1,154 @@
 ---
-layout: ../layouts/BaseLayout.astro
-title: '伊朗局势实时追踪'
-description: '聚合全球权威信源，直击伊朗局势第一手报道'
-pubDate: 2026-03-03
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE } from '../consts';
 ---
 
-<div class="iran-tracker">
-  <!-- 头部 -->
-  <header class="tracker-header">
-    <h1>🇮🇷 伊朗局势实时追踪</h1>
-    <p class="subtitle">聚合全球权威信源 · 直击第一手报道 · 远离信息二传手</p>
-    <div class="last-update">
-      <span class="live-indicator">🔴 实时更新</span>
-      <span class="update-time">最后更新：<time id="updateTime">--</time></span>
-    </div>
-  </header>
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<BaseHead title={`${SITE_TITLE} | 伊朗局势实时追踪`} description="聚合全球权威信源，直击伊朗局势第一手报道" />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<div class="iran-tracker">
+				<!-- 头部 -->
+				<header class="tracker-header">
+					<h1>🇮🇷 伊朗局势实时追踪</h1>
+					<p class="subtitle">聚合全球权威信源 · 直击第一手报道 · 远离信息二传手</p>
+					<div class="last-update">
+						<span class="live-indicator">🔴 实时更新</span>
+						<span class="update-time">最后更新：<time id="updateTime">--</time></span>
+					</div>
+				</header>
 
-  <!-- 警告提示 -->
-  <div class="disclaimer">
-    <p>⚠️ <strong>重要提示</strong>：本页面聚合的链接均来自各国权威媒体原始信源，信息真伪请自行判断。全球局势变化极快，语言差异可能导致理解偏差。</p>
-  </div>
+				<!-- 警告提示 -->
+				<div class="disclaimer">
+					<p>⚠️ <strong>重要提示</strong>：本页面聚合的链接均来自各国权威媒体原始信源，信息真伪请自行判断。全球局势变化极快，语言差异可能导致理解偏差。</p>
+				</div>
 
-  <!-- 主要模块 -->
-  <div class="tracker-grid">
-    <!-- 战事进展 -->
-    <section class="tracker-card military">
-      <div class="card-header">
-        <h2>⚔️ 战事进展</h2>
-        <span class="badge hot">HOT</span>
-      </div>
-      <ul class="news-list" id="military-news">
-        <li>
-          <a href="https://www.reuters.com/world/middle-east/" target="_blank" rel="noopener">
-            <span class="source">Reuters</span>
-            <span class="title">中东局势专题报道</span>
-          </a>
-        </li>
-        <li>
-          <a href="https://www.aljazeera.com/tag/iran/" target="_blank" rel="noopener">
-            <span class="source">Al Jazeera</span>
-            <span class="title">伊朗新闻聚合</span>
-          </a>
-        </li>
-        <li>
-          <a href="https://www.bbc.com/news/topics/c302m85z5xzt/iran" target="_blank" rel="noopener">
-            <span class="source">BBC</span>
-            <span class="title">伊朗局势追踪</span>
-          </a>
-        </li>
-        <li>
-          <a href="https://iranwire.com/" target="_blank" rel="noopener">
-            <span class="source">IranWire</span>
-            <span class="title">伊朗境内第一手报道</span>
-          </a>
-        </li>
-        <li>
-          <a href="https://www.tasnimnews.com/" target="_blank" rel="noopener">
-            <span class="source">Tasnim News</span>
-            <span class="title">伊朗官方通讯社（波斯语）</span>
-          </a>
-        </li>
-      </ul>
-    </section>
+				<!-- 主要模块 -->
+				<div class="tracker-grid">
+					<!-- 战事进展 -->
+					<section class="tracker-card military">
+						<div class="card-header">
+							<h2>⚔️ 战事进展</h2>
+							<span class="badge hot">HOT</span>
+						</div>
+						<ul class="news-list" id="military-news">
+							<li><a href="https://www.reuters.com/world/middle-east/" target="_blank" rel="noopener"><span class="source">Reuters</span><span class="title">中东局势专题报道</span></a></li>
+							<li><a href="https://www.aljazeera.com/tag/iran/" target="_blank" rel="noopener"><span class="source">Al Jazeera</span><span class="title">伊朗新闻聚合</span></a></li>
+							<li><a href="https://www.bbc.com/news/topics/c302m85z5xzt/iran" target="_blank" rel="noopener"><span class="source">BBC</span><span class="title">伊朗局势追踪</span></a></li>
+							<li><a href="https://iranwire.com/" target="_blank" rel="noopener"><span class="source">IranWire</span><span class="title">伊朗境内第一手报道</span></a></li>
+							<li><a href="https://www.tasnimnews.com/" target="_blank" rel="noopener"><span class="source">Tasnim News</span><span class="title">伊朗官方通讯社（波斯语）</span></a></li>
+						</ul>
+					</section>
 
-    <!-- 市场反应 -->
-    <section class="tracker-card market">
-      <div class="card-header">
-        <h2>📈 市场反应</h2>
-        <span class="badge market">MARKET</span>
-      </div>
-      <ul class="news-list" id="market-news">
-        <li>
-          <a href="https://www.bloomberg.com/energy" target="_blank" rel="noopener">
-            <span class="source">Bloomberg</span>
-            <span class="title">原油市场追踪</span>
-          </a>
-        </li>
-        <li>
-          <a href="https://www.cnbc.com/oil-and-gas/" target="_blank" rel="noopener">
-            <span class="source">CNBC</span>
-            <span class="title">能源板块实时行情</span>
-          </a>
-        </li>
-        <li>
-          <a href="https://www.investing.com/commodities/crude-oil" target="_blank" rel="noopener">
-            <span class="source">Investing.com</span>
-            <span class="title">WTI 原油期货</span>
-          </a>
-        </li>
-        <li>
-          <a href="https://www.gold.org/goldhub/data/gold-prices" target="_blank" rel="noopener">
-            <span class="source">World Gold Council</span>
-            <span class="title">国际金价</span>
-          </a>
-        </li>
-        <li>
-          <a href="https://www.opec.org/" target="_blank" rel="noopener">
-            <span class="source">OPEC</span>
-            <span class="title">欧佩克官方声明</span>
-          </a>
-        </li>
-      </ul>
-    </section>
+					<!-- 市场反应 -->
+					<section class="tracker-card market">
+						<div class="card-header">
+							<h2>📈 市场反应</h2>
+							<span class="badge market">MARKET</span>
+						</div>
+						<ul class="news-list" id="market-news">
+							<li><a href="https://www.bloomberg.com/energy" target="_blank" rel="noopener"><span class="source">Bloomberg</span><span class="title">原油市场追踪</span></a></li>
+							<li><a href="https://www.cnbc.com/oil-and-gas/" target="_blank" rel="noopener"><span class="source">CNBC</span><span class="title">能源板块实时行情</span></a></li>
+							<li><a href="https://www.investing.com/commodities/crude-oil" target="_blank" rel="noopener"><span class="source">Investing.com</span><span class="title">WTI 原油期货</span></a></li>
+							<li><a href="https://www.gold.org/goldhub/data/gold-prices" target="_blank" rel="noopener"><span class="source">World Gold Council</span><span class="title">国际金价</span></a></li>
+							<li><a href="https://www.opec.org/" target="_blank" rel="noopener"><span class="source">OPEC</span><span class="title">欧佩克官方声明</span></a></li>
+						</ul>
+					</section>
 
-    <!-- 深度分析 -->
-    <section class="tracker-card analysis">
-      <div class="card-header">
-        <h2>📊 深度分析</h2>
-        <span class="badge analysis">ANALYSIS</span>
-      </div>
-      <ul class="news-list" id="analysis-news">
-        <li>
-          <a href="https://www.foreignaffairs.com/topics/iran" target="_blank" rel="noopener">
-            <span class="source">Foreign Affairs</span>
-            <span class="title">伊朗专题深度分析</span>
-          </a>
-        </li>
-        <li>
-          <a href="https://www.cfr.org/expert-browse?expert=&topic=304" target="_blank" rel="noopener">
-            <span class="source">CFR</span>
-            <span class="title">外交关系委员会伊朗研究</span>
-          </a>
-        </li>
-        <li>
-          <a href="https://www.brookings.edu/topic/middle-east/iran/" target="_blank" rel="noopener">
-            <span class="source">Brookings</span>
-            <span class="title">布鲁金斯学会中东研究</span>
-          </a>
-        </li>
-        <li>
-          <a href="https://www.csis.org/regions/middle-east" target="_blank" rel="noopener">
-            <span class="source">CSIS</span>
-            <span class="title">战略与国际研究中心</span>
-          </a>
-        </li>
-      </ul>
-    </section>
+					<!-- 深度分析 -->
+					<section class="tracker-card analysis">
+						<div class="card-header">
+							<h2>📊 深度分析</h2>
+							<span class="badge analysis">ANALYSIS</span>
+						</div>
+						<ul class="news-list" id="analysis-news">
+							<li><a href="https://www.foreignaffairs.com/topics/iran" target="_blank" rel="noopener"><span class="source">Foreign Affairs</span><span class="title">伊朗专题深度分析</span></a></li>
+							<li><a href="https://www.cfr.org/expert-browse?expert=&topic=304" target="_blank" rel="noopener"><span class="source">CFR</span><span class="title">外交关系委员会伊朗研究</span></a></li>
+							<li><a href="https://www.brookings.edu/topic/middle-east/iran/" target="_blank" rel="noopener"><span class="source">Brookings</span><span class="title">布鲁金斯学会中东研究</span></a></li>
+							<li><a href="https://www.csis.org/regions/middle-east" target="_blank" rel="noopener"><span class="source">CSIS</span><span class="title">战略与国际研究中心</span></a></li>
+						</ul>
+					</section>
 
-    <!-- 视频报道 -->
-    <section class="tracker-card video">
-      <div class="card-header">
-        <h2>📺 视频报道</h2>
-        <span class="badge video">VIDEO</span>
-      </div>
-      <ul class="news-list" id="video-news">
-        <li>
-          <a href="https://www.youtube.com/results?search_query=iran+israel+conflict&sp=CAI%253D%253D" target="_blank" rel="noopener">
-            <span class="source">YouTube</span>
-            <span class="title">伊朗 - 以色列冲突最新视频</span>
-          </a>
-        </li>
-        <li>
-          <a href="https://www.youtube.com/user/France24" target="_blank" rel="noopener">
-            <span class="source">France 24</span>
-            <span class="title">法国 24 小时新闻台</span>
-          </a>
-        </li>
-        <li>
-          <a href="https://www.youtube.com/user/DWNews" target="_blank" rel="noopener">
-            <span class="source">DW News</span>
-            <span class="title">德国之声新闻</span>
-          </a>
-        </li>
-        <li>
-          <a href="https://www.youtube.com/user/AlJazeeraEnglish" target="_blank" rel="noopener">
-            <span class="source">Al Jazeera</span>
-            <span class="title">半岛电视台英语频道</span>
-          </a>
-        </li>
-      </ul>
-    </section>
+					<!-- 视频报道 -->
+					<section class="tracker-card video">
+						<div class="card-header">
+							<h2>📺 视频报道</h2>
+							<span class="badge video">VIDEO</span>
+						</div>
+						<ul class="news-list" id="video-news">
+							<li><a href="https://www.youtube.com/results?search_query=iran+israel+conflict&sp=CAI%253D%253D" target="_blank" rel="noopener"><span class="source">YouTube</span><span class="title">伊朗 - 以色列冲突最新视频</span></a></li>
+							<li><a href="https://www.youtube.com/user/France24" target="_blank" rel="noopener"><span class="source">France 24</span><span class="title">法国 24 小时新闻台</span></a></li>
+							<li><a href="https://www.youtube.com/user/DWNews" target="_blank" rel="noopener"><span class="source">DW News</span><span class="title">德国之声新闻</span></a></li>
+							<li><a href="https://www.youtube.com/user/AlJazeeraEnglish" target="_blank" rel="noopener"><span class="source">Al Jazeera</span><span class="title">半岛电视台英语频道</span></a></li>
+						</ul>
+					</section>
 
-    <!-- 各国官方立场 -->
-    <section class="tracker-card official">
-      <div class="card-header">
-        <h2>🏛️ 各国官方立场</h2>
-        <span class="badge official">OFFICIAL</span>
-      </div>
-      <ul class="news-list" id="official-news">
-        <li>
-          <a href="https://www.state.gov/" target="_blank" rel="noopener">
-            <span class="source">US State Dept</span>
-            <span class="title">美国国务院声明</span>
-          </a>
-        </li>
-        <li>
-          <a href="https://www.gov.uk/government/organisations/foreign-commonwealth-development-office" target="_blank" rel="noopener">
-            <span class="source">UK FCDO</span>
-            <span class="title">英国外交部</span>
-          </a>
-        </li>
-        <li>
-          <a href="https://www.mfa.gov.ir/" target="_blank" rel="noopener">
-            <span class="source">Iran MFA</span>
-            <span class="title">伊朗外交部（波斯语）</span>
-          </a>
-        </li>
-        <li>
-          <a href="https://www.mofa.go.jp/" target="_blank" rel="noopener">
-            <span class="source">Japan MOFA</span>
-            <span class="title">日本外务省</span>
-          </a>
-        </li>
-      </ul>
-    </section>
+					<!-- 各国官方立场 -->
+					<section class="tracker-card official">
+						<div class="card-header">
+							<h2>🏛️ 各国官方立场</h2>
+							<span class="badge official">OFFICIAL</span>
+						</div>
+						<ul class="news-list" id="official-news">
+							<li><a href="https://www.state.gov/" target="_blank" rel="noopener"><span class="source">US State Dept</span><span class="title">美国国务院声明</span></a></li>
+							<li><a href="https://www.gov.uk/government/organisations/foreign-commonwealth-development-office" target="_blank" rel="noopener"><span class="source">UK FCDO</span><span class="title">英国外交部</span></a></li>
+							<li><a href="https://www.mfa.gov.ir/" target="_blank" rel="noopener"><span class="source">Iran MFA</span><span class="title">伊朗外交部（波斯语）</span></a></li>
+							<li><a href="https://www.mofa.go.jp/" target="_blank" rel="noopener"><span class="source">Japan MOFA</span><span class="title">日本外务省</span></a></li>
+						</ul>
+					</section>
 
-    <!-- 社交媒体 -->
-    <section class="tracker-card social">
-      <div class="card-header">
-        <h2>📱 社交媒体实时动态</h2>
-        <span class="badge social">SOCIAL</span>
-      </div>
-      <ul class="news-list" id="social-news">
-        <li>
-          <a href="https://twitter.com/search?q=iran&f=live" target="_blank" rel="noopener">
-            <span class="source">Twitter/X</span>
-            <span class="title">#Iran 实时推文</span>
-          </a>
-        </li>
-        <li>
-          <a href="https://twitter.com/search?q=tehran&f=live" target="_blank" rel="noopener">
-            <span class="source">Twitter/X</span>
-            <span class="title">#Tehran 实时推文</span>
-          </a>
-        </li>
-        <li>
-          <a href="https://t.me/s/iran_news_en" target="_blank" rel="noopener">
-            <span class="source">Telegram</span>
-            <span class="title">伊朗新闻频道</span>
-          </a>
-        </li>
-      </ul>
-    </section>
-  </div>
+					<!-- 社交媒体 -->
+					<section class="tracker-card social">
+						<div class="card-header">
+							<h2>📱 社交媒体实时动态</h2>
+							<span class="badge social">SOCIAL</span>
+						</div>
+						<ul class="news-list" id="social-news">
+							<li><a href="https://twitter.com/search?q=iran&f=live" target="_blank" rel="noopener"><span class="source">Twitter/X</span><span class="title">#Iran 实时推文</span></a></li>
+							<li><a href="https://twitter.com/search?q=tehran&f=live" target="_blank" rel="noopener"><span class="source">Twitter/X</span><span class="title">#Tehran 实时推文</span></a></li>
+							<li><a href="https://t.me/s/iran_news_en" target="_blank" rel="noopener"><span class="source">Telegram</span><span class="title">伊朗新闻频道</span></a></li>
+						</ul>
+					</section>
+				</div>
 
-  <!-- 工具推荐 -->
-  <section class="tools-section">
-    <h2>🛠️ 推荐工具</h2>
-    <div class="tools-grid">
-      <div class="tool-card">
-        <h3>🌐 沉浸式翻译</h3>
-        <p>浏览器扩展，支持多语言实时翻译</p>
-        <a href="https://immersivetranslate.com/" target="_blank" rel="noopener">访问官网 →</a>
-      </div>
-      <div class="tool-card">
-        <h3>📰 Google News</h3>
-        <p>伊朗相关新闻聚合</p>
-        <a href="https://news.google.com/search?q=iran&hl=zh-CN" target="_blank" rel="noopener">访问 →</a>
-      </div>
-      <div class="tool-card">
-        <h3>🗺️ Liveuamap</h3>
-        <p>中东冲突实时地图</p>
-        <a href="https://liveuamap.com/" target="_blank" rel="noopener">访问 →</a>
-      </div>
-    </div>
-  </section>
+				<!-- 工具推荐 -->
+				<section class="tools-section">
+					<h2>🛠️ 推荐工具</h2>
+					<div class="tools-grid">
+						<div class="tool-card">
+							<h3>🌐 沉浸式翻译</h3>
+							<p>浏览器扩展，支持多语言实时翻译</p>
+							<a href="https://immersivetranslate.com/" target="_blank" rel="noopener">访问官网 →</a>
+						</div>
+						<div class="tool-card">
+							<h3>📰 Google News</h3>
+							<p>伊朗相关新闻聚合</p>
+							<a href="https://news.google.com/search?q=iran&hl=zh-CN" target="_blank" rel="noopener">访问 →</a>
+						</div>
+						<div class="tool-card">
+							<h3>🗺️ Liveuamap</h3>
+							<p>中东冲突实时地图</p>
+							<a href="https://liveuamap.com/" target="_blank" rel="noopener">访问 →</a>
+						</div>
+					</div>
+				</section>
 
-  <!-- 页脚 -->
-  <footer class="tracker-footer">
-    <p>🦀 由 <a href="https://homesh.top/">帝王蟹</a> 自动聚合 | 数据更新于 <time id="footerTime">--</time></p>
-    <p class="disclaimer-small">本页面仅提供信息聚合服务，不对内容真实性负责。请交叉验证多个信源。</p>
-  </footer>
-</div>
+				<!-- 页脚 -->
+				<footer class="tracker-footer">
+					<p>🦀 由 <a href="https://homesh.top/">帝王蟹</a> 自动聚合 | 数据更新于 <time id="footerTime">--</time></p>
+					<p class="disclaimer-small">本页面仅提供信息聚合服务，不对内容真实性负责。请交叉验证多个信源。</p>
+				</footer>
+			</div>
+		</main>
+		<Footer />
+	</body>
+</html>
 
 <style>
 .iran-tracker {
@@ -470,7 +357,6 @@ pubDate: 2026-03-03
 </style>
 
 <script>
-  // 更新时间
   function updateTime() {
     const now = new Date();
     const timeString = now.toLocaleString('zh-CN', {
@@ -486,6 +372,5 @@ pubDate: 2026-03-03
   }
   
   updateTime();
-  // 每分钟更新一次
   setInterval(updateTime, 60000);
 </script>
