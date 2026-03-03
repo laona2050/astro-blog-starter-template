@@ -78,22 +78,28 @@ def multi_search(keyword):
 
 
 def tavily_deep_search(keyword, max_results=10):
-    """使用 tavily-search 深度搜索"""
+    """使用 Tavily API 直接搜索"""
+    api_key = os.environ.get("TAVILY_API_KEY")
+    if not api_key:
+        log(f"⚠️ 缺少 TAVILY_API_KEY")
+        return []
+    
     try:
-        cmd = [
-            "python3",
-            str(SKILLS_DIR / "openclaw-tavily-search/scripts/tavily_search.py"),
-            "--query", keyword,
-            "--max-results", str(max_results),
-            "--format", "json"
-        ]
-        result = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
-        if result.returncode == 0:
-            data = json.loads(result.stdout)
-            log(f"Tavily 搜索成功：{keyword} → {len(data.get('results', []))} 条结果")
-            return data.get('results', [])
+        url = "https://api.tavily.com/search"
+        payload = {
+            "api_key": api_key,
+            "query": keyword,
+            "max_results": max_results,
+            "search_depth": "basic"
+        }
+        response = requests.post(url, json=payload, timeout=30)
+        if response.status_code == 200:
+            data = response.json()
+            results = data.get("results", [])
+            log(f"Tavily 搜索成功：{keyword} → {len(results)} 条结果")
+            return results
         else:
-            log(f"Tavily 搜索失败：{result.stderr}")
+            log(f"Tavily 搜索失败：{response.status_code} - {response.text[:200]}")
     except Exception as e:
         log(f"Tavily 搜索异常：{e}")
     return []
@@ -290,6 +296,9 @@ draft: false
 
 def publish_to_blog(content, filename):
     """发布到博客"""
+    # 确保目录存在
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    
     output_path = OUTPUT_DIR / filename
     
     # 写入文件

@@ -31,10 +31,6 @@ jobs:
         run: |
           pip install requests
       
-      - name: 🔑 配置环境变量
-        run: |
-          echo "TAVILY_API_KEY=${{ secrets.TAVILY_API_KEY }}" >> $GITHUB_ENV
-      
       - name: 🇮🇷 运行追踪脚本
         run: |
           python3 iran-tracker-auto.py
