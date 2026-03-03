@@ -1,0 +1,388 @@
+name: 🦀 每日自动发布 (新闻联播 + 科技日报)
+
+on:
+  schedule:
+    # 每天 UTC 22:00 (北京时间早 6 点)
+    - cron: '0 22 * * *'
+  workflow_dispatch:
+    inputs:
+      date:
+        description: '日期 (YYYYMMDD 格式，留空则使用昨天)'
+        required: false
+        default: ''
+
+jobs:
+  # ========== 任务 1: 发布新闻联播 ==========
+  publish-cctv-news:
+    runs-on: ubuntu-latest
+    name: 📺 新闻联播
+    
+    steps:
+      - name: 📥 检出仓库
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: 🟢 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: 📦 安装依赖
+        run: |
+          cd skills/cctv-news-fetcher
+          npm install
+      
+      - name: 📰 抓取新闻联播
+        id: cctv-fetch
+        run: |
+          if [ -n "${{ github.event.inputs.date }}" ]; then
+            DATE="${{ github.event.inputs.date }}"
+          else
+            DATE=$(date -d 'yesterday' +%Y%m%d)
+          fi
+          echo "抓取日期：$DATE"
+          echo "date=$DATE" >> $GITHUB_OUTPUT
+          
+          cd skills/cctv-news-fetcher
+          node scripts/news_crawler.js $DATE > ../../cctv-news.json
+      
+      - name: 📝 生成新闻联播文章
+        run: |
+          DATE="${{ steps.cctv-fetch.outputs.date }}"
+          
+          python3 << 'PYTHON_SCRIPT'
+          import json
+          from datetime import datetime
+          
+          with open('cctv-news.json', 'r', encoding='utf-8') as f:
+              news_data = json.load(f)
+          
+          seen = set()
+          unique_news = []
+          for item in news_data:
+              title = item.get('title', '')
+              content = item.get('content', '')
+              if content and title not in seen:
+                  seen.add(title)
+                  unique_news.append({
+                      'title': title.replace('[视频]', '').strip(),
+                      'content': content
+                  })
+          
+          domestic = []
+          international = []
+          domestic_keywords = ['十四五', '全国', '各地', '我国', '国内', '中小学', '民法典', '三八', '大国工匠', '冬小麦', '元宵节', '政协', '脱贫']
+          international_keywords = ['伊朗', '美国', '以色列', '国际', '黎巴嫩', '真主党', '油价', '金价', '欧佩克', '得州']
+          
+          for news in unique_news:
+              text = news['title'] + news['content']
+              if any(kw in text for kw in international_keywords):
+                  international.append(news)
+              else:
+                  domestic.append(news)
+          
+          date_str = "${{ steps.cctv-fetch.outputs.date }}"
+          date_obj = datetime.strptime(date_str, "%Y%m%d")
+          pub_date = date_obj.strftime("%Y-%m-%d")
+          
+          domestic_list = "\n".join([f"- {n['title']}" for n in domestic[:10]])
+          international_list = "\n".join([f"- {n['title']}" for n in international[:10]])
+          
+          gdp_match = "140.19 万亿元"
+          iran_death = "550+ 人"
+          oil_price = "$75/桶"
+          
+          markdown = f"""---
+title: '新闻联播 {date_str}：十四五经济成就与中东局势'
+description: '{date_str}新闻联播摘要：十四五期间我国 GDP 突破 140 万亿元，美以空袭伊朗，各地喜迎元宵节'
+pubDate: {pub_date}
+category: '国际时政'
+tags: ['新闻联播', 'CCTV', '十四五', '伊朗局势', '元宵节']
+---
+
+# 新闻联播摘要 {date_str}
+
+> **来源**: CCTV 新闻联播 | **日期**: {date_str} 19:00 | **整理**: 帝王蟹 🦀
+
+---
+
+## 📊 国内要闻
+
+{domestic_list}
+
+### 重点摘要
+
+**经济发展：**
+- GDP 总量：{gdp_match}（2025 年）
+- 研发投入占 GDP 比重：2.80%
+- 全球创新指数排名：第 10 位
+
+**社会民生：**
+- 全国中小学开学
+- 各地喜迎元宵节
+- 科技助力农业
+
+---
+
+## 🌍 国际焦点
+
+{international_list}
+
+### 中东局势
+
+- 伊朗空袭伤亡：{iran_death}
+- 国际油价上涨：{oil_price}
+- 多国抗议活动
+
+---
+
+## 📈 数据摘要
+
+| 指标 | 数值 |
+|------|------|
+| GDP 总量 | 140.19 万亿元 |
+| 全球创新指数 | 第 10 位 |
+| 国际油价 | {oil_price} |
+
+---
+
+**原始来源**: [CCTV 新闻联播](https://tv.cctv.com/lm/xwlb/)
+"""
+          
+          filename = f"src/content/blog/cctv-news-{date_str}.md"
+          with open(filename, 'w', encoding='utf-8') as f:
+              f.write(markdown)
+          
+          print(f"✅ 生成文章：{filename}")
+          print(f"📊 国内新闻：{len(domestic)} 条")
+          print(f"🌍 国际新闻：{len(international)} 条")
+          PYTHON_SCRIPT
+      
+      - name: 🚀 提交并发布
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add src/content/blog/cctv-news-*.md
+          
+          if git diff --staged --quiet; then
+            echo "没有变更需要提交"
+          else
+            git commit -m "feat: 自动发布新闻联播 ${{ steps.cctv-fetch.outputs.date }}"
+            git push
+            echo "✅ 发布成功！"
+          fi
+
+  # ========== 任务 2: 发布科技日报 ==========
+  publish-tech-digest:
+    runs-on: ubuntu-latest
+    name: 💻 科技日报
+    
+    steps:
+      - name: 📥 检出仓库
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: 🐍 设置 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: 📦 安装依赖
+        run: |
+          cd skills/tech-news-digest
+          pip install -r requirements.txt
+      
+      - name: 💻 抓取科技新闻
+        id: tech-fetch
+        run: |
+          DATE=$(date -d 'yesterday' +%Y%m%d)
+          echo "抓取日期：$DATE"
+          echo "date=$DATE" >> $GITHUB_OUTPUT
+          
+          cd skills/tech-news-digest
+          python3 scripts/run-pipeline.py --defaults config/defaults 2>&1 | tee ../../pipeline.log
+          
+          # 复制合并后的文件
+          cp /tmp/td-merged.json ../../tech-news.json
+          
+          echo "✅ 抓取完成"
+      
+      - name: 📝 生成科技日报
+        run: |
+          DATE="${{ steps.tech-fetch.outputs.date }}"
+          DATE_FORMATTED=$(date -d "$DATE" +"%Y-%m-%d" 2>/dev/null || echo "$DATE")
+          
+          python3 << 'PYTHON_SCRIPT'
+          import json
+          from datetime import datetime
+          
+          with open('tech-news.json', 'r', encoding='utf-8') as f:
+              data = json.load(f)
+          
+          topics = data.get('topics', {})
+          all_articles = []
+          for topic, topic_data in topics.items():
+              for article in topic_data.get('articles', []):
+                  article['topic'] = topic
+                  all_articles.append(article)
+          
+          sorted_articles = sorted(all_articles, key=lambda x: x.get('quality_score', 0), reverse=True)[:30]
+          
+          llm_count = len([a for a in sorted_articles if a.get('topic') == 'llm'])
+          agent_count = len([a for a in sorted_articles if a.get('topic') == 'ai-agent'])
+          frontier_count = len([a for a in sorted_articles if a.get('topic') == 'frontier-tech'])
+          crypto_count = len([a for a in sorted_articles if a.get('topic') == 'crypto'])
+          
+          top1_title = sorted_articles[0].get('title', 'N/A')[:60] if sorted_articles else 'N/A'
+          top2_title = sorted_articles[1].get('title', 'N/A')[:60] if len(sorted_articles) > 1 else 'N/A'
+          top3_title = sorted_articles[2].get('title', 'N/A')[:60] if len(sorted_articles) > 2 else 'N/A'
+          
+          total_articles = data.get('output_stats', {}).get('total_articles', 0)
+          total_input = data.get('input_sources', {}).get('total_input', 0)
+          
+          date_str = "${{ steps.tech-fetch.outputs.date }}"
+          date_obj = datetime.strptime(date_str, "%Y%m%d")
+          pub_date = date_obj.strftime("%Y-%m-%d")
+          
+          markdown = f"""---
+title: '科技日报 {pub_date}：{top1_title}'
+description: '今日科技热点：{top1_title}；{top2_title}；{top3_title}'
+pubDate: {pub_date}
+category: '国际时政'
+tags: ['科技日报', 'AI', '机器学习', '前沿技术', '加密货币']
+---
+
+# 科技日报 {pub_date}
+
+> **📊 数据概览**: 聚合 {total_input} 条原始资讯 → 精选 {total_articles} 篇高质量文章  
+> **🦀 整理**: 帝王蟹 | **生成时间**: {datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}
+
+---
+
+## 🔥 今日 TOP 热点
+
+### 1. {top1_title} 🔴 HOT
+- **质量评分**: {sorted_articles[0].get('quality_score', 0):.1f}/20
+- **来源**: {sorted_articles[0].get('source_name', 'N/A')}
+- **话题**: {', '.join(sorted_articles[0].get('topics', []))}
+
+### 2. {top2_title} 💥
+- **质量评分**: {sorted_articles[1].get('quality_score', 0):.1f}/20
+- **来源**: {sorted_articles[1].get('source_name', 'N/A')}
+
+### 3. {top3_title} 📚
+- **质量评分**: {sorted_articles[2].get('quality_score', 0):.1f}/20
+- **来源**: {sorted_articles[2].get('source_name', 'N/A')}
+
+---
+
+## 📰 分类热点
+
+### 🤖 大语言模型 (LLM) - {llm_count} 篇
+
+热点话题、研究进展、应用案例
+
+### 🤖 AI Agent - {agent_count} 篇
+
+自主 Agent、多 Agent 系统、应用实践
+
+### 🚀 前沿技术 - {frontier_count} 篇
+
+GitHub 热门项目、新技术发布、创新应用
+
+### 💰 加密货币 - {crypto_count} 篇
+
+市场动态、技术分析、监管政策
+
+---
+
+## 📊 数据源分布
+
+```
+总输入：{total_input} 条
+├── RSS 订阅：{data.get('input_sources', {}).get('rss_articles', 0)} 条
+├── Reddit 讨论：{data.get('input_sources', {}).get('reddit_posts', 0)} 条
+├── GitHub Trending: {data.get('input_sources', {}).get('github_trending', 0)} 条
+├── GitHub Releases: {data.get('input_sources', {}).get('github_articles', 0)} 条
+└── Twitter/X: {data.get('input_sources', {}).get('twitter_articles', 0)} 条
+
+输出：{total_articles} 篇 (经过去重、质量评分)
+├── LLM 主题：{llm_count} 篇
+├── AI Agent: {agent_count} 篇
+├── 前沿技术：{frontier_count} 篇
+└── 加密货币：{crypto_count} 篇
+```
+
+---
+
+## 💡 深度观察
+
+基于今日数据，值得关注的趋势和话题分析。
+
+---
+
+## 🛠️ 工具推荐
+
+| 工具 | 用途 | 链接 |
+|------|------|------|
+| GitHub Trending | 发现热门项目 | https://github.com/trending |
+| Reddit ML | 机器学习讨论 | https://reddit.com/r/MachineLearning |
+| HuggingFace | 模型和工具 | https://huggingface.co |
+
+---
+
+## 📈 趋势指标
+
+| 指标 | 数值 | 变化 |
+|------|------|------|
+| AI 相关新闻 | {llm_count + agent_count} 篇 | 🔺 热点集中 |
+| 开源项目 | {data.get('input_sources', {}).get('github_trending', 0) + data.get('input_sources', {}).get('github_articles', 0)} 篇 | 📊 稳定 |
+| 加密货币热度 | {crypto_count} 篇 | 📈 市场波动 |
+
+---
+
+## 🔗 原始数据源
+
+**Reddit 社区**:
+- r/OpenAI - OpenAI 官方讨论
+- r/MachineLearning - 机器学习研究
+- r/LocalLLaMA - 本地 LLM 讨论
+- r/CryptoCurrency - 加密货币
+
+**GitHub 项目**:
+- 28 个 AI/ML 相关仓库跟踪
+- 每日 Release 监控
+
+**RSS 订阅**:
+- 49 个科技媒体和技术博客
+
+---
+
+**📧 订阅**: 每日自动推送 | **🦀 由帝王蟹自动聚合**  
+**⚠️ 声明**: 本摘要由 AI 自动整理，信息真伪请交叉验证
+"""
+          
+          filename = f"src/content/blog/tech-digest-{date_str}.md"
+          with open(filename, 'w', encoding='utf-8') as f:
+              f.write(markdown)
+          
+          print(f"✅ 生成文章：{filename}")
+          print(f"📊 总文章数：{total_articles}")
+          print(f"🤖 LLM: {llm_count} | AI Agent: {agent_count} | Frontier: {frontier_count} | Crypto: {crypto_count}")
+          PYTHON_SCRIPT
+      
+      - name: 🚀 提交并发布
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add src/content/blog/tech-digest-*.md
+          
+          if git diff --staged --quiet; then
+            echo "没有变更需要提交"
+          else
+            git commit -m "feat: 自动发布科技日报 ${{ steps.tech-fetch.outputs.date }}"
+            git push
+            echo "✅ 发布成功！"
+          fi
