@@ -1,5 +1,8 @@
 name: 🇮🇷 伊朗局势每小时追踪
 
+permissions:
+  contents: write
+
 on:
   schedule:
     # 每小时执行一次（每小时的第 0 分钟）
@@ -21,6 +24,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true
+          fetch-depth: 0
       
       - name: 🐍 设置 Python
         uses: actions/setup-python@v5
@@ -41,6 +46,10 @@ jobs:
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
+          
+          # 配置 token 用于推送
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          
           git add src/content/blog/iran-tracker-*.md
           git add iran-tracker-state.json
           
@@ -48,6 +57,6 @@ jobs:
             echo "没有变更需要提交"
           else
             git commit -m "chore: 自动更新伊朗局势追踪 $(date -Iminutes)"
-            git push
+            git push origin main
             echo "✅ 发布成功！"
           fi
