@@ -16,11 +16,10 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 # 配置
-# 使用当前脚本所在目录作为基准（兼容 GitHub Actions 和本地）
-SCRIPT_DIR = Path(__file__).parent.resolve()
-BLOG_DIR = SCRIPT_DIR
+# 使用当前工作目录作为基准（GitHub Actions 会自动 checkout 到正确位置）
+BLOG_DIR = Path.cwd()
 OUTPUT_DIR = BLOG_DIR / "src/content/blog"
-STATE_FILE = SCRIPT_DIR / "iran-tracker-state.json"
+STATE_FILE = BLOG_DIR / "iran-tracker-state.json"
 
 # 搜索关键词
 SEARCH_TOPICS = {
