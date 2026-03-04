@@ -79,6 +79,7 @@ jobs:
             echo "没有变更需要提交"
           else
             git commit -m "feat: 自动发布新闻联播 ${{ steps.cctv-fetch.outputs.date }}"
+            git pull --rebase --strategy-option=theirs || true
             git push
             echo "✅ 发布成功！"
           fi
@@ -137,6 +138,7 @@ jobs:
             echo "没有变更需要提交"
           else
             git commit -m "feat: 自动发布科技日报 ${{ steps.tech-fetch.outputs.date }}"
+            git pull --rebase --strategy-option=theirs || true
             git push
             echo "✅ 发布成功！"
           fi
