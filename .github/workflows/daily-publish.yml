@@ -11,6 +11,9 @@ on:
         required: false
         default: ''
 
+env:
+  GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+
 jobs:
   # ========== 任务 1: 发布新闻联播 ==========
   publish-cctv-news:
@@ -21,7 +24,7 @@ jobs:
       - name: 📥 检出仓库
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT_TOKEN }}
       
       - name: 🟢 设置 Node.js
         uses: actions/setup-node@v4
@@ -46,6 +49,21 @@ jobs:
           
           cd skills/cctv-news-fetcher
           node scripts/news_crawler.js $DATE > ../../cctv-news.json
+          
+          # 检查 JSON 文件是否有效
+          if [ ! -s ../../cctv-news.json ]; then
+            echo "❌ 错误：cctv-news.json 为空"
+            exit 1
+          fi
+          
+          # 验证 JSON 格式
+          python3 -c "import json; json.load(open('../../cctv-news.json'))" || {
+            echo "❌ 错误：cctv-news.json 不是有效的 JSON"
+            cat ../../cctv-news.json
+            exit 1
+          }
+          
+          echo "✅ JSON 验证通过"
       
       - name: 📝 生成新闻联播文章
         run: |
@@ -74,7 +92,7 @@ jobs:
       - name: 📥 检出仓库
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT_TOKEN }}
       
       - name: 🐍 设置 Python
         uses: actions/setup-python@v5
@@ -97,9 +115,13 @@ jobs:
           python3 scripts/run-pipeline.py --defaults config/defaults 2>&1 | tee ../../pipeline.log
           
           # 复制合并后的文件
-          cp /tmp/td-merged.json ../../tech-news.json
-          
-          echo "✅ 抓取完成"
+          if [ -f /tmp/td-merged.json ]; then
+            cp /tmp/td-merged.json ../../tech-news.json
+            echo "✅ 抓取完成"
+          else
+            echo "❌ 错误：/tmp/td-merged.json 不存在"
+            exit 1
+          fi
       
       - name: 📝 生成科技日报
         run: |
