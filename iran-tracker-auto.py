@@ -189,6 +189,8 @@ draft: false
             url = news.get('url', '#')
             # Tavily API 返回 content 字段
             snippet = news.get('content', news.get('snippet', '无摘要'))[:300]
+            # 清理摘要中的 # 符号，避免被解析为标题
+            snippet = snippet.replace('# ', '').replace('#', '')
             md_content += f"#### {i}. {title}\n\n"
             md_content += f"**来源**: [{url.split('//')[-1].split('/')[0]}]({url})\n\n"
             md_content += f"> {snippet}...\n\n"
@@ -208,6 +210,8 @@ draft: false
             title = news.get('title', '无标题')
             url = news.get('url', '#')
             snippet = news.get('content', news.get('snippet', '无摘要'))[:300]
+            # 清理摘要中的 # 符号，避免被解析为标题
+            snippet = snippet.replace('# ', '').replace('#', '')
             md_content += f"#### {i}. {title}\n\n"
             md_content += f"**来源**: [{url.split('//')[-1].split('/')[0]}]({url})\n\n"
             md_content += f"> {snippet}...\n\n"
@@ -227,6 +231,8 @@ draft: false
             title = news.get('title', '无标题')
             url = news.get('url', '#')
             snippet = news.get('content', news.get('snippet', '无摘要'))[:300]
+            # 清理摘要中的 # 符号，避免被解析为标题
+            snippet = snippet.replace('# ', '').replace('#', '')
             md_content += f"#### {i}. {title}\n\n"
             md_content += f"**来源**: [{url.split('//')[-1].split('/')[0]}]({url})\n\n"
             md_content += f"> {snippet}...\n\n"
