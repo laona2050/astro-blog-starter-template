@@ -142,8 +142,11 @@ def deduplicate_news(news_list):
 
 def generate_report(news_data, day_num):
     """生成新闻报告"""
-    date_str = datetime.now().strftime("%Y-%m-%d")
-    update_time = datetime.now().strftime("%Y-%m-%d %H:%M UTC")
+    from datetime import timedelta
+    now = datetime.now()
+    date_str = now.strftime("%Y-%m-%d")
+    update_time = now.strftime("%Y-%m-%d %H:%M UTC")
+    beijing_time = (now + timedelta(hours=8)).strftime("%H:%M")
     
     # 统计
     total_count = sum(len(v) for v in news_data.values())
@@ -161,10 +164,10 @@ draft: false
 # 伊朗局势追踪 | Day {day_num}
 
 > **📊 监测范围**: 政治 · 经济 · 军事 · 外交  
-> **🔄 更新频率**: 每小时自动更新  
+> **🔄 更新频率**: 每 6 小时自动更新  
 > **📅 日期**: {date_str}  
-> **⏰ 最后更新**: {update_time}  
-> **🦀 整理**: 帝王蟹自动追踪系统
+> **⏰ 最后更新**: 北京时间 {beijing_time}  
+> **🦀 整理**: 帝王蟹助手自动追踪系统
 
 ---
 
