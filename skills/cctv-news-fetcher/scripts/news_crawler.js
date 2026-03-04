@@ -138,21 +138,23 @@ async function main() {
         date = today.toISOString().slice(0, 10).replace(/-/g, '');
     }
 
-    console.log(`Fetching news for date: ${date}...`);
+    // 调试信息输出到 stderr，避免污染 JSON
+    console.error(`Fetching news for date: ${date}...`);
 
     // Try recent first, as per original logic
     let news = await fetchRecentNews(date);
 
     if (news.length === 0) {
-        console.log("No news found via recent crawler, trying mid...");
+        console.error("No news found via recent crawler, trying mid...");
         news = await fetchMidNews(date);
     }
 
     if (news.length === 0) {
-        console.log("No news found via mid crawler, trying older...");
+        console.error("No news found via mid crawler, trying older...");
         news = await fetchOlderNews(date);
     }
 
+    // 只输出纯 JSON 到 stdout
     console.log(JSON.stringify(news, null, 2));
 }
 
