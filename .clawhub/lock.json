@@ -1,0 +1,277 @@
+{
+  "version": 1,
+  "skills": {
+    "find-skills": {
+      "version": "0.1.0",
+      "installedAt": 1771885528545
+    },
+    "sonoscli": {
+      "version": "1.0.0",
+      "installedAt": 1771726761176
+    },
+    "proactive-agent": {
+      "version": "3.1.0",
+      "installedAt": 1771825391261
+    },
+    "tavily-search": {
+      "version": "1.0.0",
+      "installedAt": 1771825683899
+    },
+    "image-generation": {
+      "version": "1.0.2",
+      "installedAt": 1771840928568
+    },
+    "using-superpowers": {
+      "version": "0.1.0",
+      "installedAt": 1771864285175
+    },
+    "skill-creator": {
+      "version": "0.1.0",
+      "installedAt": 1771864083598
+    },
+    "debug-pro": {
+      "version": "1.0.0",
+      "installedAt": 1771864756632
+    },
+    "pdf": {
+      "version": "0.1.0",
+      "installedAt": 1771860000831
+    },
+    "ppt": {
+      "version": "1.0.0",
+      "installedAt": 1771860362765
+    },
+    "word-docx": {
+      "version": "1.0.0",
+      "installedAt": 1771865221595
+    },
+    "excel-xlsx": {
+      "version": "1.0.1",
+      "installedAt": 1771888089127
+    },
+    "copywriting": {
+      "version": "0.1.0",
+      "installedAt": 1771864684052
+    },
+    "seo": {
+      "version": "1.0.1",
+      "installedAt": 1771864511012
+    },
+    "react-best-practices": {
+      "version": "1.0.0",
+      "installedAt": 1771888027023
+    },
+    "next-best-practices": {
+      "version": "0.1.0",
+      "installedAt": 1771864943746
+    },
+    "ai-image-generation": {
+      "version": "0.1.5",
+      "installedAt": 1771887914169
+    },
+    "agent-browser": {
+      "version": "0.2.0",
+      "installedAt": 1771865286015
+    },
+    "browser-use": {
+      "version": "1.0.2",
+      "installedAt": 1771865479579
+    },
+    "supabase": {
+      "version": "1.0.0",
+      "installedAt": 1771865782081
+    },
+    "content-strategy": {
+      "version": "0.1.0",
+      "installedAt": 1771866006600
+    },
+    "test-patterns": {
+      "version": "1.0.0",
+      "installedAt": 1771866017302
+    },
+    "marketing": {
+      "version": "1.0.0",
+      "installedAt": 1771866066486
+    },
+    "social-content": {
+      "version": "0.1.0",
+      "installedAt": 1771866127247
+    },
+    "writing-plans": {
+      "version": "0.1.0",
+      "installedAt": 1771866130409
+    },
+    "frontend-design": {
+      "version": "1.0.0",
+      "installedAt": 1771866260517
+    },
+    "tailwind-design-system": {
+      "version": "1.0.0",
+      "installedAt": 1771866439032
+    },
+    "ui-ux-pro-max": {
+      "version": "0.1.0",
+      "installedAt": 1771866448947
+    },
+    "avatar": {
+      "version": "1.0.0",
+      "installedAt": 1771888157122
+    },
+    "codex-orchestrator": {
+      "version": "1.0.0",
+      "installedAt": 1771887981310
+    },
+    "image-edit": {
+      "version": "1.0.0",
+      "installedAt": 1771866669099
+    },
+    "linkedin": {
+      "version": "1.0.0",
+      "installedAt": 1771866738581
+    },
+    "resume-builder": {
+      "version": "1.0.0",
+      "installedAt": 1771866741819
+    },
+    "resume-optimizer": {
+      "version": "1.0.1",
+      "installedAt": 1771866788589
+    },
+    "email-best-practices": {
+      "version": "1.0.0",
+      "installedAt": 1771887991660
+    },
+    "imap-smtp-email": {
+      "version": "0.0.2",
+      "installedAt": 1771866848515
+    },
+    "notion": {
+      "version": "1.0.0",
+      "installedAt": 1771866909155
+    },
+    "obsidian": {
+      "version": "1.0.0",
+      "installedAt": 1771866907207
+    },
+    "claude-code": {
+      "version": "1.0.0",
+      "installedAt": 1771866914040
+    },
+    "agentgram-openclaw": {
+      "version": "2.1.0",
+      "installedAt": 1771866963689
+    },
+    "cursor-cli": {
+      "version": "1.1.1",
+      "installedAt": 1771866973452
+    },
+    "vercel-deploy": {
+      "version": "1.0.0",
+      "installedAt": 1771867141549
+    },
+    "agent-ui": {
+      "version": "0.1.5",
+      "installedAt": 1771867153080
+    },
+    "vercel": {
+      "version": "1.0.1",
+      "installedAt": 1771867160255
+    },
+    "playwright": {
+      "version": "1.0.0",
+      "installedAt": 1771867217251
+    },
+    "cicd-pipeline": {
+      "version": "1.0.0",
+      "installedAt": 1771867277046
+    },
+    "openclaw-github-assistant": {
+      "version": "2.0.1",
+      "installedAt": 1771867280788
+    },
+    "gitflow": {
+      "version": "1.0.4",
+      "installedAt": 1771867343405
+    },
+    "github-mcp": {
+      "version": "1.0.0",
+      "installedAt": 1771867388181
+    },
+    "cloudflare-toolkit": {
+      "version": "1.5.0",
+      "installedAt": 1771867513142
+    },
+    "openclaw-cloudflare-secure": {
+      "version": "1.0.0",
+      "installedAt": 1771867520186
+    },
+    "docker": {
+      "version": "1.0.2",
+      "installedAt": 1771867582638
+    },
+    "kubernetes": {
+      "version": "1.0.0",
+      "installedAt": 1771868718485
+    },
+    "payments": {
+      "version": "1.0.0",
+      "installedAt": 1771867749051
+    },
+    "sql": {
+      "version": "1.0.1",
+      "installedAt": 1771867817650
+    },
+    "mongodb": {
+      "version": "1.0.1",
+      "installedAt": 1771867872065
+    },
+    "redis-store": {
+      "version": "1.0.0",
+      "installedAt": 1771888094884
+    },
+    "nodejs-patterns": {
+      "version": "1.0.0",
+      "installedAt": 1771867987928
+    },
+    "javascript": {
+      "version": "1.0.3",
+      "installedAt": 1771868117056
+    },
+    "gowok": {
+      "version": "0.1.1",
+      "installedAt": 1771868166096
+    },
+    "python": {
+      "version": "1.0.0",
+      "installedAt": 1771868181285
+    },
+    "rust": {
+      "version": "1.0.1",
+      "installedAt": 1771888100499
+    },
+    "api": {
+      "version": "1.0.1",
+      "installedAt": 1771868413596
+    },
+    "alchemy-web3": {
+      "version": "1.0.3",
+      "installedAt": 1771887920229
+    },
+    "typescript": {
+      "version": "1.0.2",
+      "installedAt": 1771868481090
+    },
+    "stripe": {
+      "version": "2.3.2",
+      "installedAt": 1771868590013
+    },
+    "graphql": {
+      "version": "1.0.1",
+      "installedAt": 1771868539557
+    },
+    "aws": {
+      "version": "1.0.1",
+      "installedAt": 1771887962117
+    }
+  }
+}

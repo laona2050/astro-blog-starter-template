@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "tavily": {
+      "baseUrl": "https://mcp.tavily.com/mcp/?tavilyApiKey=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"
+    },
+    "jinko": {
+      "baseUrl": "https://mcp.gojinko.com"
+    }
+  },
+  "imports": []
+}
