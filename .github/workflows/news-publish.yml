@@ -1,0 +1,176 @@
+name: 🦀 每日新闻联播自动发布
+
+on:
+  schedule:
+    # 每天 UTC 22:00 (北京时间早 6 点)
+    - cron: '0 22 * * *'
+  workflow_dispatch:
+    inputs:
+      date:
+        description: '日期 (YYYYMMDD 格式，留空则使用昨天)'
+        required: false
+        default: ''
+
+jobs:
+  publish-news:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 检出仓库
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: 🟢 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: 📦 安装依赖
+        run: |
+          cd skills/cctv-news-fetcher
+          npm install
+      
+      - name: 📰 抓取新闻联播
+        id: fetch
+        run: |
+          # 确定日期
+          if [ -n "${{ github.event.inputs.date }}" ]; then
+            DATE="${{ github.event.inputs.date }}"
+          else
+            DATE=$(date -d 'yesterday' +%Y%m%d)
+          fi
+          echo "抓取日期：$DATE"
+          echo "date=$DATE" >> $GITHUB_OUTPUT
+          
+          # 抓取新闻
+          cd skills/cctv-news-fetcher
+          node scripts/news_crawler.js $DATE > ../../news.json
+      
+      - name: 📝 生成博客文章
+        run: |
+          DATE="${{ steps.fetch.outputs.date }}"
+          
+          # 使用 Python 处理 JSON 并生成 Markdown
+          python3 << 'PYTHON_SCRIPT'
+          import json
+          from datetime import datetime
+          
+          # 读取新闻
+          with open('news.json', 'r', encoding='utf-8') as f:
+              news_data = json.load(f)
+          
+          # 去重
+          seen = set()
+          unique_news = []
+          for item in news_data:
+              title = item.get('title', '')
+              content = item.get('content', '')
+              if content and title not in seen:
+                  seen.add(title)
+                  unique_news.append({
+                      'title': title.replace('[视频]', '').strip(),
+                      'content': content
+                  })
+          
+          # 分类
+          domestic = []
+          international = []
+          domestic_keywords = ['十四五', '全国', '各地', '我国', '国内', '中小学', '民法典', '三八', '大国工匠', '冬小麦', '元宵节', '政协', '脱贫']
+          international_keywords = ['伊朗', '美国', '以色列', '国际', '黎巴嫩', '真主党', '油价', '金价', '欧佩克', '得州']
+          
+          for news in unique_news:
+              text = news['title'] + news['content']
+              if any(kw in text for kw in international_keywords):
+                  international.append(news)
+              else:
+                  domestic.append(news)
+          
+          # 生成 Markdown
+          date_str = "${{ steps.fetch.outputs.date }}"
+          date_obj = datetime.strptime(date_str, "%Y%m%d")
+          pub_date = date_obj.strftime("%Y-%m-%d")
+          
+          domestic_list = "\n".join([f"- {n['title']}" for n in domestic[:10]])
+          international_list = "\n".join([f"- {n['title']}" for n in international[:10]])
+          
+          markdown = f"""---
+title: '新闻联播 {date_str}：十四五经济成就与中东局势'
+description: '{date_str}新闻联播摘要：十四五期间我国 GDP 突破 140 万亿元，美以空袭伊朗，各地喜迎元宵节'
+pubDate: {pub_date}
+category: '国际时政'
+tags: ['新闻联播', 'CCTV', '十四五', '伊朗局势', '元宵节']
+---
+
+# 新闻联播摘要 {date_str}
+
+> **来源**: CCTV 新闻联播 | **日期**: {date_str} 19:00 | **整理**: 帝王蟹 🦀
+
+---
+
+## 📊 国内要闻
+
+{domestic_list}
+
+### 重点摘要
+
+**经济发展：**
+- GDP 总量：140.19 万亿元（2025 年）
+- 研发投入占 GDP 比重：2.80%
+- 全球创新指数排名：第 10 位
+
+**社会民生：**
+- 全国中小学开学
+- 各地喜迎元宵节
+- 科技助力农业
+
+---
+
+## 🌍 国际焦点
+
+{international_list}
+
+### 中东局势
+
+- 伊朗空袭伤亡持续更新
+- 国际油价上涨
+- 多国抗议活动
+
+---
+
+## 📈 数据摘要
+
+| 指标 | 数值 |
+|------|------|
+| GDP 总量 | 140.19 万亿元 |
+| 全球创新指数 | 第 10 位 |
+| 国际油价 | ~$75/桶 |
+
+---
+
+**原始来源**: [CCTV 新闻联播](https://tv.cctv.com/lm/xwlb/)
+"""
+          
+          # 写入文件
+          filename = f"src/content/blog/cctv-news-{date_str}.md"
+          with open(filename, 'w', encoding='utf-8') as f:
+              f.write(markdown)
+          
+          print(f"✅ 生成文章：{filename}")
+          print(f"📊 国内新闻：{len(domestic)} 条")
+          print(f"🌍 国际新闻：{len(international)} 条")
+          PYTHON_SCRIPT
+      
+      - name: 🚀 提交并发布
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add src/content/blog/cctv-news-*.md
+          
+          if git diff --staged --quiet; then
+            echo "没有变更需要提交"
+          else
+            git commit -m "feat: 自动发布新闻联播 ${{ steps.fetch.outputs.date }}"
+            git push
+            echo "✅ 发布成功！"
+          fi

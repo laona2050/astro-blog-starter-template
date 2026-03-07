@@ -1,0 +1,372 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<BaseHead title={`关于 | ${SITE_TITLE}`} description="关于老鹏友博客和博主" />
+		<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+	</head>
+	<body>
+		<Header />
+		
+		<main>
+			<!-- Page Header -->
+			<section class="page-header">
+				<div class="header-content">
+					<div class="breadcrumb">
+						<a href="/"><i class="fas fa-home"></i></a>
+						<span class="separator">/</span>
+						<span>关于</span>
+					</div>
+					<h1>关于博客</h1>
+				</div>
+			</section>
+			
+			<!-- About Content -->
+			<section class="about-section">
+				<div class="about-grid">
+					<div class="profile-card">
+						<div class="profile-image">
+							<img src="/logo.jpg" alt="老鹏友" />
+							<div class="profile-badge"><i class="fas fa-anchor"></i></div>
+						</div>
+						<h2>老鹏友</h2>
+						<p class="profile-tagline">云航海家 · 键盘船长 · 游艇研究员</p>
+						<div class="profile-social">
+							<a href="https://github.com/laona2050" target="_blank" rel="noopener" class="social-btn" aria-label="GitHub">
+								<i class="fab fa-github"></i>
+							</a>
+							<a href="mailto:contact@homesh.top" class="social-btn" aria-label="Email">
+								<i class="fas fa-envelope"></i>
+							</a>
+						</div>
+					</div>
+					
+					<div class="about-content">
+						<div class="content-block">
+							<h3><i class="fas fa-compass"></i> 我是老鹏友</h3>
+							<p>
+								一个被大海"洗脑"的中年人。某天在YouTube上看到一个博主开着双体船环游世界，
+								从此就沦陷了——睡觉梦见自己在掌舵，吃饭想着船上的厨房，连洗澡都在研究海水淡化系统。
+							</p>
+							<p style="margin-top: 1em;">
+								目前还在"云航海"阶段（其实就是看别人的视频过干瘾），但认真研究了各种双体动力游艇的参数，
+								从Horizon PC68到Two Oceans 555，从天行者S60e到各种新能源方案，
+								脑子里已经规划了十条环游路线，就差一条船了 💸
+							</p>
+						</div>
+						
+						<div class="content-block">
+							<h3><i class="fas fa-ship"></i> 这个博客写些什么</h3>
+							<p style="margin-bottom: 1em;">
+								既然暂时上不了真船，那就把研究的热情转化为文字，顺便帮和我一样"中毒"的朋友避坑：
+							</p>
+							<ul class="feature-list">
+								<li><i class="fas fa-check"></i> <strong>游艇选购指南</strong> — 40-80尺双体动力游艇参数对比，少走弯路</li>
+								<li><i class="fas fa-check"></i> <strong>新能源船艇</strong> — 电动/混动双体船技术解析，天行者S60e这类热门型号实测</li>
+								<li><i class="fas fa-check"></i> <strong>船上生活</strong> — 太阳能电池板、海水淡化、储能系统...把家搬到海上需要什么</li>
+								<li><i class="fas fa-check"></i> <strong>博主推荐</strong> — 那些在YouTube上真实记录航海生活的狠人们</li>
+								<li><i class="fas fa-check"></i> <strong>航海生活值得吗</strong> — 听听老船员的真心话，别光看我这种键盘航海家的</li>
+							</ul>
+						</div>
+						
+						<div class="content-block">
+							<h3><i class="fas fa-anchor"></i> 为什么叫"老鹏友"</h3>
+							<p>
+								鹏，是古代传说中能飞万里的大鸟。我想做一只能在海上"飞"的鹏——
+								只不过人家用翅膀，我用双体船 🤷‍♂️
+							</p>
+							<p style="margin-top: 1em;">
+								如果你也在研究航海、梦想着某天扬帆出海，欢迎常来坐坐。
+								咱可以一起"云航海"，等有朝一日真上了船，记得喊我一声——
+								<em style="color: var(--accent);">毕竟我都帮你踩过那么多坑了 😄</em>
+							</p>
+						</div>
+						
+						<div class="content-block">
+							<h3><i class="fas fa-paper-plane"></i> 联系老鹏友</h3>
+							<p>
+								有 Yacht 相关的问题？发现了什么好船想分享？或者单纯想吐槽我"云航海"？
+								随时欢迎：
+							</p>
+							<div class="contact-links">
+								<a href="mailto:contact@homesh.top" class="contact-btn">
+									<i class="fas fa-envelope"></i>
+									<span>contact@homesh.top</span>
+								</a>
+								<a href="https://github.com/laona2050" target="_blank" rel="noopener" class="contact-btn">
+									<i class="fab fa-github"></i>
+									<span>GitHub</span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</main>
+		
+		<Footer />
+	</body>
+</html>
+
+<style>
+	/* Page Header */
+	.page-header {
+		padding: 3rem 0 2rem;
+		background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+		margin: 0 -1.5rem 3rem;
+		padding-left: 1.5rem;
+		padding-right: 1.5rem;
+	}
+	
+	@media (max-width: 768px) {
+		.page-header {
+			margin: 0 -1rem 2rem;
+			padding-left: 1rem;
+			padding-right: 1rem;
+		}
+	}
+	
+	.header-content {
+		max-width: 1200px;
+		margin: 0 auto;
+	}
+	
+	.breadcrumb {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		margin-bottom: 1rem;
+		font-size: 0.875rem;
+	}
+	
+	.breadcrumb a {
+		color: rgba(255, 255, 255, 0.8);
+		text-decoration: none;
+		transition: color 0.2s;
+	}
+	
+	.breadcrumb a:hover {
+		color: white;
+	}
+	
+	.breadcrumb .separator {
+		color: rgba(255, 255, 255, 0.5);
+	}
+	
+	.breadcrumb span:last-child {
+		color: white;
+		font-weight: 500;
+	}
+	
+	.page-header h1 {
+		color: white;
+		font-size: 2.5rem;
+		margin: 0;
+		font-family: 'Noto Sans SC', sans-serif;
+	}
+	
+	/* About Section */
+	.about-section {
+		padding: 0 0 4rem;
+	}
+	
+	.about-grid {
+		display: grid;
+		grid-template-columns: 300px 1fr;
+		gap: 3rem;
+		max-width: 1000px;
+		margin: 0 auto;
+	}
+	
+	@media (max-width: 768px) {
+		.about-grid {
+			grid-template-columns: 1fr;
+			gap: 2rem;
+		}
+	}
+	
+	/* Profile Card */
+	.profile-card {
+		background: var(--white);
+		border-radius: 20px;
+		padding: 2rem;
+		text-align: center;
+		box-shadow: var(--shadow-md);
+		height: fit-content;
+		position: sticky;
+		top: 100px;
+	}
+	
+	@media (max-width: 768px) {
+		.profile-card {
+			position: static;
+		}
+	}
+	
+	.profile-image {
+		position: relative;
+		width: 120px;
+		height: 120px;
+		margin: 0 auto 1.5rem;
+	}
+	
+	.profile-image img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border-radius: 50%;
+		border: 4px solid var(--accent);
+	}
+	
+	.profile-badge {
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		width: 36px;
+		height: 36px;
+		background: var(--primary);
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: white;
+		border: 3px solid var(--white);
+	}
+	
+	.profile-card h2 {
+		font-size: 1.5rem;
+		margin: 0 0 0.5rem;
+		color: var(--primary);
+	}
+	
+	.profile-tagline {
+		color: rgb(var(--gray));
+		margin: 0 0 1.5rem;
+		font-size: 0.9rem;
+	}
+	
+	.profile-social {
+		display: flex;
+		justify-content: center;
+		gap: 0.75rem;
+	}
+	
+	.social-btn {
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		background: var(--wave-blue);
+		color: var(--primary);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		text-decoration: none;
+		transition: all 0.2s;
+	}
+	
+	.social-btn:hover {
+		background: var(--primary);
+		color: white;
+		transform: translateY(-2px);
+	}
+	
+	/* About Content */
+	.about-content {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+	}
+	
+	.content-block {
+		background: var(--white);
+		border-radius: 16px;
+		padding: 2rem;
+		box-shadow: var(--shadow-sm);
+	}
+	
+	.content-block h3 {
+		font-size: 1.25rem;
+		color: var(--primary);
+		margin: 0 0 1rem;
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+	}
+	
+	.content-block h3 i {
+		color: var(--accent);
+	}
+	
+	.content-block p {
+		color: rgb(var(--gray-dark));
+		line-height: 1.8;
+		margin: 0;
+	}
+	
+	.feature-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+	}
+	
+	.feature-list li {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		color: rgb(var(--gray-dark));
+	}
+	
+	.feature-list i {
+		color: var(--accent);
+		width: 20px;
+	}
+	
+	.contact-links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem;
+		margin-top: 1.5rem;
+	}
+	
+	.contact-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.75rem 1.25rem;
+		background: var(--wave-blue);
+		color: var(--primary);
+		border-radius: 8px;
+		text-decoration: none;
+		font-weight: 500;
+		transition: all 0.2s;
+	}
+	
+	.contact-btn:hover {
+		background: var(--primary);
+		color: white;
+	}
+	
+	@media (max-width: 640px) {
+		.page-header h1 {
+			font-size: 1.875rem;
+		}
+		
+		.content-block {
+			padding: 1.5rem;
+		}
+		
+		.contact-links {
+			flex-direction: column;
+		}
+	}
+</style>

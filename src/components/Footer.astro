@@ -1,0 +1,149 @@
+---
+const today = new Date();
+---
+
+<footer>
+	<div class="footer-content">
+		<div class="footer-brand">
+			<img src="/logo.jpg" alt="Logo" class="footer-logo" />
+			<p class="tagline">探索海洋，分享生活</p>
+		</div>
+		
+		<div class="footer-links">
+			<a href="/" class="footer-link">首页</a>
+			<a href="/blog" class="footer-link">文章</a>
+			<a href="/about" class="footer-link">关于</a>
+		</div>
+		
+		<div class="footer-social">
+			<a href="https://github.com/laona2050" target="_blank" rel="noopener" class="social-link" aria-label="GitHub">
+				<i class="fab fa-github"></i>
+			</a>
+			<a href="mailto:contact@homesh.top" class="social-link" aria-label="Email">
+				<i class="fas fa-envelope"></i>
+			</a>
+			<a href="/rss.xml" class="social-link" aria-label="RSS">
+				<i class="fas fa-rss"></i>
+			</a>
+		</div>
+	</div>
+	
+	<div class="footer-bottom">
+		<p>&copy; {today.getFullYear()} 老鹏友博客 · 扬帆起航 🚢</p>
+	</div>
+</footer>
+
+<style>
+	footer {
+		margin-top: 4rem;
+		background: linear-gradient(180deg, var(--primary-dark) 0%, var(--primary) 100%);
+		color: rgba(255, 255, 255, 0.9);
+	}
+	
+	.footer-content {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 3rem 1.5rem 2rem;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 2rem;
+		align-items: center;
+	}
+	
+	@media (max-width: 768px) {
+		.footer-content {
+			grid-template-columns: 1fr;
+			text-align: center;
+			gap: 1.5rem;
+			padding: 2rem 1rem 1.5rem;
+		}
+	}
+	
+	.footer-brand {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.5rem;
+	}
+	
+	@media (max-width: 768px) {
+		.footer-brand {
+			align-items: center;
+		}
+	}
+	
+	.footer-logo {
+		width: 50px;
+		height: 50px;
+		border-radius: 50%;
+		border: 2px solid var(--accent);
+		object-fit: cover;
+	}
+	
+	.tagline {
+		margin: 0;
+		font-size: 0.9rem;
+		opacity: 0.8;
+		font-style: italic;
+	}
+	
+	.footer-links {
+		display: flex;
+		justify-content: center;
+		gap: 1.5rem;
+	}
+	
+	.footer-link {
+		color: rgba(255, 255, 255, 0.8);
+		text-decoration: none;
+		font-weight: 500;
+		transition: color 0.2s;
+	}
+	
+	.footer-link:hover {
+		color: var(--accent);
+	}
+	
+	.footer-social {
+		display: flex;
+		justify-content: flex-end;
+		gap: 1rem;
+	}
+	
+	@media (max-width: 768px) {
+		.footer-social {
+			justify-content: center;
+		}
+	}
+	
+	.social-link {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		background: rgba(255, 255, 255, 0.1);
+		color: white;
+		text-decoration: none;
+		transition: all 0.2s;
+	}
+	
+	.social-link:hover {
+		background: var(--accent);
+		color: var(--primary-dark);
+		transform: translateY(-2px);
+	}
+	
+	.footer-bottom {
+		border-top: 1px solid rgba(255, 255, 255, 0.1);
+		padding: 1.5rem;
+		text-align: center;
+	}
+	
+	.footer-bottom p {
+		margin: 0;
+		font-size: 0.875rem;
+		opacity: 0.7;
+	}
+</style>

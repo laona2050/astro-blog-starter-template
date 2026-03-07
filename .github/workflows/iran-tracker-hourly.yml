@@ -1,0 +1,63 @@
+name: 🇮🇷 伊朗局势追踪（每 6 小时）
+
+permissions:
+  contents: write
+
+on:
+  schedule:
+    # 每 6 小时执行一次（UTC 时间 0:00, 6:00, 12:00, 18:00）
+    # 对应北京时间：8:00, 14:00, 20:00, 次日 2:00
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+    inputs:
+      force_new_day:
+        description: '强制开始新的一天 (true/false)'
+        required: false
+        default: 'false'
+
+jobs:
+  iran-tracker:
+    runs-on: ubuntu-latest
+    name: 伊朗局势追踪（6 小时间隔）
+    
+    steps:
+      - name: 📥 检出仓库
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true
+          fetch-depth: 0
+      
+      - name: 🐍 设置 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: 📦 安装依赖
+        run: |
+          pip install requests
+      
+      - name: 🇮🇷 运行追踪脚本
+        run: |
+          python3 iran-tracker-auto.py
+        env:
+          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
+      
+      - name: 🚀 提交并发布
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          
+          # 配置 token 用于推送
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          
+          git add src/content/blog/iran-tracker-*.md
+          git add iran-tracker-state.json
+          
+          if git diff --staged --quiet; then
+            echo "没有变更需要提交"
+          else
+            git commit -m "chore: 自动更新伊朗局势追踪 $(date -Iminutes)"
+            git push origin main
+            echo "✅ 发布成功！"
+          fi

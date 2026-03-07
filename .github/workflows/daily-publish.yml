@@ -1,0 +1,144 @@
+name: 🦀 每日自动发布 (新闻联播 + 科技日报)
+
+on:
+  schedule:
+    # 每天 UTC 22:00 (北京时间早 6 点)
+    - cron: '0 22 * * *'
+  workflow_dispatch:
+    inputs:
+      date:
+        description: '日期 (YYYYMMDD 格式，留空则使用昨天)'
+        required: false
+        default: ''
+
+env:
+  GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+
+jobs:
+  # ========== 任务 1: 发布新闻联播 ==========
+  publish-cctv-news:
+    runs-on: ubuntu-latest
+    name: 📺 新闻联播
+    
+    steps:
+      - name: 📥 检出仓库
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+      
+      - name: 🟢 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: 📦 安装依赖
+        run: |
+          cd skills/cctv-news-fetcher
+          npm install
+      
+      - name: 📰 抓取新闻联播
+        id: cctv-fetch
+        run: |
+          if [ -n "${{ github.event.inputs.date }}" ]; then
+            DATE="${{ github.event.inputs.date }}"
+          else
+            DATE=$(date -d 'yesterday' +%Y%m%d)
+          fi
+          echo "抓取日期：$DATE"
+          echo "date=$DATE" >> $GITHUB_OUTPUT
+          
+          cd skills/cctv-news-fetcher
+          node scripts/news_crawler.js $DATE > ../../cctv-news.json
+          
+          # 检查 JSON 文件是否有效
+          if [ ! -s ../../cctv-news.json ]; then
+            echo "❌ 错误：cctv-news.json 为空"
+            exit 1
+          fi
+          
+          # 验证 JSON 格式
+          python3 -c "import json; json.load(open('../../cctv-news.json'))" || {
+            echo "❌ 错误：cctv-news.json 不是有效的 JSON"
+            cat ../../cctv-news.json
+            exit 1
+          }
+          
+          echo "✅ JSON 验证通过"
+      
+      - name: 📝 生成新闻联播文章
+        run: |
+          python3 scripts/generate-cctv-news.py "${{ steps.cctv-fetch.outputs.date }}"
+      
+      - name: 🚀 提交并发布
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add src/content/blog/cctv-news-*.md
+          
+          if git diff --staged --quiet; then
+            echo "没有变更需要提交"
+          else
+            git commit -m "feat: 自动发布新闻联播 ${{ steps.cctv-fetch.outputs.date }}"
+            git pull --rebase --strategy-option=theirs || true
+            git push
+            echo "✅ 发布成功！"
+          fi
+
+  # ========== 任务 2: 发布科技日报 ==========
+  publish-tech-digest:
+    runs-on: ubuntu-latest
+    name: 💻 科技日报
+    
+    steps:
+      - name: 📥 检出仓库
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+      
+      - name: 🐍 设置 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: 📦 安装依赖
+        run: |
+          cd skills/tech-news-digest
+          pip install -r requirements.txt
+      
+      - name: 💻 抓取科技新闻
+        id: tech-fetch
+        run: |
+          DATE=$(date -d 'yesterday' +%Y%m%d)
+          echo "抓取日期：$DATE"
+          echo "date=$DATE" >> $GITHUB_OUTPUT
+          
+          cd skills/tech-news-digest
+          python3 scripts/run-pipeline.py --defaults config/defaults 2>&1 | tee ../../pipeline.log
+          
+          # 复制合并后的文件
+          if [ -f /tmp/td-merged.json ]; then
+            cp /tmp/td-merged.json ../../tech-news.json
+            echo "✅ 抓取完成"
+          else
+            echo "❌ 错误：/tmp/td-merged.json 不存在"
+            exit 1
+          fi
+      
+      - name: 📝 生成科技日报
+        run: |
+          python3 scripts/generate-tech-digest.py "${{ steps.tech-fetch.outputs.date }}"
+      
+      - name: 🚀 提交并发布
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add src/content/blog/tech-digest-*.md
+          
+          if git diff --staged --quiet; then
+            echo "没有变更需要提交"
+          else
+            git commit -m "feat: 自动发布科技日报 ${{ steps.tech-fetch.outputs.date }}"
+            git pull --rebase --strategy-option=theirs || true
+            git push
+            echo "✅ 发布成功！"
+          fi
