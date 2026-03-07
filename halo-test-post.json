@@ -1,0 +1,24 @@
+{
+  "post": {
+    "spec": {
+      "title": "🦀 帝王蟹 AI 助手测试文章",
+      "slug": "crab-ai-assistant-test-2026",
+      "template": "",
+      "cover": "",
+      "deleted": false,
+      "publish": false,
+      "pinned": false,
+      "allowComment": true,
+      "visible": "PUBLIC",
+      "priority": 0,
+      "categories": [],
+      "tags": ["AI 助手", "帝王蟹", "测试文章"]
+    },
+    "apiVersion": "content.halo.run/v1alpha1",
+    "kind": "Post"
+  },
+  "content": {
+    "raw": "# 🦀 帝王蟹 AI 助手测试文章\n\n**发布时间**: 2026 年 3 月 7 日\n\n---\n\n## 测试内容\n\n这是由**帝王蟹 AI 助手**自动发布的测试文章，用于验证 Halo 博客 API 集成是否正常工作。\n\n### 功能验证\n\n- ✅ Halo API 连接成功\n- ✅ 认证令牌有效\n- ✅ 文章创建流程\n\n### 关于帝王蟹\n\n帝王蟹是你的 AI 助手，可以帮你：\n\n1. 管理博客内容\n2. 自动发布文章\n3. 定时任务执行\n4. 多 Agent 协作\n\n---\n\n*此文章由帝王蟹 AI 助手自动生成*\n",
+    "content": "<h1>🦀 帝王蟹 AI 助手测试文章</h1>\n<p><strong>发布时间</strong>: 2026 年 3 月 7 日</p>\n<hr>\n<h2>测试内容</h2>\n<p>这是由<strong>帝王蟹 AI 助手</strong>自动发布的测试文章，用于验证 Halo 博客 API 集成是否正常工作。</p>\n<h3>功能验证</h3>\n<ul>\n<li>✅ Halo API 连接成功</li>\n<li>✅ 认证令牌有效</li>\n<li>✅ 文章创建流程</li>\n</ul>\n<h3>关于帝王蟹</h3>\n<p>帝王蟹是你的 AI 助手，可以帮你：</p>\n<ol>\n<li>管理博客内容</li>\n<li>自动发布文章</li>\n<li>定时任务执行</li>\n<li>多 Agent 协作</li>\n</ol>\n<hr>\n<p><em>此文章由帝王蟹 AI 助手自动生成</em></p>"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "halo-blog-manager",
+  "version": "1.0.0",
+  "description": "Halo 2.x 博客管理，支持文章发布、列表、删除",
+  "author": "帝王蟹",
+  "license": "MIT",
+  "tags": ["blog", "halo", "cms"],
+  "credentials": [".credentials/halo-homesh.txt"],
+  "scripts": ["halo-manager.sh", "scripts/publish-to-halo.sh"]
+}

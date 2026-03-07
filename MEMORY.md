@@ -2,15 +2,17 @@
 
 ## 博客管理
 
+### 博客 1：WordPress（本地主博客）
+
 **博客信息：**
-- 网址：https://homesh.top/
-- GitHub 仓库：https://github.com/laona2050/astro-blog-starter-template
-- 托管：Cloudflare Pages
-- 框架：Astro
+- 网址：http://192.168.0.5:8088
+- 框架：WordPress
+- 用户：hitere (Administrator)
+- 作者名：老鹏友
 
 **认证信息：**
-- GitHub Token: 已配置 (ghp_*)
-- Git 用户：帝王蟹 <laona2050@users.noreply.github.com>
+- 应用密码：已配置 (`~/.openclaw/workspace/.credentials/wordpress-192.168.0.5-8088.txt`)
+- API：`/wp-json/wp/v2` 已启用
 
 **管理权限：**
 - ✅ 自动管理博客文章和分类
@@ -18,14 +20,37 @@
 - ✅ 发布新闻联播等定时内容
 - ✅ 不需要每次都询问，直接操作即可
 
-**目录结构：**
-- 文章：`src/content/blog/` (.md 或 .mdx)
-- 图片：`public/` 或 `src/assets/`
-- 部署：Git push 后 Cloudflare 自动部署
+**分类：**
+- 房车
+- 新闻
+- 游艇
+- 服务器
 
 **定时任务：**
 - ✅ 每天早上 6 点（北京时间/UTC 22:00）获取 CCTV 新闻联播并发布
-- 脚本：`/home/node/.openclaw/workspace/scripts/daily-cctv-news.sh`
+
+---
+
+### 博客 2：Cloudflare Astro（公开，已弃用）
+
+**博客信息：**
+- 网址：https://homesh.top/
+- GitHub 仓库：https://github.com/laona2050/astro-blog-starter-template
+- 托管：Cloudflare Pages
+- 框架：Astro
+
+**状态：** ⚠️ 已弃用，不再使用
+
+---
+
+### 博客 3：Halo（本地，已弃用）
+
+**博客信息：**
+- 本地地址：http://192.168.0.5:8090
+- 外部地址：https://web.homesh.top/
+- 框架：Halo 2.x
+
+**状态：** ⚠️ 已弃用，不再使用
 
 ---
 
