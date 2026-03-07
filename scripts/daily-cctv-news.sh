@@ -21,11 +21,10 @@ cd "$WORKSPACE"
 cat > "src/content/blog/cctv-news-$YESTERDAY_NO_DASH.md" << EOF
 ---
 title: "新闻联播 $YESTERDAY_NO_DASH：十四五经济成就与中东局势"
-summary: "$YESTERDAY_NO_DASH 新闻联播摘要：十四五期间我国 GDP 突破 140 万亿元，美以空袭伊朗，各地喜迎元宵节"
+description: "$YESTERDAY_NO_DASH 新闻联播摘要：十四五期间我国 GDP 突破 140 万亿元，美以空袭伊朗，各地喜迎元宵节"
 pubDate: $YESTERDAY
-category: 时政
+category: 国际时政
 tags: [新闻联播，CCTV，时政]
-draft: false
 ---
 
 ## 新闻联播摘要 $YESTERDAY_NO_DASH
