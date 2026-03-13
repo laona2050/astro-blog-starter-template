@@ -7,6 +7,12 @@ set -e
 WORKSPACE="/home/node/.openclaw/workspace"
 DATE=$(date -d "yesterday" +%Y%m%d)
 DATE_FORMATTED=$(date -d "yesterday" +%Y-%m-%d)
+
+# Allow override via argument
+if [ -n "$1" ]; then
+    DATE_FORMATTED="$1"
+    DATE=$(echo "$1" | tr -d '-')
+fi
 OUTPUT_DIR="$WORKSPACE/src/content/blog"
 
 echo "📺 获取 CCTV 新闻联播 - $DATE_FORMATTED"

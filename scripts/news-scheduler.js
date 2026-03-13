@@ -9,7 +9,7 @@ const { exec } = require('child_process');
 const path = require('path');
 
 const WORKSPACE = process.env.HOME + '/.openclaw/workspace';
-const SCRIPT = path.join(WORKSPACE, 'scripts/fetch-cctv-news.sh');
+const SCRIPT = path.join(WORKSPACE, 'scripts/publish-cctv-wordpress.sh');
 
 console.log('🦀 新闻联播调度器已启动');
 console.log('⏰ 定时：每天 UTC 22:00 (北京时间 6:00)');

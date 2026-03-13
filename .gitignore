@@ -201,3 +201,9 @@ dist
 ### Astro ###
 .astro/
 skills/*/node_modules/
+
+# Credentials (sensitive)
+.credentials/
+
+# Learnings
+.learnings/

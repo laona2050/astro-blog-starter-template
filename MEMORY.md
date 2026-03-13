@@ -54,35 +54,50 @@
 
 ---
 
-## ⚠️ 重要错误记录 - Astro Frontmatter Schema
+## ⚠️ 重要错误记录 - Astro Frontmatter Schema（多次踩坑！）
 
-**踩坑日期**：2026-03-07
+**踩坑日期**：2026-03-07、**2026-03-13（再次犯错！）**
+
+**🔴 严重性**：已犯多次，必须每次检查！
 
 **错误原因**：新闻联播文章 frontmatter 不符合 Astro content schema
 
-**正确格式**：
+**✅ 正确格式（必须严格遵守）**：
 ```yaml
 ---
-title: "文章标题"
-description: "摘要描述（必需！）"
-pubDate: 2026-03-06
-category: 国际时政  # 只能是：'航海' | '国际时政' | '生活思考'
-tags: [标签，数组]
+title: "新闻联播 20260313"           # 必需！双引号包裹
+description: "CCTV 新闻联播每日摘要 - 2026-03-13"  # 必需！不能用 summary
+pubDate: 2026-03-13                  # 必需！YYYY-MM-DD 格式
+category: '国际时政'                  # 只能是：'航海' | '国际时政' | '生活思考'
+tags: ['新闻联播', 'CCTV', '时政']    # 数组格式，字符串用引号
 ---
 ```
 
-**常见错误**：
+**❌ 常见错误（每次都要检查！）**：
 ```yaml
-# ❌ 错误示例
-category: 时政      # 必须是 "国际时政"
-summary: xxx        # 字段名是 "description" 不是 "summary"
-draft: false        # 不需要，默认就是 false
+# 错误 1：category 值不对
+category: 时政      # ❌ 必须是 "国际时政"
+
+# 错误 2：字段名错误
+summary: xxx        # ❌ 字段名是 "description" 不是 "summary"
+
+# 错误 3：不需要 draft
+draft: false        # ❌ 不需要，默认就是 false
+
+# 错误 4：tags 格式不对
+tags: [新闻联播，CCTV, 时政]  # ❌ 应该用引号：['新闻联播', 'CCTV', '时政']
 ```
 
-**已修复**：
-- ✅ `src/content/blog/cctv-news-20260306.md` 已修正
-- ✅ `scripts/daily-cctv-news.sh` 脚本已更新
-- ✅ 以后自动生成正确格式
+**✅ 修复记录**：
+- 2026-03-07: `cctv-news-20260306.md` 已修正
+- 2026-03-13: `cctv-news-2026-03-07.md`、`cctv-news-2026-03-08.md` 已修正
+
+**📋 检查清单（每次生成新闻文章前必须核对）**：
+- [ ] `title` 字段存在且用双引号
+- [ ] `description` 字段存在（不是 `summary`）
+- [ ] `pubDate` 是 YYYY-MM-DD 格式
+- [ ] `category` 是 `'航海'`、`'国际时政'` 或 `'生活思考'`
+- [ ] `tags` 是数组且字符串用引号包裹
 
 ---
 
@@ -91,7 +106,7 @@ draft: false        # 不需要，默认就是 false
 - 名字：老板 / 老鹏友
 - Telegram: @peterabc1 (ID: 1012893020)
 - 机器人：@s2501_bot (帝王蟹)
-- 时区：UTC+8（北京时间）
+- 时区：UTC+8（北京时间）— 永远按这个时区判断早晚
 - 技能安装偏好：GitHub 直装 > clawhub API（因为 clawhub 限流严重）
 
 ---

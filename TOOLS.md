@@ -64,10 +64,16 @@ curl -u "hitere:应用密码" \
 **配置:**
 ```
 环境变量：TAVILY_API_KEY
+位置：~/.openclaw/workspace/.env
+API Key: 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 (已配置)
 ```
 
 **使用方法:**
 ```bash
+# 使用 web_search 工具（推荐）
+web_search(query="查询内容")
+
+# 或使用技能脚本
 node ~/.openclaw/workspace/skills/tavily-search/scripts/search.mjs "查询内容"
 node ~/.openclaw/workspace/skills/tavily-search/scripts/search.mjs "查询" -n 10
 ```
@@ -76,6 +82,8 @@ node ~/.openclaw/workspace/skills/tavily-search/scripts/search.mjs "查询" -n 1
 - `-n <数量>`: 结果数量 (默认 5，最多 20)
 - `--deep`: 深度搜索
 - `--topic news`: 新闻搜索
+
+**测试:** ✅ API 验证通过 (2026-03-10)
 
 ---
 
