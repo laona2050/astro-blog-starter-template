@@ -149,16 +149,24 @@ const totalPosts = posts.length;
 		align-items: center;
 		gap: 0.5rem;
 		padding: 0.5rem 1rem;
-		background: var(--wave-blue);
-		color: var(--primary);
+		background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(245, 158, 11, 0.2) 100%);
+		color: var(--accent-light);
 		border-radius: 50px;
 		font-size: 0.875rem;
 		font-weight: 500;
 		margin-bottom: 1.5rem;
+		border: 1px solid rgba(245, 158, 11, 0.3);
+		box-shadow: 0 0 20px rgba(245, 158, 11, 0.2);
 	}
 	
 	.hero-badge i {
 		color: var(--accent);
+		animation: pulse 2s ease-in-out infinite;
+	}
+	
+	@keyframes pulse {
+		0%, 100% { opacity: 1; }
+		50% { opacity: 0.6; }
 	}
 	
 	.hero-title {
@@ -167,14 +175,17 @@ const totalPosts = posts.length;
 		margin-bottom: 1rem;
 		line-height: 1.2;
 		font-family: 'Noto Sans SC', sans-serif;
+		color: var(--white);
+		text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 	}
 	
 	.hero-title .highlight {
-		background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 50%, var(--accent) 100%);
+		background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 50%, #fcd34d 100%);
 		-webkit-background-clip: text;
 		-webkit-text-fill-color: transparent;
 		background-clip: text;
 		font-family: 'Playfair Display', serif;
+		text-shadow: none;
 	}
 	
 	@media (max-width: 768px) {
@@ -215,7 +226,10 @@ const totalPosts = posts.length;
 	.stat-number {
 		font-size: 1.75rem;
 		font-weight: 700;
-		color: var(--primary);
+		background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
 	}
 	
 	.stat-label {
@@ -226,7 +240,7 @@ const totalPosts = posts.length;
 	.stat-divider {
 		width: 1px;
 		height: 40px;
-		background: rgb(var(--gray-light));
+		background: linear-gradient(180deg, transparent 0%, var(--accent) 50%, transparent 100%);
 	}
 	
 	.hero-actions {
@@ -272,12 +286,13 @@ const totalPosts = posts.length;
 		align-items: center;
 		gap: 0.5rem;
 		padding: 0.5rem 1rem;
-		background: var(--wave-blue);
-		color: var(--primary);
+		background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(245, 158, 11, 0.2) 100%);
+		color: var(--accent-light);
 		border-radius: 50px;
 		font-size: 0.875rem;
 		font-weight: 500;
 		margin-bottom: 1rem;
+		border: 1px solid rgba(245, 158, 11, 0.3);
 	}
 	
 	.section-tag i {
@@ -286,8 +301,9 @@ const totalPosts = posts.length;
 	
 	.section-header h2 {
 		font-size: 2rem;
-		color: var(--primary);
+		color: var(--accent);
 		margin: 0;
+		text-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
 	}
 	
 	/* Posts Grid */
@@ -305,7 +321,7 @@ const totalPosts = posts.length;
 	}
 	
 	.post-card {
-		background: var(--white);
+		background: linear-gradient(135deg, var(--wave-gray) 0%, var(--primary-light) 100%);
 		border-radius: 16px;
 		box-shadow: var(--shadow-md);
 		overflow: hidden;
@@ -313,6 +329,7 @@ const totalPosts = posts.length;
 		opacity: 0;
 		animation: fadeInUp 0.6s ease forwards;
 		animation-delay: var(--delay, 0s);
+		border: 1px solid rgba(245, 158, 11, 0.1);
 	}
 	
 	@keyframes fadeInUp {
@@ -327,8 +344,9 @@ const totalPosts = posts.length;
 	}
 	
 	.post-card:hover {
-		box-shadow: var(--shadow-xl);
+		box-shadow: var(--shadow-xl), 0 0 30px rgba(245, 158, 11, 0.2);
 		transform: translateY(-4px);
+		border-color: rgba(245, 158, 11, 0.3);
 	}
 	
 	.post-link {
@@ -367,14 +385,15 @@ const totalPosts = posts.length;
 	.post-title {
 		font-size: 1.125rem;
 		font-weight: 600;
-		color: var(--primary);
+		color: var(--accent-light);
 		margin: 0 0 0.75rem 0;
 		line-height: 1.4;
-		transition: color 0.2s;
+		transition: all 0.2s;
 	}
 	
 	.post-card:hover .post-title {
-		color: var(--primary-light);
+		color: var(--accent);
+		text-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
 	}
 	
 	.post-excerpt {
@@ -395,13 +414,14 @@ const totalPosts = posts.length;
 		gap: 0.5rem;
 		font-size: 0.875rem;
 		font-weight: 500;
-		color: var(--primary);
-		transition: gap 0.2s;
+		color: var(--accent-light);
+		transition: all 0.2s;
 	}
 	
 	.post-card:hover .read-more {
 		gap: 0.75rem;
 		color: var(--accent);
+		text-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
 	}
 	
 	.section-footer {

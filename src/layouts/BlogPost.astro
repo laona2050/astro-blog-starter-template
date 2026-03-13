@@ -17,9 +17,11 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 		<style>
 			.article-header {
-				background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+				background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--ocean-blue) 100%);
 				padding: 3rem 1.5rem;
 				margin: 0 -1.5rem 2rem;
+				border-bottom: 2px solid var(--accent);
+				box-shadow: 0 0 40px rgba(245, 158, 11, 0.2);
 			}
 			
 			@media (max-width: 768px) {
@@ -43,28 +45,31 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 			}
 			
 			.breadcrumb a {
-				color: rgba(255, 255, 255, 0.8);
+				color: var(--accent-light);
 				text-decoration: none;
+				transition: all 0.2s;
 			}
 			
 			.breadcrumb a:hover {
-				color: white;
+				color: var(--accent);
+				text-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
 			}
 			
 			.breadcrumb .separator {
-				color: rgba(255, 255, 255, 0.5);
+				color: rgba(245, 158, 11, 0.5);
 			}
 			
 			.breadcrumb span {
-				color: rgba(255, 255, 255, 0.9);
+				color: rgba(245, 158, 11, 0.9);
 			}
 			
 			.article-title {
-				color: white;
+				color: var(--accent);
 				font-size: 2rem;
 				margin: 0 0 1rem 0;
 				line-height: 1.3;
 				font-family: 'Noto Sans SC', sans-serif;
+				text-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
 			}
 			
 			@media (min-width: 768px) {
@@ -78,7 +83,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				align-items: center;
 				gap: 1.5rem;
 				flex-wrap: wrap;
-				color: rgba(255, 255, 255, 0.8);
+				color: var(--accent-light);
 				font-size: 0.9rem;
 			}
 			
@@ -107,7 +112,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 			.hero-image img {
 				width: 100%;
 				border-radius: 16px;
-				box-shadow: var(--shadow-lg);
+				box-shadow: var(--shadow-lg), 0 0 30px rgba(245, 158, 11, 0.15);
 			}
 			
 			/* Article Content */
@@ -140,12 +145,14 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				padding-bottom: 0.5rem;
 				border-bottom: 2px solid var(--accent);
 				display: inline-block;
+				color: var(--accent);
 			}
 			
 			.prose h3 {
 				font-size: 1.375rem;
 				margin-top: 2rem;
 				margin-bottom: 0.75rem;
+				color: var(--accent-light);
 			}
 			
 			.prose ul, .prose ol {
@@ -159,7 +166,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 			
 			.prose img {
 				border-radius: 12px;
-				box-shadow: var(--shadow-md);
+				box-shadow: var(--shadow-md), 0 0 20px rgba(245, 158, 11, 0.1);
 				margin: 1.5rem 0;
 			}
 			
@@ -167,7 +174,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 			.article-footer {
 				margin-top: 4rem;
 				padding-top: 2rem;
-				border-top: 1px solid rgb(var(--gray-light));
+				border-top: 1px solid var(--wave-gray);
 			}
 			
 			.back-link {
@@ -175,17 +182,20 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				align-items: center;
 				gap: 0.5rem;
 				padding: 0.75rem 1.25rem;
-				background: var(--wave-blue);
-				color: var(--primary);
+				background: linear-gradient(135deg, var(--wave-gray) 0%, var(--primary-light) 100%);
+				color: var(--accent-light);
 				border-radius: 8px;
 				font-weight: 500;
 				text-decoration: none;
-				transition: all 0.2s;
+				transition: all 0.3s;
+				border: 1px solid rgba(245, 158, 11, 0.2);
 			}
 			
 			.back-link:hover {
-				background: var(--primary);
-				color: white;
+				background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+				color: var(--primary-dark);
+				box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
+				transform: translateY(-2px);
 			}
 		</style>
 	</head>
