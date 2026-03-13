@@ -101,6 +101,89 @@ tags: [新闻联播，CCTV, 时政]  # ❌ 应该用引号：['新闻联播', 'C
 
 ---
 
+## ⚠️ 重要错误记录 - Cloudflare Pages 部署问题（2026-03-13）
+
+**踩坑日期**：2026-03-13
+
+**🔴 问题 1：GitHub 分支错误**
+
+**症状**：本地构建成功，推送到 GitHub 后 Cloudflare Pages 不部署
+
+**根因**：
+- GitHub 仓库默认分支：`main`
+- 本地推送分支：`master`
+- Cloudflare Pages 监听：`main` 分支
+
+**✅ 解决方案**：
+```bash
+# 推送到正确的分支
+git checkout master
+git branch -D main          # 删除旧的 main 分支
+git branch -m main          # master 重命名为 main
+git push -f origin main     # 强制推送到 main
+```
+
+**检查清单**：
+- [ ] 确认 GitHub 默认分支：`curl -s "https://api.github.com/repos/laona2050/astro-blog-starter-template" | grep '"default_branch"'`
+- [ ] 确认 Cloudflare Pages 监听分支：Cloudflare Dashboard → Pages → homesh.top → Settings → Git → Production branch
+- [ ] 推送前确认本地分支：`git branch`
+
+---
+
+**🔴 问题 2：Git Submodules 导致构建失败**
+
+**症状**：Cloudflare Pages 构建日志显示 `error occurred while updating repository submodules`
+
+**根因**：
+- skills 目录下 14 个技能是独立的 git 仓库（git submodule，160000 模式）
+- Cloudflare Pages 不支持 git submodules
+
+**受影响的技能**：
+```
+skills/agent-reach, skills/find-skills, skills/github, skills/gog,
+skills/healthcheck, skills/polymarket, skills/self-improving-agent,
+skills/summarize, skills/tech-news-digest, skills/weather,
+skills/wechat-publisher, skills/x-reader, skills/youtube-transcript,
+skills/zhihu-post
+```
+
+**✅ 解决方案**：
+```bash
+# 移除子模块索引，改为普通目录
+git rm --cached skills/agent-reach skills/find-skills ... (所有子模块)
+git add -A
+git commit -m "fix: 移除 skills 子模块，改为普通目录"
+git push
+```
+
+**预防措施**：
+- 不要将 skills 目录作为 git submodule 添加到博客仓库
+- 如果 skills 需要独立版本控制，使用 git subtree 或单独仓库
+
+---
+
+**🔴 问题 3：Cloudflare Pages 构建延迟**
+
+**症状**：推送后超过 30 分钟仍未部署
+
+**可能原因**：
+1. 构建队列延迟（Cloudflare 免费账户有队列限制）
+2. 构建失败但未通知
+3. 分支配置错误
+
+**✅ 排查步骤**：
+1. 登录 Cloudflare Dashboard → Pages → homesh.top
+2. 查看 "Deployments" 标签页
+3. 点击最新部署查看构建日志
+4. 如失败，点击 "Retry deployment"
+
+**构建配置检查**：
+- **Build command:** `npm run build`
+- **Build output directory:** `dist`
+- **Production branch:** `main`
+
+---
+
 ## 用户偏好
 
 - 名字：老板 / 老鹏友
