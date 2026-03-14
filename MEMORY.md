@@ -2,48 +2,46 @@
 
 ## 博客管理
 
-### 博客 1：WordPress（本地主博客）
+### 主博客：Cloudflare Astro（homesh.top）
 
 **博客信息：**
-- 网址：http://192.168.0.5:8088
-- 框架：WordPress
-- 用户：hitere (Administrator)
-- 作者名：老鹏友
+- 网址：**https://homesh.top/**
+- GitHub 仓库：https://github.com/laona2050/astro-blog-starter-template
+- 托管：Cloudflare Pages
+- 框架：Astro
+- 主题：航海家深色主题（深海蓝 + 金色罗盘点缀）
 
-**认证信息：**
-- 应用密码：已配置 (`~/.openclaw/workspace/.credentials/wordpress-192.168.0.5-8088.txt`)
-- API：`/wp-json/wp/v2` 已启用
-
-**管理权限：**
-- ✅ 自动管理博客文章和分类
-- ✅ 调整 UI、上传图片
-- ✅ 发布新闻联播等定时内容
-- ✅ 不需要每次都询问，直接操作即可
+**发布流程：**
+1. 文章保存到 `src/content/blog/xxx.md`
+2. 执行 `npm run build` 构建
+3. Git 推送到 GitHub main 分支
+4. Cloudflare Pages 自动部署（2-5 分钟）
 
 **分类：**
-- 房车
-- 新闻
-- 游艇
-- 服务器
+- 航海（游艇、双体船、帆船）
+- 国际时政（新闻联播、时政分析）
+- 生活思考（航海生活、个人成长）
+- 科技（AI、数字化、技术调研）
 
 **定时任务：**
 - ✅ 每天早上 6 点（北京时间/UTC 22:00）获取 CCTV 新闻联播并发布
 
 ---
 
-### 博客 2：Cloudflare Astro（公开，已弃用）
+### 博客 1：WordPress（本地，已弃用）
 
 **博客信息：**
-- 网址：https://homesh.top/
-- GitHub 仓库：https://github.com/laona2050/astro-blog-starter-template
-- 托管：Cloudflare Pages
-- 框架：Astro
+- 网址：http://192.168.0.5:8088
+- 框架：WordPress
+- 用户：hitere (Administrator)
 
-**状态：** ⚠️ 已弃用，不再使用
+**状态：** ⚠️ **已弃用，不再使用**（2026-03-14 起）
+
+**说明：** 用户明确要求只发布到 homesh.top，不再管理本地 WordPress 博客。
 
 ---
 
-### 博客 3：Halo（本地，已弃用）
+### 博客 2：Halo（本地，已弃用）
 
 **博客信息：**
 - 本地地址：http://192.168.0.5:8090
@@ -251,6 +249,7 @@ git push
 - 机器人：@s2501_bot (帝王蟹)
 - 时区：UTC+8（北京时间）— 永远按这个时区判断早晚
 - 技能安装偏好：GitHub 直装 > clawhub API（因为 clawhub 限流严重）
+- **博客发布：只发布到 homesh.top（Cloudflare Astro），不再管理本地 WordPress 博客**（2026-03-14 起）
 
 ---
 
