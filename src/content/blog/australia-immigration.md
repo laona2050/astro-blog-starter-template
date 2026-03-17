@@ -2,7 +2,7 @@
 title: '澳洲总理谈移民政策：已经非常严格'
 description: '澳洲政治与移民政策深度分析'
 pubDate: '2026-02-23'
-category: '国际时政'
+category: '生活海'
 ---
 
 > 视频来源：YouTube - AMEC澳洲留学网络电台 (Karl)

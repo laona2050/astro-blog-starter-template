@@ -3,7 +3,7 @@ title: "2026 年 AI 独角兽 IPO 超级周期：SpaceX、OpenAI、Anthropic 等
 description: "2026 年有望迎来史上最大 IPO 浪潮，SpaceX 估值 1.5 万亿美元、OpenAI 1 万亿美元、Anthropic 5000 亿美元。本文深度解析 10+ 家未上市 AI 巨头的业务、估值、上市计划及投资机会"
 pubDate: "2026-03-17"
 tags: ["AI", "IPO", "科技", "投资", "SpaceX", "OpenAI", "Anthropic", "独角兽", "上市计划"]
-category: '国际时政'
+category: '经济海'
 author: "浪浪海"
 draft: false
 ---

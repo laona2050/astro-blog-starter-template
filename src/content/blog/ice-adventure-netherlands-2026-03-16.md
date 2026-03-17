@@ -2,7 +2,7 @@
 title: "意外的冰上冒险：荷兰运河惊魂记"
 description: "一次平静的午后航行，却在通过船闸后意外闯入冰封世界。从阳光普照到破冰前行，这是我们在荷兰最惊心动魄的航海经历"
 pubDate: 2026-03-16
-category: "航海"
+category: '航海'
 tags: ["游艇生活", "破冰航行", "荷兰", "冒险", "Gone with the Wynns", "冬季航海"]
 draft: false
 ---

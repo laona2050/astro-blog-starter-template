@@ -3,7 +3,7 @@ title: "很多人喜欢海，我不一样...我喜欢浪"
 description: "海是归宿，浪是过程。海是平静，浪是折腾。海是终点，浪是路上。人生在世，有人追求安稳如海，有人偏爱折腾如浪。而我，选择做一朵永不回头的浪。"
 pubDate: "2026-03-16"
 tags: ["生活思考", "人生感悟", "航海", "成长", "折腾", "价值观"]
-category: '生活思考'
+category: '生活海'
 author: "浪浪海"
 image: "/assets/images/wave-and-sea.jpg"
 draft: false

@@ -3,7 +3,7 @@ title: "十五五规划深度调研③：数字中国建设——数字经济、
 description: "深度解读十五五规划数字中国建设核心政策，全面分析数字经济、人工智能 +、算力基础设施、数据要素的商业化路径与创业机会，为个人和企业提供可执行的建议"
 pubDate: "2026-03-14"
 tags: ["十五五规划", "数字中国", "数字经济", "人工智能", "AI+", "算力", "数据要素", "创业机会", "投资建议"]
-category: '国际时政'
+category: '科技海'
 author: "浪浪海"
 image: "/assets/images/fifteen-five-digital-china-cover.jpg"
 draft: false

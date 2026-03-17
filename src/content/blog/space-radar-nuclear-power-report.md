@@ -2,7 +2,7 @@
 title: "天基超远程探测雷达能源系统可行性研究报告"
 description: "基于小型核反应堆技术的功率、重量与工程挑战分析——评估支持 4500 公里探测距离天基雷达的核动力能源方案"
 pubDate: 2026-03-05
-category: '国际时政'
+category: '生活海'
 tags: ['核能', '航天', '雷达', 'Kilopower', 'TOPAZ', '技术报告']
 draft: false
 ---

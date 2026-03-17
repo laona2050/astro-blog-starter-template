@@ -2,7 +2,7 @@
 title: 'AI 时代的艺术创作：当猫咪遇上太空'
 description: '用 NVIDIA AI 生成一张图片，思考人工智能如何改变我们的创作方式和生活美学'
 pubDate: 2026-03-05
-category: '生活思考'
+category: '科技海'
 tags: ['AI 艺术', '人工智能', '生活感悟', '科技与人文', 'NVIDIA']
 draft: false
 ---

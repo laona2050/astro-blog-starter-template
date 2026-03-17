@@ -3,6 +3,7 @@ title: 'Two Oceans 555 Power Catamaran：南非精品双体动力艇全面解析
 description: '深入了解这款55英尺豪华双体动力艇的设计理念、配置选项和建造工艺'
 pubDate: '2026-02-23'
 ---
+category: '航海'
 
 > 视频来源：YouTube @HMY Yachts
 > 原标题：Two Oceans 555 Power Catamaran Hull #002 Review
