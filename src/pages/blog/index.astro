@@ -151,6 +151,31 @@ const debugInfo = `
 					}
 				</div>
 				
+				<!-- 客户端筛选脚本 -->
+				<script>
+					// 从 URL 获取当前分类
+					const urlParams = new URLSearchParams(window.location.search);
+					const currentCategory = urlParams.get('category');
+					
+					if (currentCategory) {
+						// 获取所有文章
+						const allArticles = document.querySelectorAll('.post-item');
+						
+						// 筛选显示
+						allArticles.forEach(article => {
+							const articleCategory = article.getAttribute('data-category');
+							if (articleCategory === currentCategory) {
+								article.style.display = 'flex';
+							} else {
+								article.style.display = 'none';
+							}
+						});
+						
+						console.log('🏷️ Client Category:', currentCategory);
+						console.log('📝 Visible Articles:', document.querySelectorAll('.post-item[style*="display: flex"]').length);
+					}
+				</script>
+				
 				<!-- 分页导航 -->
 				{totalPages > 1 && (
 					<div class="pagination">
