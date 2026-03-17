@@ -13,7 +13,8 @@ const allPosts = (await getCollection('blog')).sort(
 const totalPosts = allPosts.length;
 
 // 获取当前筛选的分类
-const currentCategory = Astro.url ? Astro.url.searchParams.get('category') : null;
+const url = new URL(Astro.request.url);
+const currentCategory = url.searchParams.get('category');
 
 // 根据分类筛选文章
 const filteredPosts = currentCategory 
@@ -27,7 +28,7 @@ const POSTS_PER_PAGE = 20;
 const totalPages = Math.ceil(totalFilteredPosts / POSTS_PER_PAGE);
 
 // 获取当前页码
-const currentPage = Astro.url ? parseInt(Astro.url.searchParams.get('page') || '1') : 1;
+const currentPage = parseInt(url.searchParams.get('page') || '1');
 const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
 const endIndex = startIndex + POSTS_PER_PAGE;
 const posts = filteredPosts.slice(startIndex, endIndex);
