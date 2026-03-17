@@ -49,14 +49,17 @@ const categoryCount = {
 };
 
 // 调试信息
-console.log('🔍 URL:', Astro.request.url);
-console.log('🏷️ Current Category:', JSON.stringify(currentCategory));
-console.log('📚 Unique Categories:', uniqueCategories);
-console.log('📝 Filtered Posts Count:', filteredPosts.length);
-console.log('📊 Category Counts:', categoryCount);
-if (filteredPosts.length > 0) {
-	console.log('📄 First 3 Posts:', filteredPosts.slice(0, 3).map(p => ({ title: p.data.title, category: p.data.category })));
-}
+const debugInfo = `
+<div style="background: #ffeb3b; padding: 1rem; margin: 1rem; border-radius: 8px; font-family: monospace;">
+  <strong>🔍 调试信息：</strong><br>
+  URL: ${Astro.request.url}<br>
+  🏷️ Category: ${JSON.stringify(currentCategory)}<br>
+  📚 Unique: ${JSON.stringify(uniqueCategories)}<br>
+  📝 Count: ${filteredPosts.length}<br>
+  📊 Counts: ${JSON.stringify(categoryCount)}<br>
+  📄 First: ${JSON.stringify(filteredPosts.slice(0, 3).map(p => p.data.title))}
+</div>
+`;
 ---
 
 <!doctype html>
@@ -70,6 +73,8 @@ if (filteredPosts.length > 0) {
 		<Header />
 		
 		<main>
+			${debugInfo}
+			
 			<!-- Page Header -->
 			<section class="page-header">
 				<div class="header-content">
