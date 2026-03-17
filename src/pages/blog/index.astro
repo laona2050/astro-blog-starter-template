@@ -26,10 +26,11 @@ if (currentCategory) {
 
 const totalFilteredPosts = filteredPosts.length;
 
-// 分页设置：每页 20 篇（但有分类筛选时不分页，显示所有）
+// 分页设置：每页 20 篇
 const POSTS_PER_PAGE = 20;
-const totalPages = currentCategory ? 1 : Math.ceil(totalFilteredPosts / POSTS_PER_PAGE);
+const totalPages = Math.ceil(totalFilteredPosts / POSTS_PER_PAGE);
 const currentPage = parseInt(Astro.url.searchParams.get('page') || '1');
+// 分类筛选时显示所有文章，否则分页
 const posts = currentCategory ? filteredPosts : filteredPosts.slice((currentPage - 1) * POSTS_PER_PAGE, currentPage * POSTS_PER_PAGE);
 
 // 统计各分类文章数量
@@ -47,9 +48,9 @@ const debugInfo = `
   URL: ${Astro.url.href}<br>
   🏷️ Category: ${JSON.stringify(currentCategory)}<br>
   📚 Unique: ${JSON.stringify(uniqueCategories)}<br>
-  📝 Count: ${filteredPosts.length}<br>
+  📝 SSR Posts: ${posts.length}<br>
   📊 Counts: ${JSON.stringify(categoryCount)}<br>
-  📄 First: ${JSON.stringify(filteredPosts.slice(0, 3).map(p => p.data.title))}
+  📄 First: ${JSON.stringify(posts.slice(0, 3).map(p => p.data.title))}
 </div>
 `;
 ---
@@ -82,6 +83,9 @@ const debugInfo = `
 			
 			<!-- Category Filter -->
 			<section class="category-filter">
+				<!-- 隐藏的分类输入，供客户端 JS 使用 -->
+				<input type="hidden" id="current-category" value="${currentCategory || ''}" />
+				
 				<div class="filter-container">
 					<a href="/blog/" class="filter-btn {!currentCategory ? ' active' : ''}">
 						<i class="fas fa-th-large"></i>
@@ -149,8 +153,9 @@ const debugInfo = `
 				
 				<!-- 客户端筛选脚本 -->
 				<script>
-					const urlParams = new URLSearchParams(window.location.search);
-					const category = urlParams.get('category');
+					// 从隐藏 input 或 URL 获取当前分类
+					const categoryInput = document.getElementById('current-category');
+					const category = categoryInput ? categoryInput.value : new URLSearchParams(window.location.search).get('category');
 					
 					if (category) {
 						const articles = document.querySelectorAll('.post-item');
@@ -170,8 +175,9 @@ const debugInfo = `
 						const pagination = document.querySelector('.pagination');
 						if (pagination) pagination.style.display = 'none';
 						
-						console.log('Category:', category);
-						console.log('Visible:', count);
+						console.log('🏷️ Category:', category);
+						console.log('📝 Visible Articles:', count);
+						console.log('📊 Total Articles:', articles.length);
 					}
 				</script>
 				
