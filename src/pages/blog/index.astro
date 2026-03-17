@@ -6,17 +6,28 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
 import { getCollection } from 'astro:content';
 import FormattedDate from '../../components/FormattedDate.astro';
 
-const posts = (await getCollection('blog')).sort(
+const allPosts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 
-const totalPosts = posts.length;
+const totalPosts = allPosts.length;
+
+// 分页设置：每页 20 篇
+const POSTS_PER_PAGE = 20;
+const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
+
+// 获取当前页码
+const currentPage = Astro.url ? parseInt(Astro.url.searchParams.get('page') || '1') : 1;
+const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
+const endIndex = startIndex + POSTS_PER_PAGE;
+const posts = allPosts.slice(startIndex, endIndex);
 
 // 统计各分类文章数量
 const categoryCount = {
-	'航海': posts.filter(p => p.data.category === '航海').length,
-	'国际时政': posts.filter(p => p.data.category === '国际时政').length,
-	'生活思考': posts.filter(p => p.data.category === '生活思考').length,
+	'航海': allPosts.filter(p => p.data.category === '航海').length,
+	'经济海': allPosts.filter(p => p.data.category === '经济海').length,
+	'科技海': allPosts.filter(p => p.data.category === '科技海').length,
+	'生活海': allPosts.filter(p => p.data.category === '生活海').length,
 };
 ---
 
@@ -83,7 +94,7 @@ const categoryCount = {
 								<a href={`/blog/${post.id}/`} class="post-content">
 									<div class="post-main">
 										<div class="post-category-badge">
-											<i class={`fas ${post.data.category === '航海' ? 'fa-anchor' : post.data.category === '国际时政' ? 'fa-globe' : 'fa-heart'}`}></i>
+											<i class={`fas ${post.data.category === '航海' ? 'fa-anchor' : post.data.category === '经济海' ? 'fa-coins' : post.data.category === '科技海' ? 'fa-microchip' : 'fa-heart'}`}></i>
 											<span>{post.data.category || '航海'}</span>
 										</div>
 										<h2 class="post-title">{post.data.title}</h2>
@@ -106,10 +117,40 @@ const categoryCount = {
 					}
 				</div>
 				
-				<div class="posts-end">
-					<div class="end-icon"><i class="fas fa-anchor"></i></div>
-					<p>已展示全部 {totalPosts} 篇文章</p>
-				</div>
+				<!-- 分页导航 -->
+				{totalPages > 1 && (
+					<div class="pagination">
+						{currentPage > 1 && (
+							<a href={currentPage === 2 ? '/blog/' : `/blog/?page=${currentPage - 1}`} class="page-btn prev">
+								<i class="fas fa-chevron-left"></i> 上一页
+							</a>
+						)}
+						
+						<div class="page-numbers">
+							{Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+								<a 
+									href={page === 1 ? '/blog/' : `/blog/?page=${page}`}
+									class={`page-number ${page === currentPage ? 'active' : ''}`}
+								>
+									{page}
+								</a>
+							))}
+						</div>
+						
+						{currentPage < totalPages && (
+							<a href={`/blog/?page=${currentPage + 1}`} class="page-btn next">
+								下一页 <i class="fas fa-chevron-right"></i>
+							</a>
+						)}
+					</div>
+				)}
+				
+				{totalPages <= 1 && (
+					<div class="posts-end">
+						<div class="end-icon"><i class="fas fa-anchor"></i></div>
+						<p>已展示全部 {totalPosts} 篇文章</p>
+					</div>
+				)}
 			</section>
 		</main>
 		
@@ -469,6 +510,100 @@ const categoryCount = {
 		
 		.read-hint {
 			display: none;
+		}
+	}
+	
+	/* Pagination */
+	.pagination {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 1rem;
+		padding: 3rem 0;
+	}
+	
+	.page-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.75rem 1.5rem;
+		background: var(--white);
+		border: 2px solid rgb(var(--gray-light));
+		border-radius: 50px;
+		color: rgb(var(--gray));
+		font-size: 0.9rem;
+		font-weight: 500;
+		text-decoration: none;
+		transition: all 0.2s ease;
+	}
+	
+	.page-btn:hover {
+		border-color: var(--primary);
+		color: var(--primary);
+		transform: translateY(-2px);
+		box-shadow: var(--shadow-md);
+	}
+	
+	.page-btn i {
+		font-size: 0.8rem;
+	}
+	
+	.page-numbers {
+		display: flex;
+		gap: 0.5rem;
+	}
+	
+	.page-number {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 2.5rem;
+		height: 2.5rem;
+		padding: 0 0.5rem;
+		background: var(--white);
+		border: 2px solid rgb(var(--gray-light));
+		border-radius: 50%;
+		color: rgb(var(--gray));
+		font-size: 0.9rem;
+		font-weight: 500;
+		text-decoration: none;
+		transition: all 0.2s ease;
+	}
+	
+	.page-number:hover {
+		border-color: var(--primary);
+		color: var(--primary);
+		transform: translateY(-2px);
+	}
+	
+	.page-number.active {
+		background: var(--primary);
+		border-color: var(--primary);
+		color: var(--white);
+	}
+	
+	@media (max-width: 640px) {
+		.pagination {
+			flex-wrap: wrap;
+			gap: 0.75rem;
+		}
+		
+		.page-numbers {
+			order: 3;
+			width: 100%;
+			justify-content: center;
+			margin-top: 0.5rem;
+		}
+		
+		.page-btn {
+			padding: 0.5rem 1rem;
+			font-size: 0.85rem;
+		}
+		
+		.page-number {
+			min-width: 2rem;
+			height: 2rem;
+			font-size: 0.85rem;
 		}
 	}
 </style>
