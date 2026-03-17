@@ -26,11 +26,13 @@ if (currentCategory) {
 
 const totalFilteredPosts = filteredPosts.length;
 
-// 分页设置：每页 20 篇（但有分类筛选时不分页，显示所有）
+// 分页设置：每页 20 篇
 const POSTS_PER_PAGE = 20;
-const totalPages = currentCategory ? 1 : Math.ceil(totalFilteredPosts / POSTS_PER_PAGE);
+const totalPages = Math.ceil(totalFilteredPosts / POSTS_PER_PAGE);
 const currentPage = parseInt(Astro.url.searchParams.get('page') || '1');
-const posts = currentCategory ? filteredPosts : filteredPosts.slice((currentPage - 1) * POSTS_PER_PAGE, currentPage * POSTS_PER_PAGE);
+const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
+const endIndex = startIndex + POSTS_PER_PAGE;
+const posts = filteredPosts.slice(startIndex, endIndex);
 
 // 统计各分类文章数量
 const categoryCount = {
@@ -146,6 +148,35 @@ const debugInfo = `
 						))
 					}
 				</div>
+				
+				<!-- 客户端筛选脚本 -->
+				<script>
+					// 从 URL 获取当前分类
+					const urlParams = new URLSearchParams(window.location.search);
+					const category = urlParams.get('category');
+					
+					if (category) {
+						const articles = document.querySelectorAll('.post-item');
+						let count = 0;
+						
+						articles.forEach(article => {
+							const cat = article.getAttribute('data-category');
+							if (cat === category) {
+								article.style.display = 'flex';
+								count++;
+							} else {
+								article.style.display = 'none';
+							}
+						});
+						
+						// 隐藏分页（分类筛选时不分页）
+						const pagination = document.querySelector('.pagination');
+						if (pagination) pagination.style.display = 'none';
+						
+						console.log('Category:', category);
+						console.log('Visible:', count);
+					}
+				</script>
 				
 				<!-- 分页导航 -->
 				{totalPages > 1 && (
