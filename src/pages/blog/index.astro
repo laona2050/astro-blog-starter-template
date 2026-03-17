@@ -12,9 +12,8 @@ const allPosts = (await getCollection('blog')).sort(
 
 const totalPosts = allPosts.length;
 
-// 获取当前筛选的分类
-const url = new URL(Astro.request.url);
-const currentCategory = url.searchParams.get('category');
+// 获取当前筛选的分类 - 使用 Astro.url
+const currentCategory = Astro.url.searchParams.get('category');
 
 // 调试：获取所有唯一分类
 const uniqueCategories = [...new Set(allPosts.map(p => p.data.category))];
@@ -22,10 +21,7 @@ const uniqueCategories = [...new Set(allPosts.map(p => p.data.category))];
 // 根据分类筛选文章
 let filteredPosts = allPosts;
 if (currentCategory) {
-	filteredPosts = allPosts.filter(p => {
-		const match = p.data.category === currentCategory;
-		return match;
-	});
+	filteredPosts = allPosts.filter(p => p.data.category === currentCategory);
 }
 
 const totalFilteredPosts = filteredPosts.length;
@@ -35,7 +31,7 @@ const POSTS_PER_PAGE = 20;
 const totalPages = Math.ceil(totalFilteredPosts / POSTS_PER_PAGE);
 
 // 获取当前页码
-const currentPage = parseInt(url.searchParams.get('page') || '1');
+const currentPage = parseInt(Astro.url.searchParams.get('page') || '1');
 const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
 const endIndex = startIndex + POSTS_PER_PAGE;
 const posts = filteredPosts.slice(startIndex, endIndex);
@@ -52,7 +48,7 @@ const categoryCount = {
 const debugInfo = `
 <div style="background: #ffeb3b; padding: 1rem; margin: 1rem; border-radius: 8px; font-family: monospace;">
   <strong>🔍 调试信息：</strong><br>
-  URL: ${Astro.request.url}<br>
+  URL: ${Astro.url.href}<br>
   🏷️ Category: ${JSON.stringify(currentCategory)}<br>
   📚 Unique: ${JSON.stringify(uniqueCategories)}<br>
   📝 Count: ${filteredPosts.length}<br>
