@@ -26,13 +26,11 @@ if (currentCategory) {
 
 const totalFilteredPosts = filteredPosts.length;
 
-// 分页设置：每页 20 篇
+// 分页设置：每页 20 篇（但有分类筛选时不分页，显示所有）
 const POSTS_PER_PAGE = 20;
-const totalPages = Math.ceil(totalFilteredPosts / POSTS_PER_PAGE);
+const totalPages = currentCategory ? 1 : Math.ceil(totalFilteredPosts / POSTS_PER_PAGE);
 const currentPage = parseInt(Astro.url.searchParams.get('page') || '1');
-const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
-const endIndex = startIndex + POSTS_PER_PAGE;
-const posts = filteredPosts.slice(startIndex, endIndex);
+const posts = currentCategory ? filteredPosts : filteredPosts.slice((currentPage - 1) * POSTS_PER_PAGE, currentPage * POSTS_PER_PAGE);
 
 // 统计各分类文章数量
 const categoryCount = {
@@ -151,7 +149,6 @@ const debugInfo = `
 				
 				<!-- 客户端筛选脚本 -->
 				<script>
-					// 从 URL 获取当前分类
 					const urlParams = new URLSearchParams(window.location.search);
 					const category = urlParams.get('category');
 					
@@ -169,7 +166,7 @@ const debugInfo = `
 							}
 						});
 						
-						// 隐藏分页（分类筛选时不分页）
+						// 隐藏分页（分类筛选时显示所有文章）
 						const pagination = document.querySelector('.pagination');
 						if (pagination) pagination.style.display = 'none';
 						
