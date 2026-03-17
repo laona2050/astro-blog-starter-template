@@ -158,21 +158,24 @@ const debugInfo = `
 					const currentCategory = urlParams.get('category');
 					
 					if (currentCategory) {
-						// 获取所有文章
+						// 获取所有文章（包括分页隐藏的）
 						const allArticles = document.querySelectorAll('.post-item');
+						let visibleCount = 0;
 						
 						// 筛选显示
 						allArticles.forEach(article => {
 							const articleCategory = article.getAttribute('data-category');
 							if (articleCategory === currentCategory) {
 								article.style.display = 'flex';
+								visibleCount++;
 							} else {
 								article.style.display = 'none';
 							}
 						});
 						
 						console.log('🏷️ Client Category:', currentCategory);
-						console.log('📝 Visible Articles:', document.querySelectorAll('.post-item[style*="display: flex"]').length);
+						console.log('📝 Visible Articles:', visibleCount);
+						console.log('📊 Total Articles:', allArticles.length);
 					}
 				</script>
 				
