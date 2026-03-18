@@ -30,17 +30,6 @@ const totalFilteredPosts = allPosts.length;
 const POSTS_PER_PAGE = 20;
 const totalPages = 1;
 const currentPage = 1;
-
-// 调试信息
-const debugInfo = `
-<div style="background: #ffeb3b; padding: 1rem; margin: 1rem; border-radius: 8px; font-family: monospace;">
-  <strong>🔍 调试信息：</strong><br>
-  URL: ${uniqueCategories.length} categories<br>
-  📝 SSR Posts: ${posts.length}<br>
-  📊 Counts: ${JSON.stringify(categoryCount)}<br>
-  📄 First: ${JSON.stringify(posts.slice(0, 3).map(p => p.data.title))}
-</div>
-`;
 ---
 
 <!doctype html>
@@ -54,8 +43,6 @@ const debugInfo = `
 		<Header />
 		
 		<main>
-			${debugInfo}
-			
 			<!-- Page Header -->
 			<section class="page-header">
 				<div class="header-content">
