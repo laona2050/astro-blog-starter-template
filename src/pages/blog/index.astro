@@ -12,26 +12,8 @@ const allPosts = (await getCollection('blog')).sort(
 
 const totalPosts = allPosts.length;
 
-// 获取当前筛选的分类 - 使用 Astro.url
-const currentCategory = Astro.url.searchParams.get('category');
-
 // 调试：获取所有唯一分类
 const uniqueCategories = [...new Set(allPosts.map(p => p.data.category))];
-
-// 根据分类筛选文章
-let filteredPosts = allPosts;
-if (currentCategory) {
-	filteredPosts = allPosts.filter(p => p.data.category === currentCategory);
-}
-
-const totalFilteredPosts = filteredPosts.length;
-
-// 分页设置：每页 20 篇
-const POSTS_PER_PAGE = 20;
-const totalPages = Math.ceil(totalFilteredPosts / POSTS_PER_PAGE);
-const currentPage = parseInt(Astro.url.searchParams.get('page') || '1');
-// 分类筛选时显示所有文章，否则分页
-const posts = currentCategory ? filteredPosts : filteredPosts.slice((currentPage - 1) * POSTS_PER_PAGE, currentPage * POSTS_PER_PAGE);
 
 // 统计各分类文章数量
 const categoryCount = {
@@ -41,13 +23,19 @@ const categoryCount = {
 	'生活海': allPosts.filter(p => p.data.category === '生活海').length,
 };
 
+// 注意：SSR 层无法获取 URL 参数，所以始终渲染所有文章
+// 分类筛选由客户端 JS 在浏览器端执行
+const posts = allPosts;
+const totalFilteredPosts = allPosts.length;
+const POSTS_PER_PAGE = 20;
+const totalPages = 1;
+const currentPage = 1;
+
 // 调试信息
 const debugInfo = `
 <div style="background: #ffeb3b; padding: 1rem; margin: 1rem; border-radius: 8px; font-family: monospace;">
   <strong>🔍 调试信息：</strong><br>
-  URL: ${Astro.url.href}<br>
-  🏷️ Category: ${JSON.stringify(currentCategory)}<br>
-  📚 Unique: ${JSON.stringify(uniqueCategories)}<br>
+  URL: ${uniqueCategories.length} categories<br>
   📝 SSR Posts: ${posts.length}<br>
   📊 Counts: ${JSON.stringify(categoryCount)}<br>
   📄 First: ${JSON.stringify(posts.slice(0, 3).map(p => p.data.title))}
@@ -84,27 +72,27 @@ const debugInfo = `
 			<!-- Category Filter -->
 			<section class="category-filter">
 				<div class="filter-container">
-					<a href="/blog/" class="filter-btn {!currentCategory ? ' active' : ''}">
+					<a href="/blog/" class="filter-btn">
 						<i class="fas fa-th-large"></i>
 						<span>全部</span>
 						<span class="count">{totalPosts}</span>
 					</a>
-					<a href="/blog/?category=航海" class="filter-btn {currentCategory === '航海' ? ' active' : ''}">
+					<a href="/blog/?category=航海" class="filter-btn">
 						<i class="fas fa-anchor"></i>
 						<span>航海</span>
 						<span class="count">{categoryCount['航海']}</span>
 					</a>
-					<a href="/blog/?category=经济海" class="filter-btn {currentCategory === '经济海' ? ' active' : ''}">
+					<a href="/blog/?category=经济海" class="filter-btn">
 						<i class="fas fa-coins"></i>
 						<span>经济海</span>
 						<span class="count">{categoryCount['经济海']}</span>
 					</a>
-					<a href="/blog/?category=科技海" class="filter-btn {currentCategory === '科技海' ? ' active' : ''}">
+					<a href="/blog/?category=科技海" class="filter-btn">
 						<i class="fas fa-microchip"></i>
 						<span>科技海</span>
 						<span class="count">{categoryCount['科技海']}</span>
 					</a>
-					<a href="/blog/?category=生活海" class="filter-btn {currentCategory === '生活海' ? ' active' : ''}">
+					<a href="/blog/?category=生活海" class="filter-btn">
 						<i class="fas fa-heart"></i>
 						<span>生活海</span>
 						<span class="count">{categoryCount['生活海']}</span>
@@ -154,6 +142,23 @@ const debugInfo = `
 					const urlParams = new URLSearchParams(window.location.search);
 					const category = urlParams.get('category');
 					
+					// 高亮当前分类按钮
+					if (category) {
+						const buttons = document.querySelectorAll('.filter-btn');
+						buttons.forEach(btn => {
+							const href = btn.getAttribute('href');
+							if (href && href.includes(`category=${category}`)) {
+								btn.classList.add('active');
+							} else {
+								btn.classList.remove('active');
+							}
+						});
+					} else {
+						// 全部按钮高亮
+						const firstBtn = document.querySelector('.filter-btn');
+						if (firstBtn) firstBtn.classList.add('active');
+					}
+					
 					if (category) {
 						const articles = document.querySelectorAll('.post-item');
 						let count = 0;
@@ -168,10 +173,6 @@ const debugInfo = `
 							}
 						});
 						
-						// 隐藏分页（分类筛选时显示所有文章）
-						const pagination = document.querySelector('.pagination');
-						if (pagination) pagination.style.display = 'none';
-						
 						console.log('🏷️ Category:', category);
 						console.log('📝 Visible Articles:', count);
 						console.log('📊 Total Articles:', articles.length);
@@ -180,33 +181,22 @@ const debugInfo = `
 					}
 				</script>
 				
-				<!-- 分页导航 -->
-				{totalPages > 1 && (
-					<div class="pagination">
-						{currentPage > 1 && (
-							<a href={currentPage === 2 && !currentCategory ? '/blog/' : `/blog/?category=${currentCategory || ''}${currentCategory ? '&' : ''}page=${currentPage - 1}`} class="page-btn prev">
-								<i class="fas fa-chevron-left"></i> 上一页
-							</a>
-						)}
-						
-						<div class="page-numbers">
-							{Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
-								<a 
-									href={page === 1 && !currentCategory ? '/blog/' : `/blog/?category=${currentCategory || ''}${currentCategory ? '&' : ''}page=${page}`}
-									class={`page-number ${page === currentPage ? 'active' : ''}`}
-								>
-									{page}
-								</a>
-							))}
-						</div>
-						
-						{currentPage < totalPages && (
-							<a href={`/blog/?category=${currentCategory || ''}${currentCategory ? '&' : ''}page=${currentPage + 1}`} class="page-btn next">
-								下一页 <i class="fas fa-chevron-right"></i>
-							</a>
-						)}
-					</div>
-				)}
+				<!-- 分页导航（只在访问 /blog/ 时显示） -->
+				<script>
+					// 检查是否有分类参数
+					const urlParams = new URLSearchParams(window.location.search);
+					const category = urlParams.get('category');
+					
+					if (!category) {
+						// 无分类筛选，显示分页
+						const pagination = document.querySelector('.pagination');
+						if (pagination) pagination.style.display = 'block';
+					} else {
+						// 有分类筛选，隐藏分页
+						const pagination = document.querySelector('.pagination');
+						if (pagination) pagination.style.display = 'none';
+					}
+				</script>
 				
 				{totalPages <= 1 && (
 					<div class="posts-end">
