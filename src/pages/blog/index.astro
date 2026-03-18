@@ -83,9 +83,6 @@ const debugInfo = `
 			
 			<!-- Category Filter -->
 			<section class="category-filter">
-				<!-- 隐藏的分类输入，供客户端 JS 使用 -->
-				<input type="hidden" id="current-category" value="${currentCategory || ''}" data-has-category="${!!currentCategory}" />
-				
 				<div class="filter-container">
 					<a href="/blog/" class="filter-btn {!currentCategory ? ' active' : ''}">
 						<i class="fas fa-th-large"></i>
@@ -153,10 +150,9 @@ const debugInfo = `
 				
 				<!-- 客户端筛选脚本 -->
 				<script>
-					// 从隐藏 input 获取当前分类
-					const categoryInput = document.getElementById('current-category');
-					const hasCategory = categoryInput ? categoryInput.getAttribute('data-has-category') === 'true' : false;
-					const category = hasCategory ? categoryInput.value : null;
+					// 直接从 URL 获取分类参数
+					const urlParams = new URLSearchParams(window.location.search);
+					const category = urlParams.get('category');
 					
 					if (category) {
 						const articles = document.querySelectorAll('.post-item');
