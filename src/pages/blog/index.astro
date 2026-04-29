@@ -18,6 +18,14 @@ const categoryCount = {
 	'国际时政': allPosts.filter(p => p.data.category === '国际时政').length,
 	'生活思考': allPosts.filter(p => p.data.category === '生活思考').length,
 };
+
+// 按分类分组文章
+const postsByCategory: Record<string, typeof allPosts> = {};
+allPosts.forEach(post => {
+	const cat = post.data.category || '航海';
+	if (!postsByCategory[cat]) postsByCategory[cat] = [];
+	postsByCategory[cat].push(post);
+});
 ---
 
 <!doctype html>
@@ -72,41 +80,10 @@ const categoryCount = {
 			
 			<!-- Posts Grid -->
 			<section class="posts-section">
-				<div class="posts-grid" id="postsGrid">
-					{
-						allPosts.map((post, index) => (
-							<article class="post-card" style={`--delay: ${index * 0.05}s`} data-category={post.data.category || '航海'}>
-								<a href={`/blog/${post.id}/`} class="post-link">
-									<div class="post-content">
-										<div class="post-meta">
-											<span class="post-date">
-												<i class="far fa-calendar"></i>
-												<FormattedDate date={post.data.pubDate} />
-											</span>
-											<span class="post-category-tag">
-												<i class={`fas ${post.data.category === '航海' ? 'fa-anchor' : post.data.category === '国际时政' ? 'fa-globe' : 'fa-heart'}`}></i>
-												<span>{post.data.category || '航海'}</span>
-											</span>
-										</div>
-										<h3 class="post-title">{post.data.title}</h3>
-										<p class="post-excerpt">
-											{post.data.description?.slice(0, 80) || '点击阅读更多...'}
-											{post.data.description?.length > 80 ? '...' : ''}
-										</p>
-										<div class="post-footer">
-											<span class="read-more">
-												阅读全文 <i class="fas fa-arrow-right"></i>
-											</span>
-										</div>
-									</div>
-								</a>
-							</article>
-						))
-					}
-				</div>
+				<div class="posts-grid" id="postsGrid"></div>
 				
 				<!-- Pagination -->
-				<div class="pagination" id="pagination"></div>
+				<nav class="pagination" id="pagination"></nav>
 				
 				<!-- Page info -->
 				<div class="page-info" id="pageInfo"></div>
@@ -115,127 +92,163 @@ const categoryCount = {
 		
 		<Footer />
 		
-		<script>
+		<script define:vars={{ allPosts, POSTS_PER_PAGE: 30 }}>
 			const POSTS_PER_PAGE = 30;
 			let currentPage = 1;
 			let currentCategory = 'all';
+			
+			// Store all posts data for rendering
+			const postsData = allPosts.map(post => ({
+				id: post.id,
+				title: post.data.title,
+				description: post.data.description || '',
+				pubDate: post.data.pubDate.toISOString(),
+				category: post.data.category || '航海',
+			}));
 			
 			const postsGrid = document.getElementById('postsGrid');
 			const pagination = document.getElementById('pagination');
 			const pageInfo = document.getElementById('pageInfo');
 			const filterBtns = document.querySelectorAll('.filter-btn');
-			const postCards = document.querySelectorAll('.post-card');
 			
-			function getFilteredPosts() {
-				return currentCategory === 'all' 
-					? [...postCards] 
-					: postCards.filter(c => c.getAttribute('data-category') === currentCategory);
+			function getCategoryIcon(cat) {
+				switch(cat) {
+					case '航海': return 'fa-anchor';
+					case '国际时政': return 'fa-globe';
+					default: return 'fa-heart';
+				}
 			}
 			
-			function renderPage(page) {
+			function formatDate(isoStr) {
+				const d = new Date(isoStr);
+				const y = d.getFullYear();
+				const m = String(d.getMonth() + 1).padStart(2, '0');
+				const day = String(d.getDate()).padStart(2, '0');
+				return `${y}-${m}-${day}`;
+			}
+			
+			function renderCard(post, index) {
+				const cat = post.category;
+				const icon = getCategoryIcon(cat);
+				const excerpt = post.description.slice(0, 80) + (post.description.length > 80 ? '...' : '');
+				const delay = index * 0.05;
+				
+				return `
+					<article class="post-card" style="--delay: ${delay}s" data-category="${cat}">
+						<a href="/blog/${post.id}/" class="post-link">
+							<div class="post-content">
+								<div class="post-meta">
+									<span class="post-date">
+										<i class="far fa-calendar"></i>
+										${formatDate(post.pubDate)}
+									</span>
+									<span class="post-category-tag">
+										<i class="fas ${icon}"></i>
+										<span>${cat}</span>
+									</span>
+								</div>
+								<h3 class="post-title">${post.title}</h3>
+								<p class="post-excerpt">${excerpt}</p>
+								<div class="post-footer">
+									<span class="read-more">阅读全文 <i class="fas fa-arrow-right"></i></span>
+								</div>
+							</div>
+						</a>
+					</article>
+				`;
+			}
+			
+			function getFilteredPosts() {
+				if (currentCategory === 'all') return postsData;
+				return postsData.filter(p => p.category === currentCategory);
+			}
+			
+			function render() {
 				const filtered = getFilteredPosts();
-				const totalPages = Math.ceil(filtered.length / POSTS_PER_PAGE);
+				const totalPages = Math.max(1, Math.ceil(filtered.length / POSTS_PER_PAGE));
 				
-				const start = (page - 1) * POSTS_PER_PAGE;
-				const end = start + POSTS_PER_PAGE;
+				if (currentPage > totalPages) currentPage = totalPages;
 				
-				postCards.forEach(card => {
-					const category = card.getAttribute('data-category');
-					const isMatch = currentCategory === 'all' || category === currentCategory;
-					if (!isMatch) {
-						card.style.display = 'none';
-						return;
-					}
-					
-					const filteredIdx = filtered.indexOf(card);
-					if (filteredIdx >= start && filteredIdx < end) {
-						card.style.display = 'block';
-					} else {
-						card.style.display = 'none';
-					}
-				});
+				const start = (currentPage - 1) * POSTS_PER_PAGE;
+				const end = Math.min(start + POSTS_PER_PAGE, filtered.length);
+				const pagePosts = filtered.slice(start, end);
 				
-				renderPagination(totalPages, page, filtered.length);
+				// Render cards
+				postsGrid.innerHTML = pagePosts.map((p, i) => renderCard(p, i)).join('');
 				
-				const showStart = Math.min(start + 1, filtered.length);
-				const showEnd = Math.min(end, filtered.length);
+				// Page info
 				if (filtered.length > POSTS_PER_PAGE) {
-					pageInfo.textContent = `第 ${page} 页，显示 ${showStart}-${showEnd} / 共 ${filtered.length} 篇`;
+					pageInfo.textContent = `第 ${currentPage} 页，显示 ${start + 1}-${end} / 共 ${filtered.length} 篇`;
 					pageInfo.style.display = 'block';
 				} else {
 					pageInfo.style.display = 'none';
 				}
 				
-				postsGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
-			}
-			
-			function renderPagination(totalPages, currentPage, totalItems) {
+				// Pagination
 				if (totalPages <= 1) {
 					pagination.innerHTML = '';
 					pagination.style.display = 'none';
-					return;
-				}
-				
-				pagination.style.display = 'flex';
-				let html = '';
-				
-				if (currentPage > 1) {
-					html += `<button class="page-btn" data-page="${currentPage - 1}"><i class="fas fa-chevron-left"></i></button>`;
 				} else {
-					html += `<button class="page-btn disabled" disabled><i class="fas fa-chevron-left"></i></button>`;
+					pagination.style.display = 'flex';
+					let html = '';
+					
+					// Prev
+					if (currentPage > 1) {
+						html += `<button class="page-btn" data-page="${currentPage - 1}"><i class="fas fa-chevron-left"></i></button>`;
+					} else {
+						html += `<button class="page-btn disabled" disabled><i class="fas fa-chevron-left"></i></button>`;
+					}
+					
+					const maxVisible = 7;
+					let s = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+					let e = Math.min(totalPages, s + maxVisible - 1);
+					if (e - s + 1 < maxVisible) s = Math.max(1, e - maxVisible + 1);
+					
+					if (s > 1) {
+						html += `<button class="page-btn" data-page="1">1</button>`;
+						if (s > 2) html += `<span class="page-ellipsis">...</span>`;
+					}
+					for (let i = s; i <= e; i++) {
+						html += i === currentPage
+							? `<button class="page-btn active">${i}</button>`
+							: `<button class="page-btn" data-page="${i}">${i}</button>`;
+					}
+					if (e < totalPages) {
+						if (e < totalPages - 1) html += `<span class="page-ellipsis">...</span>`;
+						html += `<button class="page-btn" data-page="${totalPages}">${totalPages}</button>`;
+					}
+					
+					if (currentPage < totalPages) {
+						html += `<button class="page-btn" data-page="${currentPage + 1}"><i class="fas fa-chevron-right"></i></button>`;
+					} else {
+						html += `<button class="page-btn disabled" disabled><i class="fas fa-chevron-right"></i></button>`;
+					}
+					
+					pagination.innerHTML = html;
 				}
 				
-				const maxVisible = 7;
-				let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
-				let endPage = Math.min(totalPages, startPage + maxVisible - 1);
-				
-				if (endPage - startPage + 1 < maxVisible) {
-					startPage = Math.max(1, endPage - maxVisible + 1);
-				}
-				
-				if (startPage > 1) {
-					html += `<button class="page-btn" data-page="1">1</button>`;
-					if (startPage > 2) html += `<span class="page-ellipsis">...</span>`;
-				}
-				
-				for (let i = startPage; i <= endPage; i++) {
-					html += i === currentPage 
-						? `<button class="page-btn active">${i}</button>`
-						: `<button class="page-btn" data-page="${i}">${i}</button>`;
-				}
-				
-				if (endPage < totalPages) {
-					if (endPage < totalPages - 1) html += `<span class="page-ellipsis">...</span>`;
-					html += `<button class="page-btn" data-page="${totalPages}">${totalPages}</button>`;
-				}
-				
-				if (currentPage < totalPages) {
-					html += `<button class="page-btn" data-page="${currentPage + 1}"><i class="fas fa-chevron-right"></i></button>`;
-				} else {
-					html += `<button class="page-btn disabled" disabled><i class="fas fa-chevron-right"></i></button>`;
-				}
-				
-				pagination.innerHTML = html;
-				
+				// Rebind pagination clicks
 				pagination.querySelectorAll('.page-btn:not(.disabled)').forEach(btn => {
 					btn.addEventListener('click', () => {
 						currentPage = parseInt(btn.getAttribute('data-page'));
-						renderPage(currentPage);
+						render();
 					});
 				});
 			}
 			
+			// Category filter clicks
 			filterBtns.forEach(btn => {
 				btn.addEventListener('click', () => {
 					filterBtns.forEach(b => b.classList.remove('active'));
 					btn.classList.add('active');
 					currentCategory = btn.getAttribute('data-category');
 					currentPage = 1;
-					renderPage(1);
+					render();
 				});
 			});
 			
-			renderPage(1);
+			// Initial render
+			render();
 		</script>
 	</body>
 </html>
@@ -257,10 +270,7 @@ const categoryCount = {
 		}
 	}
 	
-	.header-content {
-		max-width: 1200px;
-		margin: 0 auto;
-	}
+	.header-content { max-width: 1200px; margin: 0 auto; }
 	
 	.breadcrumb {
 		display: flex;
@@ -270,20 +280,10 @@ const categoryCount = {
 		font-size: 0.875rem;
 	}
 	
-	.breadcrumb a {
-		color: rgba(255, 255, 255, 0.8);
-		text-decoration: none;
-		transition: color 0.2s;
-	}
-	
+	.breadcrumb a { color: rgba(255, 255, 255, 0.8); text-decoration: none; transition: color 0.2s; }
 	.breadcrumb a:hover { color: white; }
-	
 	.breadcrumb .separator { color: rgba(255, 255, 255, 0.5); }
-	
-	.breadcrumb span:last-child {
-		color: white;
-		font-weight: 500;
-	}
+	.breadcrumb span:last-child { color: white; font-weight: 500; }
 	
 	.page-header h1 {
 		color: white;
@@ -292,16 +292,10 @@ const categoryCount = {
 		font-family: 'Noto Sans SC', sans-serif;
 	}
 	
-	.subtitle {
-		color: rgba(255, 255, 255, 0.8);
-		margin: 0;
-		font-size: 1rem;
-	}
+	.subtitle { color: rgba(255, 255, 255, 0.8); margin: 0; font-size: 1rem; }
 	
 	/* Category Filter */
-	.category-filter {
-		padding: 0 0 2rem;
-	}
+	.category-filter { padding: 0 0 2rem; }
 	
 	.filter-container {
 		max-width: 1200px;
@@ -358,11 +352,8 @@ const categoryCount = {
 	}
 	
 	/* Posts Section */
-	.posts-section {
-		padding: 1rem 0 4rem;
-	}
+	.posts-section { padding: 1rem 0 4rem; }
 	
-	/* Posts Grid - same as homepage */
 	.posts-grid {
 		max-width: 1200px;
 		margin: 0 auto;
@@ -371,15 +362,10 @@ const categoryCount = {
 		gap: 1.5rem;
 	}
 	
-	@media (max-width: 1024px) {
-		.posts-grid { grid-template-columns: repeat(2, 1fr); }
-	}
+	@media (max-width: 1024px) { .posts-grid { grid-template-columns: repeat(2, 1fr); } }
+	@media (max-width: 640px) { .posts-grid { grid-template-columns: 1fr; } }
 	
-	@media (max-width: 640px) {
-		.posts-grid { grid-template-columns: 1fr; }
-	}
-	
-	/* Post Card - matches homepage style */
+	/* Post Card */
 	.post-card {
 		background: linear-gradient(135deg, var(--wave-gray) 0%, var(--primary-light) 100%);
 		border-radius: 16px;
@@ -411,11 +397,7 @@ const categoryCount = {
 		height: 100%;
 	}
 	
-	.post-content {
-		display: flex;
-		flex-direction: column;
-		height: 100%;
-	}
+	.post-content { display: flex; flex-direction: column; height: 100%; }
 	
 	.post-meta {
 		display: flex;
@@ -538,15 +520,8 @@ const categoryCount = {
 		color: var(--white);
 	}
 	
-	.page-btn.disabled {
-		opacity: 0.4;
-		cursor: not-allowed;
-	}
-	
-	.page-ellipsis {
-		color: rgb(var(--gray));
-		padding: 0 0.25rem;
-	}
+	.page-btn.disabled { opacity: 0.4; cursor: not-allowed; }
+	.page-ellipsis { color: rgb(var(--gray)); padding: 0 0.25rem; }
 	
 	/* Page Info */
 	.page-info {
