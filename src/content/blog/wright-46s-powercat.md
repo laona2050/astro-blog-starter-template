@@ -1,6 +1,10 @@
 ---
+title: "Wright 46s Powercat 深度测评：新西兰精品双体动力艇"
+pubDate: 2026-02-25
+description: "深度测评Wright 46s Powercat新西兰制造双体动力游艇，46尺卓越空间，适合家庭巡航的理想选择"
+heroImage: /images/wright-46s.jpg
 category: "航海"
-
+---
 
 # Wright 46s Powercat 深度测评：新西兰精品双体动力艇
 

@@ -1,6 +1,9 @@
 ---
+title: 'Two Oceans 555 Power Catamaran 第二艘船深度解析'
+description: 'Two Oceans 555 双体动力艇Hull #2详细配置与亮点'
+pubDate: '2026-02-23'
 category: "航海"
-
+---
 
 > 视频来源：YouTube @HMY Yachts
 > 原标题：Two Oceans 555 Power Catamaran Hull #002 Review
