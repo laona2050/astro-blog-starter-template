@@ -10,9 +10,7 @@ const allPosts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 
-const POSTS_PER_PAGE = 30;
 const totalPosts = allPosts.length;
-const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
 
 // 统计各分类文章数量
 const categoryCount = {
@@ -76,27 +74,30 @@ const categoryCount = {
 			<section class="posts-section">
 				<div class="posts-grid" id="postsGrid">
 					{
-						allPosts.map((post) => (
-							<article class="post-card" data-category={post.data.category || '航海'}>
-								<a href={`/blog/${post.id}/`} class="post-card-link">
-									<div class="post-card-body">
-										<div class="post-card-category">
-											<i class={`fas ${post.data.category === '航海' ? 'fa-anchor' : post.data.category === '国际时政' ? 'fa-globe' : 'fa-heart'}`}></i>
-											<span>{post.data.category || '航海'}</span>
+						allPosts.map((post, index) => (
+							<article class="post-card" style={`--delay: ${index * 0.05}s`} data-category={post.data.category || '航海'}>
+								<a href={`/blog/${post.id}/`} class="post-link">
+									<div class="post-content">
+										<div class="post-meta">
+											<span class="post-date">
+												<i class="far fa-calendar"></i>
+												<FormattedDate date={post.data.pubDate} />
+											</span>
+											<span class="post-category-tag">
+												<i class={`fas ${post.data.category === '航海' ? 'fa-anchor' : post.data.category === '国际时政' ? 'fa-globe' : 'fa-heart'}`}></i>
+												<span>{post.data.category || '航海'}</span>
+											</span>
 										</div>
-										<h2 class="post-card-title">{post.data.title}</h2>
-										<p class="post-card-desc">
-											{post.data.description || '点击查看详情...'}
+										<h3 class="post-title">{post.data.title}</h3>
+										<p class="post-excerpt">
+											{post.data.description?.slice(0, 80) || '点击阅读更多...'}
+											{post.data.description?.length > 80 ? '...' : ''}
 										</p>
-									</div>
-									<div class="post-card-footer">
-										<span class="post-card-date">
-											<i class="far fa-calendar-alt"></i>
-											<FormattedDate date={post.data.pubDate} />
-										</span>
-										<span class="post-card-arrow">
-											<i class="fas fa-arrow-right"></i>
-										</span>
+										<div class="post-footer">
+											<span class="read-more">
+												阅读全文 <i class="fas fa-arrow-right"></i>
+											</span>
+										</div>
 									</div>
 								</a>
 							</article>
@@ -135,11 +136,9 @@ const categoryCount = {
 				const filtered = getFilteredPosts();
 				const totalPages = Math.ceil(filtered.length / POSTS_PER_PAGE);
 				
-				// Show/hide cards based on page
 				const start = (page - 1) * POSTS_PER_PAGE;
 				const end = start + POSTS_PER_PAGE;
 				
-				// Reset display for filtered posts
 				postCards.forEach(card => {
 					const category = card.getAttribute('data-category');
 					const isMatch = currentCategory === 'all' || category === currentCategory;
@@ -148,7 +147,6 @@ const categoryCount = {
 						return;
 					}
 					
-					// Check if within page range
 					const filteredIdx = filtered.indexOf(card);
 					if (filteredIdx >= start && filteredIdx < end) {
 						card.style.display = 'block';
@@ -157,10 +155,8 @@ const categoryCount = {
 					}
 				});
 				
-				// Render pagination
 				renderPagination(totalPages, page, filtered.length);
 				
-				// Page info
 				const showStart = Math.min(start + 1, filtered.length);
 				const showEnd = Math.min(end, filtered.length);
 				if (filtered.length > POSTS_PER_PAGE) {
@@ -170,7 +166,6 @@ const categoryCount = {
 					pageInfo.style.display = 'none';
 				}
 				
-				// Scroll to top of posts
 				postsGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
 			}
 			
@@ -184,14 +179,12 @@ const categoryCount = {
 				pagination.style.display = 'flex';
 				let html = '';
 				
-				// Previous button
 				if (currentPage > 1) {
 					html += `<button class="page-btn" data-page="${currentPage - 1}"><i class="fas fa-chevron-left"></i></button>`;
 				} else {
 					html += `<button class="page-btn disabled" disabled><i class="fas fa-chevron-left"></i></button>`;
 				}
 				
-				// Page numbers
 				const maxVisible = 7;
 				let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
 				let endPage = Math.min(totalPages, startPage + maxVisible - 1);
@@ -202,27 +195,20 @@ const categoryCount = {
 				
 				if (startPage > 1) {
 					html += `<button class="page-btn" data-page="1">1</button>`;
-					if (startPage > 2) {
-						html += `<span class="page-ellipsis">...</span>`;
-					}
+					if (startPage > 2) html += `<span class="page-ellipsis">...</span>`;
 				}
 				
 				for (let i = startPage; i <= endPage; i++) {
-					if (i === currentPage) {
-						html += `<button class="page-btn active">${i}</button>`;
-					} else {
-						html += `<button class="page-btn" data-page="${i}">${i}</button>`;
-					}
+					html += i === currentPage 
+						? `<button class="page-btn active">${i}</button>`
+						: `<button class="page-btn" data-page="${i}">${i}</button>`;
 				}
 				
 				if (endPage < totalPages) {
-					if (endPage < totalPages - 1) {
-						html += `<span class="page-ellipsis">...</span>`;
-					}
+					if (endPage < totalPages - 1) html += `<span class="page-ellipsis">...</span>`;
 					html += `<button class="page-btn" data-page="${totalPages}">${totalPages}</button>`;
 				}
 				
-				// Next button
 				if (currentPage < totalPages) {
 					html += `<button class="page-btn" data-page="${currentPage + 1}"><i class="fas fa-chevron-right"></i></button>`;
 				} else {
@@ -231,29 +217,24 @@ const categoryCount = {
 				
 				pagination.innerHTML = html;
 				
-				// Bind click events
 				pagination.querySelectorAll('.page-btn:not(.disabled)').forEach(btn => {
 					btn.addEventListener('click', () => {
-						const page = parseInt(btn.getAttribute('data-page'));
-						currentPage = page;
-						renderPage(page);
+						currentPage = parseInt(btn.getAttribute('data-page'));
+						renderPage(currentPage);
 					});
 				});
 			}
 			
-			// Category filter
 			filterBtns.forEach(btn => {
 				btn.addEventListener('click', () => {
 					filterBtns.forEach(b => b.classList.remove('active'));
 					btn.classList.add('active');
-					
 					currentCategory = btn.getAttribute('data-category');
 					currentPage = 1;
 					renderPage(1);
 				});
 			});
 			
-			// Initial render
 			renderPage(1);
 		</script>
 	</body>
@@ -295,13 +276,9 @@ const categoryCount = {
 		transition: color 0.2s;
 	}
 	
-	.breadcrumb a:hover {
-		color: white;
-	}
+	.breadcrumb a:hover { color: white; }
 	
-	.breadcrumb .separator {
-		color: rgba(255, 255, 255, 0.5);
-	}
+	.breadcrumb .separator { color: rgba(255, 255, 255, 0.5); }
 	
 	.breadcrumb span:last-child {
 		color: white;
@@ -351,21 +328,19 @@ const categoryCount = {
 	}
 	
 	.filter-btn:hover {
-		border-color: var(--primary);
-		color: var(--primary);
+		border-color: var(--accent);
+		color: var(--accent);
 		transform: translateY(-2px);
 		box-shadow: var(--shadow-md);
 	}
 	
 	.filter-btn.active {
-		background: var(--primary);
-		border-color: var(--primary);
+		background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+		border-color: var(--accent);
 		color: var(--white);
 	}
 	
-	.filter-btn i {
-		font-size: 1rem;
-	}
+	.filter-btn i { font-size: 1rem; }
 	
 	.filter-btn .count {
 		background: rgba(0, 0, 0, 0.1);
@@ -374,30 +349,20 @@ const categoryCount = {
 		font-size: 0.75rem;
 	}
 	
-	.filter-btn.active .count {
-		background: rgba(255, 255, 255, 0.2);
-	}
+	.filter-btn.active .count { background: rgba(255, 255, 255, 0.2); }
 	
 	@media (max-width: 640px) {
-		.filter-container {
-			gap: 0.5rem;
-		}
-		
-		.filter-btn {
-			padding: 0.5rem 1rem;
-			font-size: 0.8rem;
-		}
-		
-		.filter-btn span:not(.count) {
-			display: none;
-		}
+		.filter-container { gap: 0.5rem; }
+		.filter-btn { padding: 0.5rem 1rem; font-size: 0.8rem; }
+		.filter-btn span:not(.count) { display: none; }
 	}
 	
-	/* Posts Grid */
+	/* Posts Section */
 	.posts-section {
-		padding: 1rem 0 3rem;
+		padding: 1rem 0 4rem;
 	}
 	
+	/* Posts Grid - same as homepage */
 	.posts-grid {
 		max-width: 1200px;
 		margin: 0 auto;
@@ -407,141 +372,130 @@ const categoryCount = {
 	}
 	
 	@media (max-width: 1024px) {
-		.posts-grid {
-			grid-template-columns: repeat(2, 1fr);
-		}
+		.posts-grid { grid-template-columns: repeat(2, 1fr); }
 	}
 	
 	@media (max-width: 640px) {
-		.posts-grid {
-			grid-template-columns: 1fr;
-			gap: 1rem;
-		}
+		.posts-grid { grid-template-columns: 1fr; }
 	}
 	
-	/* Post Card */
+	/* Post Card - matches homepage style */
 	.post-card {
+		background: linear-gradient(135deg, var(--wave-gray) 0%, var(--primary-light) 100%);
+		border-radius: 16px;
+		box-shadow: var(--shadow-md);
+		overflow: hidden;
+		transition: all 0.3s ease;
 		opacity: 0;
-		animation: fadeInUp 0.4s ease forwards;
+		animation: fadeInUp 0.6s ease forwards;
 		animation-delay: var(--delay, 0s);
+		border: 1px solid rgba(245, 158, 11, 0.1);
 	}
 	
 	@keyframes fadeInUp {
-		from {
-			opacity: 0;
-			transform: translateY(20px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
+		from { opacity: 0; transform: translateY(20px); }
+		to { opacity: 1; transform: translateY(0); }
 	}
 	
-	.post-card-link {
+	.post-card:hover {
+		box-shadow: var(--shadow-xl), 0 0 30px rgba(245, 158, 11, 0.2);
+		transform: translateY(-4px);
+		border-color: rgba(245, 158, 11, 0.3);
+	}
+	
+	.post-link {
+		display: block;
+		text-decoration: none;
+		color: inherit;
+		padding: 1.5rem;
+		height: 100%;
+	}
+	
+	.post-content {
 		display: flex;
 		flex-direction: column;
 		height: 100%;
-		background: var(--white);
-		border-radius: 12px;
-		box-shadow: var(--shadow-sm);
-		padding: 1.5rem;
-		text-decoration: none;
-		color: inherit;
-		transition: all 0.25s ease;
-		border: 1px solid transparent;
 	}
 	
-	.post-card-link:hover {
-		box-shadow: var(--shadow-lg);
-		transform: translateY(-4px);
-		border-color: var(--primary);
-	}
-	
-	.post-card-body {
-		flex: 1;
+	.post-meta {
 		display: flex;
-		flex-direction: column;
-		gap: 0.75rem;
+		align-items: center;
+		gap: 0.5rem;
+		margin-bottom: 0.75rem;
+		flex-wrap: wrap;
 	}
 	
-	.post-card-category {
+	.post-date {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		font-size: 0.8rem;
+		color: rgb(var(--gray));
+	}
+	
+	.post-date i { color: var(--accent); }
+	
+	.post-category-tag {
 		display: inline-flex;
 		align-items: center;
-		gap: 0.375rem;
-		padding: 0.25rem 0.75rem;
-		background: var(--wave-blue);
-		color: var(--primary);
+		gap: 0.35rem;
+		padding: 0.2rem 0.65rem;
+		background: rgba(245, 158, 11, 0.1);
+		color: var(--accent-light);
 		border-radius: 20px;
-		font-size: 0.75rem;
-		font-weight: 500;
-		width: fit-content;
-	}
-	
-	.post-card-category i {
 		font-size: 0.7rem;
-		color: var(--accent);
+		font-weight: 500;
+		border: 1px solid rgba(245, 158, 11, 0.2);
 	}
 	
-	.post-card-title {
-		font-size: 1rem;
+	.post-category-tag i { font-size: 0.65rem; color: var(--accent); }
+	
+	.post-title {
+		font-size: 1.125rem;
 		font-weight: 600;
-		color: var(--primary);
-		margin: 0;
-		line-height: 1.5;
-		transition: color 0.2s;
+		color: var(--accent-light);
+		margin: 0 0 0.75rem 0;
+		line-height: 1.4;
+		transition: all 0.2s;
 		display: -webkit-box;
 		-webkit-line-clamp: 2;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}
 	
-	.post-card-link:hover .post-card-title {
-		color: var(--primary-light);
+	.post-card:hover .post-title {
+		color: var(--accent);
+		text-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
 	}
 	
-	.post-card-desc {
-		font-size: 0.85rem;
+	.post-excerpt {
+		font-size: 0.9rem;
 		color: rgb(var(--gray));
-		margin: 0;
+		margin: 0 0 1rem 0;
 		line-height: 1.6;
+		flex-grow: 1;
 		display: -webkit-box;
 		-webkit-line-clamp: 3;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}
 	
-	.post-card-footer {
-		display: flex;
-		justify-content: space-between;
+	.post-footer { margin-top: auto; }
+	
+	.read-more {
+		display: inline-flex;
 		align-items: center;
-		padding-top: 1rem;
-		margin-top: 1rem;
-		border-top: 1px solid rgb(var(--gray-light));
+		gap: 0.5rem;
+		font-size: 0.875rem;
+		font-weight: 500;
+		color: var(--accent-light);
+		transition: all 0.2s;
 	}
 	
-	.post-card-date {
-		display: flex;
-		align-items: center;
-		gap: 0.4rem;
-		font-size: 0.78rem;
-		color: rgb(var(--gray));
-	}
-	
-	.post-card-date i {
+	.post-card:hover .read-more {
+		gap: 0.75rem;
 		color: var(--accent);
-	}
-	
-	.post-card-arrow {
-		color: var(--primary);
-		font-size: 0.85rem;
-		opacity: 0;
-		transition: opacity 0.2s, transform 0.2s;
-		transform: translateX(-5px);
-	}
-	
-	.post-card-link:hover .post-card-arrow {
-		opacity: 1;
-		transform: translateX(0);
+		text-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
 	}
 	
 	/* Pagination */
@@ -572,15 +526,15 @@ const categoryCount = {
 	}
 	
 	.page-btn:hover:not(.disabled) {
-		border-color: var(--primary);
-		color: var(--primary);
+		border-color: var(--accent);
+		color: var(--accent);
 		transform: translateY(-2px);
 		box-shadow: var(--shadow-sm);
 	}
 	
 	.page-btn.active {
-		background: var(--primary);
-		border-color: var(--primary);
+		background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+		border-color: var(--accent);
 		color: var(--white);
 	}
 	
@@ -603,26 +557,9 @@ const categoryCount = {
 	}
 	
 	@media (max-width: 640px) {
-		.page-header h1 {
-			font-size: 1.875rem;
-		}
-		
-		.post-card-link {
-			padding: 1.25rem;
-		}
-		
-		.post-card-title {
-			font-size: 0.95rem;
-		}
-		
-		.post-card-desc {
-			-webkit-line-clamp: 2;
-		}
-		
-		.page-btn {
-			min-width: 36px;
-			height: 36px;
-			font-size: 0.85rem;
-		}
+		.page-header h1 { font-size: 1.875rem; }
+		.post-link { padding: 1.25rem; }
+		.post-title { font-size: 1rem; }
+		.page-btn { min-width: 36px; height: 36px; font-size: 0.85rem; }
 	}
 </style>
