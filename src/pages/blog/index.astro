@@ -6,17 +6,19 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
 import { getCollection } from 'astro:content';
 import FormattedDate from '../../components/FormattedDate.astro';
 
-const posts = (await getCollection('blog')).sort(
+const allPosts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 
-const totalPosts = posts.length;
+const POSTS_PER_PAGE = 30;
+const totalPosts = allPosts.length;
+const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
 
 // 统计各分类文章数量
 const categoryCount = {
-	'航海': posts.filter(p => p.data.category === '航海').length,
-	'国际时政': posts.filter(p => p.data.category === '国际时政').length,
-	'生活思考': posts.filter(p => p.data.category === '生活思考').length,
+	'航海': allPosts.filter(p => p.data.category === '航海').length,
+	'国际时政': allPosts.filter(p => p.data.category === '国际时政').length,
+	'生活思考': allPosts.filter(p => p.data.category === '生活思考').length,
 };
 ---
 
@@ -70,34 +72,30 @@ const categoryCount = {
 				</div>
 			</section>
 			
-			<!-- Posts List -->
+			<!-- Posts Grid -->
 			<section class="posts-section">
-				<div class="posts-container">
+				<div class="posts-grid" id="postsGrid">
 					{
-						posts.map((post, index) => (
-							<article class="post-item" style={`--delay: ${index * 0.05}s`} data-category={post.data.category || '航海'}>
-								<div class="post-marker">
-									<div class="marker-dot"></div>
-									<div class="marker-line"></div>
-								</div>
-								<a href={`/blog/${post.id}/`} class="post-content">
-									<div class="post-main">
-										<div class="post-category-badge">
+						allPosts.map((post) => (
+							<article class="post-card" data-category={post.data.category || '航海'}>
+								<a href={`/blog/${post.id}/`} class="post-card-link">
+									<div class="post-card-body">
+										<div class="post-card-category">
 											<i class={`fas ${post.data.category === '航海' ? 'fa-anchor' : post.data.category === '国际时政' ? 'fa-globe' : 'fa-heart'}`}></i>
 											<span>{post.data.category || '航海'}</span>
 										</div>
-										<h2 class="post-title">{post.data.title}</h2>
-										<p class="post-description">
+										<h2 class="post-card-title">{post.data.title}</h2>
+										<p class="post-card-desc">
 											{post.data.description || '点击查看详情...'}
 										</p>
 									</div>
-									<div class="post-meta">
-										<span class="meta-item">
+									<div class="post-card-footer">
+										<span class="post-card-date">
 											<i class="far fa-calendar-alt"></i>
 											<FormattedDate date={post.data.pubDate} />
 										</span>
-										<span class="meta-item read-hint">
-											阅读全文 <i class="fas fa-chevron-right"></i>
+										<span class="post-card-arrow">
+											<i class="fas fa-arrow-right"></i>
 										</span>
 									</div>
 								</a>
@@ -106,40 +104,157 @@ const categoryCount = {
 					}
 				</div>
 				
-				<div class="posts-end">
-					<div class="end-icon"><i class="fas fa-anchor"></i></div>
-					<p>已展示全部 {totalPosts} 篇文章</p>
-				</div>
+				<!-- Pagination -->
+				<div class="pagination" id="pagination"></div>
+				
+				<!-- Page info -->
+				<div class="page-info" id="pageInfo"></div>
 			</section>
 		</main>
 		
 		<Footer />
 		
 		<script>
-			// 分类筛选功能
-			const filterBtns = document.querySelectorAll('.filter-btn');
-			const postItems = document.querySelectorAll('.post-item');
+			const POSTS_PER_PAGE = 30;
+			let currentPage = 1;
+			let currentCategory = 'all';
 			
-			filterBtns.forEach(btn => {
-				btn.addEventListener('click', () => {
-					// 移除所有按钮的 active 类
-					filterBtns.forEach(b => b.classList.remove('active'));
-					// 添加当前按钮的 active 类
-					btn.classList.add('active');
+			const postsGrid = document.getElementById('postsGrid');
+			const pagination = document.getElementById('pagination');
+			const pageInfo = document.getElementById('pageInfo');
+			const filterBtns = document.querySelectorAll('.filter-btn');
+			const postCards = document.querySelectorAll('.post-card');
+			
+			function getFilteredPosts() {
+				return currentCategory === 'all' 
+					? [...postCards] 
+					: postCards.filter(c => c.getAttribute('data-category') === currentCategory);
+			}
+			
+			function renderPage(page) {
+				const filtered = getFilteredPosts();
+				const totalPages = Math.ceil(filtered.length / POSTS_PER_PAGE);
+				
+				// Show/hide cards based on page
+				const start = (page - 1) * POSTS_PER_PAGE;
+				const end = start + POSTS_PER_PAGE;
+				
+				// Reset display for filtered posts
+				postCards.forEach(card => {
+					const category = card.getAttribute('data-category');
+					const isMatch = currentCategory === 'all' || category === currentCategory;
+					if (!isMatch) {
+						card.style.display = 'none';
+						return;
+					}
 					
-					const category = btn.getAttribute('data-category');
-					
-					// 筛选文章
-					postItems.forEach(item => {
-						const itemCategory = item.getAttribute('data-category');
-						if (category === 'all' || itemCategory === category) {
-							item.style.display = 'flex';
-						} else {
-							item.style.display = 'none';
-						}
+					// Check if within page range
+					const filteredIdx = filtered.indexOf(card);
+					if (filteredIdx >= start && filteredIdx < end) {
+						card.style.display = 'block';
+					} else {
+						card.style.display = 'none';
+					}
+				});
+				
+				// Render pagination
+				renderPagination(totalPages, page, filtered.length);
+				
+				// Page info
+				const showStart = Math.min(start + 1, filtered.length);
+				const showEnd = Math.min(end, filtered.length);
+				if (filtered.length > POSTS_PER_PAGE) {
+					pageInfo.textContent = `第 ${page} 页，显示 ${showStart}-${showEnd} / 共 ${filtered.length} 篇`;
+					pageInfo.style.display = 'block';
+				} else {
+					pageInfo.style.display = 'none';
+				}
+				
+				// Scroll to top of posts
+				postsGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+			}
+			
+			function renderPagination(totalPages, currentPage, totalItems) {
+				if (totalPages <= 1) {
+					pagination.innerHTML = '';
+					pagination.style.display = 'none';
+					return;
+				}
+				
+				pagination.style.display = 'flex';
+				let html = '';
+				
+				// Previous button
+				if (currentPage > 1) {
+					html += `<button class="page-btn" data-page="${currentPage - 1}"><i class="fas fa-chevron-left"></i></button>`;
+				} else {
+					html += `<button class="page-btn disabled" disabled><i class="fas fa-chevron-left"></i></button>`;
+				}
+				
+				// Page numbers
+				const maxVisible = 7;
+				let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+				let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+				
+				if (endPage - startPage + 1 < maxVisible) {
+					startPage = Math.max(1, endPage - maxVisible + 1);
+				}
+				
+				if (startPage > 1) {
+					html += `<button class="page-btn" data-page="1">1</button>`;
+					if (startPage > 2) {
+						html += `<span class="page-ellipsis">...</span>`;
+					}
+				}
+				
+				for (let i = startPage; i <= endPage; i++) {
+					if (i === currentPage) {
+						html += `<button class="page-btn active">${i}</button>`;
+					} else {
+						html += `<button class="page-btn" data-page="${i}">${i}</button>`;
+					}
+				}
+				
+				if (endPage < totalPages) {
+					if (endPage < totalPages - 1) {
+						html += `<span class="page-ellipsis">...</span>`;
+					}
+					html += `<button class="page-btn" data-page="${totalPages}">${totalPages}</button>`;
+				}
+				
+				// Next button
+				if (currentPage < totalPages) {
+					html += `<button class="page-btn" data-page="${currentPage + 1}"><i class="fas fa-chevron-right"></i></button>`;
+				} else {
+					html += `<button class="page-btn disabled" disabled><i class="fas fa-chevron-right"></i></button>`;
+				}
+				
+				pagination.innerHTML = html;
+				
+				// Bind click events
+				pagination.querySelectorAll('.page-btn:not(.disabled)').forEach(btn => {
+					btn.addEventListener('click', () => {
+						const page = parseInt(btn.getAttribute('data-page'));
+						currentPage = page;
+						renderPage(page);
 					});
 				});
+			}
+			
+			// Category filter
+			filterBtns.forEach(btn => {
+				btn.addEventListener('click', () => {
+					filterBtns.forEach(b => b.classList.remove('active'));
+					btn.classList.add('active');
+					
+					currentCategory = btn.getAttribute('data-category');
+					currentPage = 1;
+					renderPage(1);
+				});
 			});
+			
+			// Initial render
+			renderPage(1);
 		</script>
 	</body>
 </html>
@@ -278,91 +393,78 @@ const categoryCount = {
 		}
 	}
 	
-	/* Posts Section */
+	/* Posts Grid */
 	.posts-section {
 		padding: 1rem 0 3rem;
 	}
 	
-	.posts-container {
-		max-width: 800px;
+	.posts-grid {
+		max-width: 1200px;
 		margin: 0 auto;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 1.5rem;
 	}
 	
-	.post-item {
-		display: flex;
-		gap: 1.5rem;
-		margin-bottom: 0;
+	@media (max-width: 1024px) {
+		.posts-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+	
+	@media (max-width: 640px) {
+		.posts-grid {
+			grid-template-columns: 1fr;
+			gap: 1rem;
+		}
+	}
+	
+	/* Post Card */
+	.post-card {
 		opacity: 0;
-		animation: slideIn 0.4s ease forwards;
+		animation: fadeInUp 0.4s ease forwards;
 		animation-delay: var(--delay, 0s);
 	}
 	
-	@keyframes slideIn {
+	@keyframes fadeInUp {
 		from {
 			opacity: 0;
-			transform: translateX(-20px);
+			transform: translateY(20px);
 		}
 		to {
 			opacity: 1;
-			transform: translateX(0);
+			transform: translateY(0);
 		}
 	}
 	
-	.post-marker {
+	.post-card-link {
 		display: flex;
 		flex-direction: column;
-		align-items: center;
-		flex-shrink: 0;
-		padding-top: 0.5rem;
-	}
-	
-	.marker-dot {
-		width: 12px;
-		height: 12px;
-		border-radius: 50%;
-		background: var(--accent);
-		border: 3px solid var(--white);
-		box-shadow: 0 0 0 2px var(--accent);
-	}
-	
-	.marker-line {
-		flex-grow: 1;
-		width: 2px;
-		background: linear-gradient(to bottom, var(--accent), transparent);
-		min-height: 60px;
-	}
-	
-	.post-item:last-child .marker-line {
-		display: none;
-	}
-	
-	.post-content {
-		flex-grow: 1;
-		display: flex;
-		flex-direction: column;
-		gap: 0.75rem;
-		padding: 1.25rem;
+		height: 100%;
 		background: var(--white);
 		border-radius: 12px;
 		box-shadow: var(--shadow-sm);
-		margin-bottom: 1.5rem;
+		padding: 1.5rem;
 		text-decoration: none;
 		color: inherit;
-		transition: all 0.2s ease;
+		transition: all 0.25s ease;
+		border: 1px solid transparent;
 	}
 	
-	.post-content:hover {
-		box-shadow: var(--shadow-md);
-		transform: translateX(4px);
+	.post-card-link:hover {
+		box-shadow: var(--shadow-lg);
+		transform: translateY(-4px);
+		border-color: var(--primary);
 	}
 	
-	.post-main {
+	.post-card-body {
+		flex: 1;
 		display: flex;
 		flex-direction: column;
-		gap: 0.5rem;
+		gap: 0.75rem;
 	}
 	
-	.post-category-badge {
+	.post-card-category {
 		display: inline-flex;
 		align-items: center;
 		gap: 0.375rem;
@@ -373,85 +475,131 @@ const categoryCount = {
 		font-size: 0.75rem;
 		font-weight: 500;
 		width: fit-content;
-		margin-bottom: 0.25rem;
 	}
 	
-	.post-category-badge i {
+	.post-card-category i {
 		font-size: 0.7rem;
 		color: var(--accent);
 	}
 	
-	.post-title {
-		font-size: 1.125rem;
+	.post-card-title {
+		font-size: 1rem;
 		font-weight: 600;
 		color: var(--primary);
 		margin: 0;
-		line-height: 1.4;
+		line-height: 1.5;
 		transition: color 0.2s;
-	}
-	
-	.post-content:hover .post-title {
-		color: var(--primary-light);
-	}
-	
-	.post-description {
-		font-size: 0.9rem;
-		color: rgb(var(--gray));
-		margin: 0;
-		line-height: 1.6;
 		display: -webkit-box;
 		-webkit-line-clamp: 2;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}
 	
-	.post-meta {
+	.post-card-link:hover .post-card-title {
+		color: var(--primary-light);
+	}
+	
+	.post-card-desc {
+		font-size: 0.85rem;
+		color: rgb(var(--gray));
+		margin: 0;
+		line-height: 1.6;
+		display: -webkit-box;
+		-webkit-line-clamp: 3;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+	
+	.post-card-footer {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding-top: 0.75rem;
+		padding-top: 1rem;
+		margin-top: 1rem;
 		border-top: 1px solid rgb(var(--gray-light));
 	}
 	
-	.meta-item {
+	.post-card-date {
 		display: flex;
 		align-items: center;
-		gap: 0.5rem;
-		font-size: 0.8rem;
+		gap: 0.4rem;
+		font-size: 0.78rem;
 		color: rgb(var(--gray));
 	}
 	
-	.meta-item i {
+	.post-card-date i {
 		color: var(--accent);
 	}
 	
-	.read-hint {
+	.post-card-arrow {
 		color: var(--primary);
-		font-weight: 500;
+		font-size: 0.85rem;
 		opacity: 0;
-		transition: opacity 0.2s;
+		transition: opacity 0.2s, transform 0.2s;
+		transform: translateX(-5px);
 	}
 	
-	.post-content:hover .read-hint {
+	.post-card-link:hover .post-card-arrow {
 		opacity: 1;
+		transform: translateX(0);
 	}
 	
-	/* Posts End */
-	.posts-end {
-		text-align: center;
-		padding: 3rem 0;
+	/* Pagination */
+	.pagination {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 2.5rem 0 1rem;
+		flex-wrap: wrap;
+	}
+	
+	.page-btn {
+		min-width: 40px;
+		height: 40px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0 0.75rem;
+		background: var(--white);
+		border: 2px solid rgb(var(--gray-light));
+		border-radius: 8px;
 		color: rgb(var(--gray));
-	}
-	
-	.end-icon {
-		font-size: 2rem;
-		color: var(--accent);
-		margin-bottom: 0.5rem;
-	}
-	
-	.posts-end p {
-		margin: 0;
 		font-size: 0.9rem;
+		font-weight: 500;
+		cursor: pointer;
+		transition: all 0.2s ease;
+	}
+	
+	.page-btn:hover:not(.disabled) {
+		border-color: var(--primary);
+		color: var(--primary);
+		transform: translateY(-2px);
+		box-shadow: var(--shadow-sm);
+	}
+	
+	.page-btn.active {
+		background: var(--primary);
+		border-color: var(--primary);
+		color: var(--white);
+	}
+	
+	.page-btn.disabled {
+		opacity: 0.4;
+		cursor: not-allowed;
+	}
+	
+	.page-ellipsis {
+		color: rgb(var(--gray));
+		padding: 0 0.25rem;
+	}
+	
+	/* Page Info */
+	.page-info {
+		text-align: center;
+		padding: 0.5rem 0 2rem;
+		font-size: 0.85rem;
+		color: rgb(var(--gray));
 	}
 	
 	@media (max-width: 640px) {
@@ -459,16 +607,22 @@ const categoryCount = {
 			font-size: 1.875rem;
 		}
 		
-		.post-item {
-			gap: 1rem;
+		.post-card-link {
+			padding: 1.25rem;
 		}
 		
-		.marker-line {
-			min-height: 40px;
+		.post-card-title {
+			font-size: 0.95rem;
 		}
 		
-		.read-hint {
-			display: none;
+		.post-card-desc {
+			-webkit-line-clamp: 2;
+		}
+		
+		.page-btn {
+			min-width: 36px;
+			height: 36px;
+			font-size: 0.85rem;
 		}
 	}
 </style>
