@@ -4,9 +4,12 @@ description: "从材料科学、建造工艺、全生命周期成本等维度，
 pubDate: 2026-04-29
 category: '航海'
 tags: ['铝合金', '船体材料', '游艇建造', '材料对比', '深度调研']
+heroImage: /blog-images/aluminum-hull/01-cover.svg
 ---
 
 # 铝合金船体优势深度调研：为什么顶级游艇都在用铝？
+
+![铝合金船体优势深度调研：为什么顶级游艇都在用铝？](/blog-images/aluminum-hull/01-cover.svg)
 
 > **调研日期：** 2026-04-29  
 > **研究对象：** 铝合金船体 vs 钢 / 玻璃钢（FRP）/ 碳纤维  
@@ -33,6 +36,8 @@ tags: ['铝合金', '船体材料', '游艇建造', '材料对比', '深度调�
 | **性价比** | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐ |
 
 **一句话总结：铝合金在强度、重量、耐腐蚀、建造灵活性和全生命周期成本之间取得了最佳平衡。**
+
+![四种船体材料综合对比：铝合金 vs 钢 vs 玻璃钢 vs 碳纤维](/blog-images/aluminum-hull/02-material-comparison.svg)
 
 ---
 
@@ -172,6 +177,8 @@ tags: ['铝合金', '船体材料', '游艇建造', '材料对比', '深度调�
 
 **铝合金船 20 年总成本低约 23%。**
 
+![20 年持有成本对比：铝合金船 vs 玻璃钢船](/blog-images/aluminum-hull/04-cost-comparison.svg)
+
 ### 2.2 钢（Steel）
 
 #### 特点
@@ -265,6 +272,8 @@ tags: ['铝合金', '船体材料', '游艇建造', '材料对比', '深度调�
 
 铝合金虽然耐腐蚀，但在海水中仍需专业防护：
 
+![铝合金船体四层防腐体系](/blog-images/aluminum-hull/03-corrosion-protection.svg)
+
 ```
 防护体系：
 ├── 牺牲阳极（锌/铝阳极）
@@ -322,6 +331,8 @@ S-N 曲线特征：
 ---
 
 ## 四、行业案例 — 谁在用铝合金？
+
+![行业案例：Aquila、Sunreef、Nordhavn 等品牌的选择](/blog-images/aluminum-hull/05-industry-cases.svg)
 
 ### 4.1 双体动力游艇
 

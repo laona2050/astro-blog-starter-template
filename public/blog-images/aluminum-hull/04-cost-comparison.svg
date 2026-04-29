@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 650" width="1000" height="650">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1b2a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1b2838;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="4" flood-color="#000" flood-opacity="0.4"/>
+    </filter>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1000" height="650" fill="url(#bg)"/>
+  
+  <!-- Title -->
+  <text x="500" y="40" font-family="Arial, sans-serif" font-size="26" fill="white" text-anchor="middle" font-weight="bold">20年持有成本对比（60尺船）</text>
+  <text x="500" y="65" font-family="Arial, sans-serif" font-size="13" fill="#8899aa" text-anchor="middle">铝合金船总成本比玻璃钢低 23%</text>
+  
+  <!-- Aluminum ship cost breakdown -->
+  <g transform="translate(50, 90)">
+    <text x="220" y="10" font-family="Arial, sans-serif" font-size="18" fill="#4fc3f7" text-anchor="middle" font-weight="bold" filter="url(#glow)">铝合金船</text>
+    
+    <!-- Purchase -->
+    <rect x="0" y="30" width="440" height="35" rx="5" fill="#1565c0" opacity="0.7" filter="url(#shadow)"/>
+    <text x="15" y="52" font-family="Arial, sans-serif" font-size="13" fill="white">初始购船</text>
+    <text x="420" y="52" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="end" font-weight="bold">$150万</text>
+    
+    <!-- Maintenance -->
+    <rect x="0" y="75" width="120" height="35" rx="5" fill="#2e7d32" opacity="0.7" filter="url(#shadow)"/>
+    <text x="15" y="97" font-family="Arial, sans-serif" font-size="13" fill="white">20年维护</text>
+    <text x="110" y="97" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="end" font-weight="bold">$30万</text>
+    
+    <!-- Fuel -->
+    <rect x="0" y="120" width="320" height="35" rx="5" fill="#e65100" opacity="0.7" filter="url(#shadow)"/>
+    <text x="15" y="142" font-family="Arial, sans-serif" font-size="13" fill="white">20年燃油（轻30%省油）</text>
+    <text x="310" y="142" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="end" font-weight="bold">$80万</text>
+    
+    <!-- Residual value (negative cost) -->
+    <rect x="0" y="165" width="240" height="35" rx="5" fill="#6a1b9a" opacity="0.7" filter="url(#shadow)"/>
+    <text x="15" y="187" font-family="Arial, sans-serif" font-size="13" fill="white">20年后残值（-回收）</text>
+    <text x="230" y="187" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="end" font-weight="bold">-$60万</text>
+    
+    <!-- Total -->
+    <rect x="0" y="215" width="440" height="45" rx="8" fill="#4fc3f7" filter="url(#shadow)"/>
+    <text x="220" y="243" font-family="Arial, sans-serif" font-size="18" fill="#0d1b2a" text-anchor="middle" font-weight="bold">总成本 $200万</text>
+    
+    <!-- Benefits callout -->
+    <g transform="translate(0, 280)">
+      <rect x="0" y="0" width="440" height="110" rx="10" fill="#4fc3f7" opacity="0.08" stroke="#4fc3f7" stroke-width="1"/>
+      <text x="220" y="25" font-family="Arial, sans-serif" font-size="13" fill="#4fc3f7" text-anchor="middle" font-weight="bold">✓ 轻量化省油 30%</text>
+      <text x="220" y="48" font-family="Arial, sans-serif" font-size="13" fill="#4fc3f7" text-anchor="middle">✓ 维护成本极低（无需除锈）</text>
+      <text x="220" y="71" font-family="Arial, sans-serif" font-size="13" fill="#4fc3f7" text-anchor="middle">✓ 铝材回收价值高</text>
+      <text x="220" y="94" font-family="Arial, sans-serif" font-size="13" fill="#4fc3f7" text-anchor="middle">✓ 使用寿命 40-50 年</text>
+    </g>
+  </g>
+  
+  <!-- GRP ship cost breakdown -->
+  <g transform="translate(510, 90)">
+    <text x="220" y="10" font-family="Arial, sans-serif" font-size="18" fill="#ef5350" text-anchor="middle" font-weight="bold" filter="url(#glow)">玻璃钢船</text>
+    
+    <!-- Purchase -->
+    <rect x="0" y="30" width="360" height="35" rx="5" fill="#c62828" opacity="0.7" filter="url(#shadow)"/>
+    <text x="15" y="52" font-family="Arial, sans-serif" font-size="13" fill="white">初始购船</text>
+    <text x="350" y="52" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="end" font-weight="bold">$120万</text>
+    
+    <!-- Maintenance -->
+    <rect x="0" y="75" width="240" height="35" rx="5" fill="#2e7d32" opacity="0.7" filter="url(#shadow)"/>
+    <text x="15" y="97" font-family="Arial, sans-serif" font-size="13" fill="white">20年维护（胶衣修复等）</text>
+    <text x="230" y="97" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="end" font-weight="bold">$60万</text>
+    
+    <!-- Fuel -->
+    <rect x="0" y="120" width="440" height="35" rx="5" fill="#e65100" opacity="0.7" filter="url(#shadow)"/>
+    <text x="15" y="142" font-family="Arial, sans-serif" font-size="13" fill="white">20年燃油（较重，油耗高）</text>
+    <text x="430" y="142" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="end" font-weight="bold">$110万</text>
+    
+    <!-- Residual value (negative cost) -->
+    <rect x="0" y="165" width="120" height="35" rx="5" fill="#6a1b9a" opacity="0.7" filter="url(#shadow)"/>
+    <text x="15" y="187" font-family="Arial, sans-serif" font-size="13" fill="white">20年后残值</text>
+    <text x="110" y="187" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="end" font-weight="bold">-$30万</text>
+    
+    <!-- Total -->
+    <rect x="0" y="215" width="440" height="45" rx="8" fill="#ef5350" filter="url(#shadow)"/>
+    <text x="220" y="243" font-family="Arial, sans-serif" font-size="18" fill="white" text-anchor="middle" font-weight="bold">总成本 $260万</text>
+    
+    <!-- Drawbacks callout -->
+    <g transform="translate(0, 280)">
+      <rect x="0" y="0" width="440" height="110" rx="10" fill="#ef5350" opacity="0.08" stroke="#ef5350" stroke-width="1"/>
+      <text x="220" y="25" font-family="Arial, sans-serif" font-size="13" fill="#ef5350" text-anchor="middle" font-weight="bold">✗ 较重导致油耗高 30%</text>
+      <text x="220" y="48" font-family="Arial, sans-serif" font-size="13" fill="#ef5350" text-anchor="middle">✗ 胶衣修复、分层修补成本高</text>
+      <text x="220" y="71" font-family="Arial, sans-serif" font-size="13" fill="#ef5350" text-anchor="middle">✗ 玻璃钢难回收，残值低</text>
+      <text x="220" y="94" font-family="Arial, sans-serif" font-size="13" fill="#ef5350" text-anchor="middle">✗ 使用寿命约 25-35 年</text>
+    </g>
+  </g>
+  
+  <!-- Summary arrow -->
+  <g transform="translate(430, 610)">
+    <path d="M0 0 L140 0 L130 -10 L140 0 L130 10" fill="#4fc3f7"/>
+    <text x="70" y="-15" font-family="Arial, sans-serif" font-size="14" fill="#4fc3f7" text-anchor="middle" font-weight="bold">节省 $60万 (23%)</text>
+  </g>
+  
+  <!-- Bottom -->
+  <rect x="0" y="630" width="1000" height="20" fill="#0d1b2a" opacity="0.8"/>
+  <text x="500" y="644" font-family="Arial, sans-serif" font-size="11" fill="#5a7a9a" text-anchor="middle">老鹏友的航海日志 | homesh.top</text>
+</svg>
