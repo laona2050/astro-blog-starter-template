@@ -19,13 +19,14 @@ const categoryCount = {
 	'生活思考': allPosts.filter(p => p.data.category === '生活思考').length,
 };
 
-// 按分类分组文章
-const postsByCategory: Record<string, typeof allPosts> = {};
-allPosts.forEach(post => {
-	const cat = post.data.category || '航海';
-	if (!postsByCategory[cat]) postsByCategory[cat] = [];
-	postsByCategory[cat].push(post);
-});
+// 只传必要字段给客户端，避免数据过大
+const postsMeta = allPosts.map(p => ({
+	id: p.id,
+	title: p.data.title,
+	desc: p.data.description || '',
+	date: p.data.pubDate.toISOString(),
+	cat: p.data.category || '航海',
+}));
 ---
 
 <!doctype html>
@@ -81,173 +82,68 @@ allPosts.forEach(post => {
 			<!-- Posts Grid -->
 			<section class="posts-section">
 				<div class="posts-grid" id="postsGrid"></div>
-				
-				<!-- Pagination -->
 				<nav class="pagination" id="pagination"></nav>
-				
-				<!-- Page info -->
 				<div class="page-info" id="pageInfo"></div>
 			</section>
 		</main>
 		
 		<Footer />
 		
-		<script define:vars={{ allPosts, POSTS_PER_PAGE: 30 }}>
-			const POSTS_PER_PAGE = 30;
-			let currentPage = 1;
-			let currentCategory = 'all';
+		<script define:vars={{ posts: postsMeta }}>
+			const PER_PAGE = 30;
+			let page = 1, cat = 'all';
+			const grid = document.getElementById('postsGrid');
+			const pag = document.getElementById('pagination');
+			const info = document.getElementById('pageInfo');
+			const btns = document.querySelectorAll('.filter-btn');
 			
-			// Store all posts data for rendering
-			const postsData = allPosts.map(post => ({
-				id: post.id,
-				title: post.data.title,
-				description: post.data.description || '',
-				pubDate: post.data.pubDate.toISOString(),
-				category: post.data.category || '航海',
-			}));
+			function icon(c) { return c==='航海'?'fa-anchor':c==='国际时政'?'fa-globe':'fa-heart'; }
+			function fmt(d) { const x=new Date(d); return `${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}-${String(x.getDate()).padStart(2,'0')}`; }
 			
-			const postsGrid = document.getElementById('postsGrid');
-			const pagination = document.getElementById('pagination');
-			const pageInfo = document.getElementById('pageInfo');
-			const filterBtns = document.querySelectorAll('.filter-btn');
-			
-			function getCategoryIcon(cat) {
-				switch(cat) {
-					case '航海': return 'fa-anchor';
-					case '国际时政': return 'fa-globe';
-					default: return 'fa-heart';
-				}
-			}
-			
-			function formatDate(isoStr) {
-				const d = new Date(isoStr);
-				const y = d.getFullYear();
-				const m = String(d.getMonth() + 1).padStart(2, '0');
-				const day = String(d.getDate()).padStart(2, '0');
-				return `${y}-${m}-${day}`;
-			}
-			
-			function renderCard(post, index) {
-				const cat = post.category;
-				const icon = getCategoryIcon(cat);
-				const excerpt = post.description.slice(0, 80) + (post.description.length > 80 ? '...' : '');
-				const delay = index * 0.05;
-				
-				return `
-					<article class="post-card" style="--delay: ${delay}s" data-category="${cat}">
-						<a href="/blog/${post.id}/" class="post-link">
-							<div class="post-content">
-								<div class="post-meta">
-									<span class="post-date">
-										<i class="far fa-calendar"></i>
-										${formatDate(post.pubDate)}
-									</span>
-									<span class="post-category-tag">
-										<i class="fas ${icon}"></i>
-										<span>${cat}</span>
-									</span>
-								</div>
-								<h3 class="post-title">${post.title}</h3>
-								<p class="post-excerpt">${excerpt}</p>
-								<div class="post-footer">
-									<span class="read-more">阅读全文 <i class="fas fa-arrow-right"></i></span>
-								</div>
-							</div>
-						</a>
-					</article>
-				`;
-			}
-			
-			function getFilteredPosts() {
-				if (currentCategory === 'all') return postsData;
-				return postsData.filter(p => p.category === currentCategory);
-			}
+			function filtered() { return cat==='all' ? posts : posts.filter(p=>p.cat===cat); }
 			
 			function render() {
-				const filtered = getFilteredPosts();
-				const totalPages = Math.max(1, Math.ceil(filtered.length / POSTS_PER_PAGE));
-				
-				if (currentPage > totalPages) currentPage = totalPages;
-				
-				const start = (currentPage - 1) * POSTS_PER_PAGE;
-				const end = Math.min(start + POSTS_PER_PAGE, filtered.length);
-				const pagePosts = filtered.slice(start, end);
-				
-				// Render cards
-				postsGrid.innerHTML = pagePosts.map((p, i) => renderCard(p, i)).join('');
-				
-				// Page info
-				if (filtered.length > POSTS_PER_PAGE) {
-					pageInfo.textContent = `第 ${currentPage} 页，显示 ${start + 1}-${end} / 共 ${filtered.length} 篇`;
-					pageInfo.style.display = 'block';
-				} else {
-					pageInfo.style.display = 'none';
-				}
-				
-				// Pagination
-				if (totalPages <= 1) {
-					pagination.innerHTML = '';
-					pagination.style.display = 'none';
-				} else {
-					pagination.style.display = 'flex';
-					let html = '';
-					
-					// Prev
-					if (currentPage > 1) {
-						html += `<button class="page-btn" data-page="${currentPage - 1}"><i class="fas fa-chevron-left"></i></button>`;
-					} else {
-						html += `<button class="page-btn disabled" disabled><i class="fas fa-chevron-left"></i></button>`;
-					}
-					
-					const maxVisible = 7;
-					let s = Math.max(1, currentPage - Math.floor(maxVisible / 2));
-					let e = Math.min(totalPages, s + maxVisible - 1);
-					if (e - s + 1 < maxVisible) s = Math.max(1, e - maxVisible + 1);
-					
-					if (s > 1) {
-						html += `<button class="page-btn" data-page="1">1</button>`;
-						if (s > 2) html += `<span class="page-ellipsis">...</span>`;
-					}
-					for (let i = s; i <= e; i++) {
-						html += i === currentPage
-							? `<button class="page-btn active">${i}</button>`
-							: `<button class="page-btn" data-page="${i}">${i}</button>`;
-					}
-					if (e < totalPages) {
-						if (e < totalPages - 1) html += `<span class="page-ellipsis">...</span>`;
-						html += `<button class="page-btn" data-page="${totalPages}">${totalPages}</button>`;
-					}
-					
-					if (currentPage < totalPages) {
-						html += `<button class="page-btn" data-page="${currentPage + 1}"><i class="fas fa-chevron-right"></i></button>`;
-					} else {
-						html += `<button class="page-btn disabled" disabled><i class="fas fa-chevron-right"></i></button>`;
-					}
-					
-					pagination.innerHTML = html;
-				}
-				
-				// Rebind pagination clicks
-				pagination.querySelectorAll('.page-btn:not(.disabled)').forEach(btn => {
-					btn.addEventListener('click', () => {
-						currentPage = parseInt(btn.getAttribute('data-page'));
-						render();
-					});
-				});
+				const f = filtered();
+			 const tp = Math.max(1, Math.ceil(f.length/PER_PAGE));
+			 if(page>tp) page=tp;
+			 const s=(page-1)*PER_PAGE, e=Math.min(s+PER_PAGE,f.length);
+			 
+			 grid.innerHTML = f.slice(s,e).map((p,i)=>{
+				 const ex = p.desc.slice(0,80)+(p.desc.length>80?'...':'');
+				 return `<article class="post-card" style="--delay:${i*0.05}s">
+					<a href="/blog/${p.id}/" class="post-link"><div class="post-content">
+					 <div class="post-meta">
+					  <span class="post-date"><i class="far fa-calendar"></i>${fmt(p.date)}</span>
+					  <span class="post-category-tag"><i class="fas ${icon(p.cat)}"></i><span>${p.cat}</span></span>
+					 </div>
+					 <h3 class="post-title">${p.title}</h3>
+					 <p class="post-excerpt">${ex}</p>
+					 <div class="post-footer"><span class="read-more">阅读全文 <i class="fas fa-arrow-right"></i></span></div>
+					</div></a></article>`;
+			 }).join('');
+			 
+			 info.textContent = f.length>PER_PAGE ? `第 ${page} 页，显示 ${s+1}-${e} / 共 ${f.length} 篇` : '';
+			 info.style.display = f.length>PER_PAGE?'block':'none';
+			 
+			 if(tp<=1){pag.innerHTML='';pag.style.display='none';return;}
+			 pag.style.display='flex';
+			 let h='';
+			 h += page>1?`<button class="page-btn" data-p="${page-1}"><i class="fas fa-chevron-left"></i></button>`:`<button class="page-btn disabled" disabled><i class="fas fa-chevron-left"></i></button>`;
+			 const mx=7; let ss=Math.max(1,page-Math.floor(mx/2)), ee=Math.min(tp,ss+mx-1);
+			 if(ee-ss+1<mx) ss=Math.max(1,ee-mx+1);
+			 if(ss>1){h+=`<button class="page-btn" data-p="1">1</button>`;if(ss>2)h+='<span class="page-ellipsis">...</span>';}
+			 for(let i=ss;i<=ee;i++) h+=i===page?`<button class="page-btn active">${i}</button>`:`<button class="page-btn" data-p="${i}">${i}</button>`;
+			 if(ee<tp){if(ee<tp-1)h+='<span class="page-ellipsis">...</span>';h+=`<button class="page-btn" data-p="${tp}">${tp}</button>`;}
+			 h += page<tp?`<button class="page-btn" data-p="${page+1}"><i class="fas fa-chevron-right"></i></button>`:`<button class="page-btn disabled" disabled><i class="fas fa-chevron-right"></i></button>`;
+			 pag.innerHTML=h;
+			 pag.querySelectorAll('.page-btn:not(.disabled)').forEach(b=>b.addEventListener('click',()=>{page=+b.getAttribute('data-p');render();}));
 			}
 			
-			// Category filter clicks
-			filterBtns.forEach(btn => {
-				btn.addEventListener('click', () => {
-					filterBtns.forEach(b => b.classList.remove('active'));
-					btn.classList.add('active');
-					currentCategory = btn.getAttribute('data-category');
-					currentPage = 1;
-					render();
-				});
-			});
+			btns.forEach(b=>b.addEventListener('click',()=>{
+				btns.forEach(x=>x.classList.remove('active'));b.classList.add('active');
+				cat=b.getAttribute('data-category');page=1;render();
+			}));
 			
-			// Initial render
 			render();
 		</script>
 	</body>
@@ -261,276 +157,66 @@ allPosts.forEach(post => {
 		padding-left: 1.5rem;
 		padding-right: 1.5rem;
 	}
-	
 	@media (max-width: 768px) {
-		.page-header {
-			margin: 0 -1rem 2rem;
-			padding-left: 1rem;
-			padding-right: 1rem;
-		}
+		.page-header { margin: 0 -1rem 2rem; padding-left: 1rem; padding-right: 1rem; }
 	}
-	
 	.header-content { max-width: 1200px; margin: 0 auto; }
-	
-	.breadcrumb {
-		display: flex;
-		align-items: center;
-		gap: 0.75rem;
-		margin-bottom: 1rem;
-		font-size: 0.875rem;
-	}
-	
-	.breadcrumb a { color: rgba(255, 255, 255, 0.8); text-decoration: none; transition: color 0.2s; }
+	.breadcrumb { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; font-size: 0.875rem; }
+	.breadcrumb a { color: rgba(255,255,255,0.8); text-decoration: none; transition: color 0.2s; }
 	.breadcrumb a:hover { color: white; }
-	.breadcrumb .separator { color: rgba(255, 255, 255, 0.5); }
+	.breadcrumb .separator { color: rgba(255,255,255,0.5); }
 	.breadcrumb span:last-child { color: white; font-weight: 500; }
-	
-	.page-header h1 {
-		color: white;
-		font-size: 2.5rem;
-		margin: 0 0 0.5rem 0;
-		font-family: 'Noto Sans SC', sans-serif;
-	}
-	
-	.subtitle { color: rgba(255, 255, 255, 0.8); margin: 0; font-size: 1rem; }
-	
-	/* Category Filter */
+	.page-header h1 { color: white; font-size: 2.5rem; margin: 0 0 0.5rem 0; font-family: 'Noto Sans SC', sans-serif; }
+	.subtitle { color: rgba(255,255,255,0.8); margin: 0; font-size: 1rem; }
 	.category-filter { padding: 0 0 2rem; }
-	
-	.filter-container {
-		max-width: 1200px;
-		margin: 0 auto;
-		display: flex;
-		gap: 1rem;
-		flex-wrap: wrap;
-		justify-content: center;
-	}
-	
+	.filter-container { max-width: 1200px; margin: 0 auto; display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
 	.filter-btn {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.5rem;
-		padding: 0.75rem 1.5rem;
-		background: var(--white);
-		border: 2px solid rgb(var(--gray-light));
-		border-radius: 50px;
-		color: rgb(var(--gray));
-		font-size: 0.9rem;
-		font-weight: 500;
-		cursor: pointer;
-		transition: all 0.2s ease;
+		display: inline-flex; align-items: center; gap: 0.5rem;
+		padding: 0.75rem 1.5rem; background: var(--white); border: 2px solid rgb(var(--gray-light));
+		border-radius: 50px; color: rgb(var(--gray)); font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.2s ease;
 	}
-	
-	.filter-btn:hover {
-		border-color: var(--accent);
-		color: var(--accent);
-		transform: translateY(-2px);
-		box-shadow: var(--shadow-md);
-	}
-	
-	.filter-btn.active {
-		background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
-		border-color: var(--accent);
-		color: var(--white);
-	}
-	
+	.filter-btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+	.filter-btn.active { background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%); border-color: var(--accent); color: var(--white); }
 	.filter-btn i { font-size: 1rem; }
-	
-	.filter-btn .count {
-		background: rgba(0, 0, 0, 0.1);
-		padding: 0.125rem 0.5rem;
-		border-radius: 12px;
-		font-size: 0.75rem;
-	}
-	
-	.filter-btn.active .count { background: rgba(255, 255, 255, 0.2); }
-	
+	.filter-btn .count { background: rgba(0,0,0,0.1); padding: 0.125rem 0.5rem; border-radius: 12px; font-size: 0.75rem; }
+	.filter-btn.active .count { background: rgba(255,255,255,0.2); }
 	@media (max-width: 640px) {
 		.filter-container { gap: 0.5rem; }
 		.filter-btn { padding: 0.5rem 1rem; font-size: 0.8rem; }
 		.filter-btn span:not(.count) { display: none; }
 	}
-	
-	/* Posts Section */
 	.posts-section { padding: 1rem 0 4rem; }
-	
-	.posts-grid {
-		max-width: 1200px;
-		margin: 0 auto;
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		gap: 1.5rem;
-	}
-	
+	.posts-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
 	@media (max-width: 1024px) { .posts-grid { grid-template-columns: repeat(2, 1fr); } }
 	@media (max-width: 640px) { .posts-grid { grid-template-columns: 1fr; } }
-	
-	/* Post Card */
 	.post-card {
 		background: linear-gradient(135deg, var(--wave-gray) 0%, var(--primary-light) 100%);
-		border-radius: 16px;
-		box-shadow: var(--shadow-md);
-		overflow: hidden;
-		transition: all 0.3s ease;
-		opacity: 0;
-		animation: fadeInUp 0.6s ease forwards;
-		animation-delay: var(--delay, 0s);
+		border-radius: 16px; box-shadow: var(--shadow-md); overflow: hidden;
+		transition: all 0.3s ease; opacity: 0; animation: fadeInUp 0.6s ease forwards; animation-delay: var(--delay, 0s);
 		border: 1px solid rgba(245, 158, 11, 0.1);
 	}
-	
-	@keyframes fadeInUp {
-		from { opacity: 0; transform: translateY(20px); }
-		to { opacity: 1; transform: translateY(0); }
-	}
-	
-	.post-card:hover {
-		box-shadow: var(--shadow-xl), 0 0 30px rgba(245, 158, 11, 0.2);
-		transform: translateY(-4px);
-		border-color: rgba(245, 158, 11, 0.3);
-	}
-	
-	.post-link {
-		display: block;
-		text-decoration: none;
-		color: inherit;
-		padding: 1.5rem;
-		height: 100%;
-	}
-	
+	@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+	.post-card:hover { box-shadow: var(--shadow-xl), 0 0 30px rgba(245, 158, 11, 0.2); transform: translateY(-4px); border-color: rgba(245, 158, 11, 0.3); }
+	.post-link { display: block; text-decoration: none; color: inherit; padding: 1.5rem; height: 100%; }
 	.post-content { display: flex; flex-direction: column; height: 100%; }
-	
-	.post-meta {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		margin-bottom: 0.75rem;
-		flex-wrap: wrap;
-	}
-	
-	.post-date {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		font-size: 0.8rem;
-		color: rgb(var(--gray));
-	}
-	
+	.post-meta { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; flex-wrap: wrap; }
+	.post-date { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; color: rgb(var(--gray)); }
 	.post-date i { color: var(--accent); }
-	
-	.post-category-tag {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.35rem;
-		padding: 0.2rem 0.65rem;
-		background: rgba(245, 158, 11, 0.1);
-		color: var(--accent-light);
-		border-radius: 20px;
-		font-size: 0.7rem;
-		font-weight: 500;
-		border: 1px solid rgba(245, 158, 11, 0.2);
-	}
-	
+	.post-category-tag { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.2rem 0.65rem; background: rgba(245,158,11,0.1); color: var(--accent-light); border-radius: 20px; font-size: 0.7rem; font-weight: 500; border: 1px solid rgba(245,158,11,0.2); }
 	.post-category-tag i { font-size: 0.65rem; color: var(--accent); }
-	
-	.post-title {
-		font-size: 1.125rem;
-		font-weight: 600;
-		color: var(--accent-light);
-		margin: 0 0 0.75rem 0;
-		line-height: 1.4;
-		transition: all 0.2s;
-		display: -webkit-box;
-		-webkit-line-clamp: 2;
-		-webkit-box-orient: vertical;
-		overflow: hidden;
-	}
-	
-	.post-card:hover .post-title {
-		color: var(--accent);
-		text-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
-	}
-	
-	.post-excerpt {
-		font-size: 0.9rem;
-		color: rgb(var(--gray));
-		margin: 0 0 1rem 0;
-		line-height: 1.6;
-		flex-grow: 1;
-		display: -webkit-box;
-		-webkit-line-clamp: 3;
-		-webkit-box-orient: vertical;
-		overflow: hidden;
-	}
-	
+	.post-title { font-size: 1.125rem; font-weight: 600; color: var(--accent-light); margin: 0 0 0.75rem 0; line-height: 1.4; transition: all 0.2s; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+	.post-card:hover .post-title { color: var(--accent); text-shadow: 0 0 10px rgba(245, 158, 11, 0.5); }
+	.post-excerpt { font-size: 0.9rem; color: rgb(var(--gray)); margin: 0 0 1rem 0; line-height: 1.6; flex-grow: 1; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 	.post-footer { margin-top: auto; }
-	
-	.read-more {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.5rem;
-		font-size: 0.875rem;
-		font-weight: 500;
-		color: var(--accent-light);
-		transition: all 0.2s;
-	}
-	
-	.post-card:hover .read-more {
-		gap: 0.75rem;
-		color: var(--accent);
-		text-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
-	}
-	
-	/* Pagination */
-	.pagination {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		gap: 0.5rem;
-		padding: 2.5rem 0 1rem;
-		flex-wrap: wrap;
-	}
-	
-	.page-btn {
-		min-width: 40px;
-		height: 40px;
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		padding: 0 0.75rem;
-		background: var(--white);
-		border: 2px solid rgb(var(--gray-light));
-		border-radius: 8px;
-		color: rgb(var(--gray));
-		font-size: 0.9rem;
-		font-weight: 500;
-		cursor: pointer;
-		transition: all 0.2s ease;
-	}
-	
-	.page-btn:hover:not(.disabled) {
-		border-color: var(--accent);
-		color: var(--accent);
-		transform: translateY(-2px);
-		box-shadow: var(--shadow-sm);
-	}
-	
-	.page-btn.active {
-		background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
-		border-color: var(--accent);
-		color: var(--white);
-	}
-	
+	.read-more { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; font-weight: 500; color: var(--accent-light); transition: all 0.2s; }
+	.post-card:hover .read-more { gap: 0.75rem; color: var(--accent); text-shadow: 0 0 10px rgba(245, 158, 11, 0.5); }
+	.pagination { display: flex; justify-content: center; align-items: center; gap: 0.5rem; padding: 2.5rem 0 1rem; flex-wrap: wrap; }
+	.page-btn { min-width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; padding: 0 0.75rem; background: var(--white); border: 2px solid rgb(var(--gray-light)); border-radius: 8px; color: rgb(var(--gray)); font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.2s ease; }
+	.page-btn:hover:not(.disabled) { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+	.page-btn.active { background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%); border-color: var(--accent); color: var(--white); }
 	.page-btn.disabled { opacity: 0.4; cursor: not-allowed; }
 	.page-ellipsis { color: rgb(var(--gray)); padding: 0 0.25rem; }
-	
-	/* Page Info */
-	.page-info {
-		text-align: center;
-		padding: 0.5rem 0 2rem;
-		font-size: 0.85rem;
-		color: rgb(var(--gray));
-	}
-	
+	.page-info { text-align: center; padding: 0.5rem 0 2rem; font-size: 0.85rem; color: rgb(var(--gray)); }
 	@media (max-width: 640px) {
 		.page-header h1 { font-size: 1.875rem; }
 		.post-link { padding: 1.25rem; }
