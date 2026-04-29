@@ -1,8 +1,6 @@
 ---
-title: 'Horizon PC68 豪华动力双体游艇'
-description: 'Horizon PC68 豪华动力双体游艇完整资料'
-pubDate: '2026-02-23'
----
+category: "航海"
+
 
 > 整理日期：2026年2月23日
 > 来源：NautiStyles YouTube视频 + YachtBuyer + Horizon官方

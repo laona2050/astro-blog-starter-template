@@ -1,8 +1,6 @@
 ---
-title: 'Sailing SV Delos：他们为什么要自己建造铝合金双体船？'
-description: '深入了解Delos 2.0铝合金双体船建造项目'
-pubDate: '2026-02-23'
----
+category: "航海"
+
 
 > 整理自：YouTube @Sailing SV Delos
 
