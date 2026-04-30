@@ -42,11 +42,16 @@ const postsMeta = allPosts.map(p => ({
 		<main>
 			<!-- Page Header -->
 			<section class="page-header">
+				<div class="header-background"></div>
 				<div class="header-content">
 					<div class="breadcrumb">
 						<a href="/"><i class="fas fa-home"></i></a>
 						<span class="separator">/</span>
 						<span>文章列表</span>
+					</div>
+					<div class="section-tag">
+						<i class="fas fa-compass"></i>
+						<span>探索所有文章</span>
 					</div>
 					<h1>文章列表</h1>
 					<p class="subtitle">共收录 {totalPosts} 篇文章</p>
@@ -151,23 +156,84 @@ const postsMeta = allPosts.map(p => ({
 
 <style>
 	.page-header {
-		padding: 3rem 0 2rem;
-		background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-		margin: 0 -1.5rem 2rem;
+		position: relative;
+		padding: 5rem 0 3rem;
+		margin: 0 -1.5rem 1rem;
 		padding-left: 1.5rem;
 		padding-right: 1.5rem;
+		overflow: hidden;
+	}
+	.page-header::before {
+		content: '';
+		position: absolute;
+		top: 0; left: 0; right: 0; bottom: 0;
+		background: url('/images/blog-banner/banner-bg.jpg') center/cover no-repeat;
+		filter: blur(3px) brightness(0.85);
+		opacity: 0.6;
+		z-index: 0;
+	}
+	.header-background {
+		position: absolute;
+		top: 0; left: 0; right: 0; bottom: 0;
+		background: linear-gradient(135deg, rgba(147, 197, 253, 0.50) 0%, rgba(219, 234, 254, 0.45) 50%, rgba(239, 246, 255, 0.40) 100%);
+		z-index: 0;
 	}
 	@media (max-width: 768px) {
-		.page-header { margin: 0 -1rem 2rem; padding-left: 1rem; padding-right: 1rem; }
+		.page-header { margin: 0 -1rem 1rem; padding-left: 1rem; padding-right: 1rem; }
 	}
-	.header-content { max-width: 1200px; margin: 0 auto; }
-	.breadcrumb { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; font-size: 0.875rem; }
+	.header-content {
+		max-width: 800px;
+		margin: 0 auto;
+		position: relative;
+		z-index: 1;
+		text-align: center;
+	}
+	.breadcrumb {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.75rem;
+		margin-bottom: 1.5rem;
+		font-size: 0.875rem;
+		padding: 0.5rem 1rem;
+		background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.35) 100%);
+		border-radius: 50px;
+		border: 1px solid rgba(255, 255, 255, 0.5);
+		backdrop-filter: blur(10px);
+	}
 	.breadcrumb a { color: rgba(255,255,255,0.8); text-decoration: none; transition: color 0.2s; }
 	.breadcrumb a:hover { color: white; }
 	.breadcrumb .separator { color: rgba(255,255,255,0.5); }
 	.breadcrumb span:last-child { color: white; font-weight: 500; }
-	.page-header h1 { color: white; font-size: 2.5rem; margin: 0 0 0.5rem 0; font-family: 'Noto Sans SC', sans-serif; }
-	.subtitle { color: rgba(255,255,255,0.8); margin: 0; font-size: 1rem; }
+	.section-tag {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.5rem 1rem;
+		background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(245, 158, 11, 0.2) 100%);
+		color: var(--accent-light);
+		border-radius: 50px;
+		font-size: 0.875rem;
+		font-weight: 500;
+		margin-bottom: 1rem;
+		border: 1px solid rgba(245, 158, 11, 0.3);
+	}
+	.section-tag i { color: var(--accent); }
+	.page-header h1 {
+		color: var(--white);
+		font-size: 2.5rem;
+		margin: 0 0 0.5rem 0;
+		font-family: 'Noto Sans SC', sans-serif;
+		text-shadow: 0 3px 12px rgba(0, 0, 0, 0.4), 0 2px 6px rgba(0, 0, 0, 0.3);
+	}
+	@media (max-width: 768px) {
+		.page-header h1 { font-size: 2rem; }
+	}
+	.subtitle {
+		color: rgba(255, 255, 255, 1);
+		margin: 0;
+		font-size: 1rem;
+		text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+	}
 	.category-filter { padding: 0 0 2rem; }
 	.filter-container { max-width: 1200px; margin: 0 auto; display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
 	.filter-btn {
