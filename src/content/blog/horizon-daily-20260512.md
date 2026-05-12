@@ -1,6 +1,6 @@
 ---
 title: 'Horizon Daily - 2026-05-12 (AI News Digest)'
-description: 'TanStack NPM Supply-Chain Attack Postmortem Reveals Dead-Man's Switch | UCLA Discovers First Stroke Drug to Repair Brain Damage | Anthropic Launches Claude Platform on AWS Amid Branding Confusion...'
+description: "Horizon Daily AI News Digest - curated news from Hacker News, Reddit, RSS sources"
 pubDate: 2026-05-12
 category: '国际时政'
 tags: ['AI', 'Horizon', 'Daily Digest', 'Tech News']
