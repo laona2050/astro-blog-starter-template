@@ -6,7 +6,43 @@ category: '国际时政'
 tags: ['AI', 'Horizon', 'tech', '每日资讯']
 ---
 
+# Horizon 每日速递 - 2026-05-13
 
+> From 12 items, 6 important content pieces were selected
+
+---
+
+1. [CERT 为 dnsmasq 发布六个严重安全漏洞公告](#item-1) ⭐️ 8.0/10
+2. [Cactus 开源 Needle：2600 万参数模型实现高效设备端函数调用](#item-2) ⭐️ 7.0/10
+3. [DuckDB Quack 协议实现客户端-服务器架构](#item-3) ⭐️ 7.0/10
+4. [Obsidian 推出自动化插件审核系统](#item-4) ⭐️ 7.0/10
+5. [Bambu Lab 因涉嫌滥用开源协议引发社区抗议](#item-5) ⭐️ 7.0/10
+6. [渲染天空、日落和行星](#item-6) ⭐️ 6.0/10
+
+---
+
+## [CERT 为 dnsmasq 发布六个严重安全漏洞公告](https://lists.thekelleys.org.uk/pipermail/dnsmasq-discuss/2026q2/018471.html) ⭐️ 8.0/10
+
+美国计算机应急响应小组（CERT）协调中心正在发布六个针对 dnsmasq 严重安全漏洞的 CVE 编号。dnsmasq 是一款广泛使用的 DNS 转发器和 DHCP 服务器。这些漏洞包括堆越界写入、恶意 DNS 响应导致的无限循环，以及通过恶意 DHCP 请求触发的缓冲区溢出。 dnsmasq 部署在数百万路由器、物联网设备和嵌入式系统中。同时发布多个严重 CVE 表明这个广泛部署的代码库存在系统性安全问题，影响消费者和企业级基础设施。社区正在讨论这是否标志着在关键 DNS 基础设施中采用内存安全语言的转折点。 这些漏洞允许能够发送 DNS 查询或响应的远程攻击者执行大范围堆越界写入，并触发无限循环导致 dnsmasq 停止响应查询。恶意 DHCP 请求也可触发缓冲区溢出。社区成员指出 OpenWRT 正在积极修复，而 Debian 稳定版仍使用过时版本的 dnsmasq。
+
+hackernews · chizhik-pyzhik · May 12, 18:12 · [社区讨论](https://news.ycombinator.com/item?id=48112042)
+
+**背景**: dnsmasq 是一款为小型网络设计的轻量级 DNS 转发器，常见于路由器、防火墙和物联网设备（包括 OpenWRT）。由于采用 C 语言编写，它缺乏现代编程语言提供的内存保护机制。最新行业数据显示，主要平台中 60-70%的漏洞源于内存安全问题，促使 CISA 和 NSA 等机构建议将关键基础设施组件迁移至 Rust 或 Go 等内存安全语言。
+
+<details><summary>参考链接</summary>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Dnsmasq">dnsmasq - Wikipedia</a></li>
+<li><a href="https://www.memorysafety.org/docs/memory-safety/">What is memory safety and why does it matter? - Prossimo Memory Safe Languages: Reducing Vulnerabilities in ... - CISA White House urges developers to avoid C and C++, use 'memory ... How to secure memory-safe vs. manually managed languages Which Programming Languages Are Truly Memory Safe?</a></li>
+<li><a href="https://media.defense.gov/2025/Jun/23/2003742198/-1/-1/0/CSI_MEMORY_SAFE_LANGUAGES_REDUCING_VULNERABILITIES_IN_MODERN_SOFTWARE_DEVELOPMENT.PDF">Memory Safe Languages: Reducing Vulnerabilities in Modern ...</a></li>
+
+</ul>
+</details>
+
+**社区讨论**: 社区成员正在讨论各发行版是否应该升级到新版本而非应用回溯补丁，有人批评 Debian 维护过时软件包的做法。多人呼吁用 Rust 或 Go 等内存安全语言重写 dnsmasq，认为反复出现的漏洞模式使传统 C 代码在关键基础设施中难以为继。MaraDNS 维护者借此机会推广其替代方案，而其他人则在等待 OpenWRT 的官方安全更新。
+
+**标签**: `#security`, `#dnsmasq`, `#memory-safety`, `#CVE`, `#DNS`, `#Rust`
+
+---
 
 ## [Cactus 开源 Needle：2600 万参数模型实现高效设备端函数调用](https://github.com/cactus-compute/needle) ⭐️ 7.0/10
 
