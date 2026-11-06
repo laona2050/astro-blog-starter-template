@@ -165,9 +165,21 @@ const { title, description, pubDate, updatedDate, heroImage, category } = Astro.
 			}
 			
 			.prose img {
+				display: block;
+				max-width: 100%;
+				height: auto;
 				border-radius: 12px;
 				box-shadow: var(--shadow-md), 0 0 20px rgba(245, 158, 11, 0.1);
-				margin: 1.5rem 0;
+				margin: 1.5rem auto;
+			}
+			
+			/* 图片下方图注 */
+			.prose small {
+				display: block;
+				text-align: center;
+				font-size: 0.85rem;
+				opacity: 0.7;
+				margin: -0.75rem 0 1.75rem;
 			}
 			
 			/* Article Footer */
