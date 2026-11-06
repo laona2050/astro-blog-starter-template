@@ -1,8 +1,11 @@
 ---
+
 title: 'Moon 60 Cat 动力双体游艇'
 description: 'Moon 60 Cat 动力双体游艇视频概要'
 pubDate: '2026-02-23'
-category: "航海"
+category: "游艇评测"
+heroImage: "/blog-images/auto/moon-60-cat-cover.jpg"
+tags: ['Moon', '游艇评测', '双体动力艇']
 ---
 
 > 整理日期：2026年2月23日

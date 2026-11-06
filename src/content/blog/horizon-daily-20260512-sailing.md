@@ -1,8 +1,9 @@
 ---
+
 title: '[sailing] Horizon 每日速递 - 2026-05-12'
 description: '全龙骨船迎风性能权衡详解'
 pubDate: 2026-05-12
-category: '航海'
+category: "每日速递"
 tags: ['AI', 'Horizon', 'sailing', '每日资讯']
 ---
 

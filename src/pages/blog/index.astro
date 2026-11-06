@@ -13,11 +13,17 @@ const allPosts = (await getCollection('blog')).sort(
 const totalPosts = allPosts.length;
 
 // 统计各分类文章数量
-const categoryCount = {
-	'航海': allPosts.filter(p => p.data.category === '航海').length,
-	'国际时政': allPosts.filter(p => p.data.category === '国际时政').length,
-	'生活思考': allPosts.filter(p => p.data.category === '生活思考').length,
-};
+const CATEGORIES = [
+	{ name: '游艇评测', icon: 'fa-ship' },
+	{ name: '航海生活', icon: 'fa-anchor' },
+	{ name: '宏观政经', icon: 'fa-globe' },
+	{ name: '科技观察', icon: 'fa-microchip' },
+	{ name: '每日速递', icon: 'fa-newspaper' },
+];
+
+const categoryCount = Object.fromEntries(
+	CATEGORIES.map(c => [c.name, allPosts.filter(p => p.data.category === c.name).length]),
+);
 
 // 只传必要字段给客户端，避免数据过大
 const postsMeta = allPosts.map(p => ({
@@ -25,7 +31,7 @@ const postsMeta = allPosts.map(p => ({
 	title: p.data.title,
 	desc: p.data.description || '',
 	date: p.data.pubDate.toISOString(),
-	cat: p.data.category || '航海',
+	cat: p.data.category || '游艇评测',
 }));
 ---
 
@@ -66,21 +72,13 @@ const postsMeta = allPosts.map(p => ({
 						<span>全部</span>
 						<span class="count">{totalPosts}</span>
 					</button>
-					<button class="filter-btn" data-category="航海">
-						<i class="fas fa-anchor"></i>
-						<span>航海</span>
-						<span class="count">{categoryCount['航海']}</span>
-					</button>
-					<button class="filter-btn" data-category="国际时政">
-						<i class="fas fa-globe"></i>
-						<span>国际时政</span>
-						<span class="count">{categoryCount['国际时政']}</span>
-					</button>
-					<button class="filter-btn" data-category="生活思考">
-						<i class="fas fa-heart"></i>
-						<span>生活思考</span>
-						<span class="count">{categoryCount['生活思考']}</span>
-					</button>
+					{CATEGORIES.map(c => (
+						<button class="filter-btn" data-category={c.name}>
+							<i class={`fas ${c.icon}`}></i>
+							<span>{c.name}</span>
+							<span class="count">{categoryCount[c.name]}</span>
+						</button>
+					))}
 				</div>
 			</section>
 			
@@ -94,7 +92,7 @@ const postsMeta = allPosts.map(p => ({
 		
 		<Footer />
 		
-		<script define:vars={{ posts: postsMeta }}>
+		<script define:vars={{ posts: postsMeta, cats: CATEGORIES }}>
 			const PER_PAGE = 9;
 			let page = 1, cat = 'all';
 			const grid = document.getElementById('postsGrid');
@@ -102,7 +100,8 @@ const postsMeta = allPosts.map(p => ({
 			const info = document.getElementById('pageInfo');
 			const btns = document.querySelectorAll('.filter-btn');
 			
-			function icon(c) { return c==='航海'?'fa-anchor':c==='国际时政'?'fa-globe':'fa-heart'; }
+			const ICON = Object.fromEntries(cats.map(c => [c.name, c.icon]));
+			function icon(c) { return ICON[c] || 'fa-file-alt'; }
 			function fmt(d) { const x=new Date(d); return `${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}-${String(x.getDate()).padStart(2,'0')}`; }
 			
 			function filtered() { return cat==='all' ? posts : posts.filter(p=>p.cat===cat); }

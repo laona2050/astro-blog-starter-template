@@ -1,8 +1,9 @@
 ---
+
 title: '[sailing] Horizon 每日速递 - 2026-05-22'
-description: '险情：鼓风机卡死引发帆船电气火灾 | 验船师分享博克森 12 型帆船'白云'照片'
+description: '险情：鼓风机卡死引发帆船电气火灾 | 验船师分享博克森 12 型帆船''白云''照片'
 pubDate: 2026-05-22
-category: '航海'
+category: "每日速递"
 tags: ['AI', 'Horizon', 'sailing', '每日资讯']
 ---
 

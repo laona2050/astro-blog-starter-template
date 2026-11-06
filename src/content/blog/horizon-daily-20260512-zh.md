@@ -1,8 +1,9 @@
 ---
+
 title: 'Horizon 每日速递 - 2026-05-12'
 description: 'TanStack NPM 供应链攻击事后分析揭示死亡开关机制 | UCLA 发现首款可修复脑损伤的中风康复药物 | 谷歌报告：犯罪分子使用人工智能发现重大软件漏洞'
 pubDate: 2026-05-12
-category: '国际时政'
+category: "每日速递"
 tags: ['AI', 'Horizon', '每日资讯', '科技新闻']
 ---
 

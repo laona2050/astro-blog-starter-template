@@ -12,7 +12,7 @@ const blog = defineCollection({
 		pubDate: z.coerce.date(),
 		updatedDate: z.coerce.date().optional(),
 		heroImage: z.string().optional(),
-		category: z.enum(['航海', '国际时政', '生活思考']).default('航海'),
+		category: z.enum(['游艇评测', '航海生活', '宏观政经', '科技观察', '每日速递']).default('游艇评测'),
 		tags: z.array(z.string()).optional(),
 	}),
 });

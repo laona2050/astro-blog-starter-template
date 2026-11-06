@@ -1,10 +1,11 @@
 ---
+
 title: "铝合金船体优势深度调研：为什么顶级游艇都在用铝？"
 description: "从材料科学、建造工艺、全生命周期成本等维度，深度对比铝合金与钢、玻璃钢、碳纤维在船体建造中的优劣，解析 Sunreef、Aquila 等顶级品牌选择铝合金的底层逻辑"
 pubDate: 2026-04-29
-category: '航海'
+category: "游艇评测"
 tags: ['铝合金', '船体材料', '游艇建造', '材料对比', '深度调研']
-heroImage: /blog-images/aluminum-hull/01-cover.svg
+heroImage: "/blog-images/aluminum-hull/01-cover.svg"
 ---
 
 # 铝合金船体优势深度调研：为什么顶级游艇都在用铝？

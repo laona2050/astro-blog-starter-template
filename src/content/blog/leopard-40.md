@@ -1,10 +1,12 @@
 ---
+
 title: "Leopard 40 Power Catamaran - 40尺双体动力游艇评测"
 pubDate: "2026-02-25"
 description: "深入评测Leopard 40 Power Catamaran，这款40英尺双体动力游艇凭借卓越的稳定性、宽敞的空间和高效的燃油经济性成为家庭休闲首选。"
-tags: ["游艇", "双体船", "Leopard", "动力游艇", "评测"]
+tags: ['游艇', '双体船', 'Leopard', '动力游艇', '评测']
 categories: ["航海"]
-category: "航海"
+category: "游艇评测"
+heroImage: "/blog-images/auto/leopard-40-cover.jpg"
 ---
 
 # Leopard 40 Power Catamaran - 40尺双体动力游艇评测

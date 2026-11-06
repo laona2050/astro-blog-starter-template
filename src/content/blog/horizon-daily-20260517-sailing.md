@@ -1,8 +1,9 @@
 ---
+
 title: '[sailing] Horizon 每日速递 - 2026-05-17'
 description: 'Horizon 每日速递'
 pubDate: 2026-05-17
-category: '航海'
+category: "每日速递"
 tags: ['AI', 'Horizon', 'sailing', '每日资讯']
 ---
 
