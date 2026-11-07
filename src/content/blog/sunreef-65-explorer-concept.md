@@ -1,13 +1,14 @@
 ---
 title: "全球最大双体游艇！Sunreef 发布 65 米 Explorer 概念设计"
-pubDate: 2026-11-07
+pubDate: "2026-11-07"
 description: "Sunreef Yachts 在摩纳哥游艇展发布 65 米 Explorer 双体动力艇概念：1,800GT 总吨位、七间客舱、6 米泳池与海滩俱乐部，建成后将成为全球最大的豪华双体动力艇。"
 heroImage: "/blog-images/sunreef-65-explorer-concept/cover.jpg"
 category: "游艇评测"
-tags: ['Sunreef', '双体游艇', 'Explorer', '超级游艇', '摩纳哥游艇展']
+tags: ['游艇资讯', '船艇资讯', 'Sunreef', '双体游艇', 'Explorer', '超级游艇', '摩纳哥游艇展']
 ---
 
-> **转载说明**：本文转载自微信公众号「船艇资讯」，原文发布于 2025 年 9 月 28 日，[阅读原文](https://mp.weixin.qq.com/s/mRs8-gDvZ2f4IHDXhNiWHw)。图片版权归原作者及 Sunreef Yachts 所有。
+> 来源：微信公众号「船艇资讯」｜原文刊于 2025-09-28
+> 原文链接：[全球最大双体游艇！Sunreef 发布 65 米 Explorer 概念设计](https://mp.weixin.qq.com/s/mRs8-gDvZ2f4IHDXhNiWHw)
 
 定制双体船制造商Sunreef Yachts借本届摩纳哥游艇展之机，揭晓了其迄今为止最宏大的设计：一款65米长双体游艇概念，这款游艇超越了市面上所有的双体动力艇。它不仅代表了这家波兰制造商雄心勃勃的新旗舰产品，一旦建成将成为全球最大的豪华双体动力艇。这款65米Explorer型号兼具探险游艇的气质和超级游艇的内核，堪称独一无二。
 
