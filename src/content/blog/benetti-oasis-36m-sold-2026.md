@@ -7,12 +7,14 @@ heroImage: "/blog-images/benetti-oasis-36m-sold-2026/cover.jpg"
 tags: ['游艇资讯', 'YachtBuyer', 'Benetti', 'Oasis 36M', '超级游艇', '新船型', '混合动力']
 ---
 
-> 来源：YachtBuyer（英国）｜原文刊于 2026-11-12
-> 原文链接：[First 36m Benetti Oasis 36M Superyacht Sold Ahead of 2028 Delivery](https://www.yachtbuyer.com/en/news/first-36m-benetti-oasis-36m-superyacht-sold-ahead-of-delivery)
-> 原文作者：Amelie Newby（YachtBuyer）
-> 配图来源：YachtBuyer / Benetti，图片版权归原作者及船厂所有
+> **来源**：YachtBuyer（英国）｜原文刊于 2026-11-12
+> **原文链接**：[First 36m Benetti Oasis 36M Superyacht Sold Ahead of 2028 Delivery](https://www.yachtbuyer.com/en/news/first-36m-benetti-oasis-36m-superyacht-sold-ahead-of-delivery)
+> **原文作者**：Amelie Newby（YachtBuyer）
+> **配图来源**：YachtBuyer / Benetti，图片版权归原作者及船厂所有
 
 意大利船厂 [Benetti](https://www.yachtbuyer.com/en/benetti) 宣布首艘 Benetti Oasis 36M 超级游艇售出，由 Burgess 的 Jonathan Hind 代表买方完成交易。
+
+## Oasis 系列的新答卷
 
 全新的 Benetti Oasis 36M 加入这家意大利船厂的 Oasis 系列，外观设计由 RWD 负责，内装出自 Bonetti/Kozerski Architecture。这一船型引入修订后的船体与结构设计、更充裕的户外空间和升级的船上技术，并吸收了现役 Oasis 游艇的实际运营反馈。
 
@@ -54,8 +56,8 @@ Oasis 36M 设有五间客舱，最多接待 10 位宾客；另在四间船员舱
 
 <small>首艘 Benetti Oasis 36M 超级游艇锚泊时的海滩俱乐部视角｜图片：YachtBuyer / Benetti</small>
 
+## 交易与订单情况
+
 首艘 Oasis 36M 的销售由 Burgess 的 Jonathan Hind 完成，他全程代表船东参与本次交易。成交价格未予披露。
 
-根据全球最大的游艇数据库 YachtBuyer MarketWatch 的数据，Benetti 目前在建订单中共有 58 艘游艇。
-
-YachtBuyer MarketWatch 追踪游艇从建造、交付到后续转售的全过程，帮助买家跟进 Oasis 36M 这类新船型，并与 Benetti 船队中的其他游艇进行对比。
+根据全球最大的游艇数据库 YachtBuyer MarketWatch 的数据，Benetti 目前在建订单中共有 58 艘游艇。该平台追踪游艇从建造、交付到后续转售的全过程，帮助买家跟进 Oasis 36M 这类新船型，并与 Benetti 船队中的其他游艇进行对比。

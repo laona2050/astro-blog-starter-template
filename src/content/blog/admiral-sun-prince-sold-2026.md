@@ -7,12 +7,14 @@ heroImage: "/blog-images/admiral-sun-prince-sold-2026/cover.jpg"
 tags: ['游艇资讯', 'YachtBuyer', 'Admiral Yachts', 'Sun Prince', '超级游艇', '二手游艇', '经纪成交']
 ---
 
-> 来源：YachtBuyer（英国）｜原文刊于 2026-11-10
-> 原文链接：[39m Admiral Custom Superyacht Sun Prince Sold](https://www.yachtbuyer.com/en/news/39m-admiral-custom-superyacht-sun-prince-sold)
-> 原文作者：Amelie Newby（YachtBuyer）
-> 配图来源：YachtBuyer / Camper & Nicholsons，图片版权归原作者及船厂所有
+> **来源**：YachtBuyer（英国）｜原文刊于 2026-11-10
+> **原文链接**：[39m Admiral Custom Superyacht Sun Prince Sold](https://www.yachtbuyer.com/en/news/39m-admiral-custom-superyacht-sun-prince-sold)
+> **原文作者**：Amelie Newby（YachtBuyer）
+> **配图来源**：YachtBuyer / Camper & Nicholsons，图片版权归原作者及船厂所有
 
 39 米 Admiral Yachts 超级游艇 Sun Prince 由 Camper & Nicholsons 内部撮合成交，Carmen Lau 与 Jean-Marie Recamier 代表卖方，Lau 同时代表买方。
+
+## 2016 年交付的铝制半排水定制艇
 
 该艇由意大利船厂 Admiral Yachts 于 2016 年交付，298 GT，外观设计由 Luca Dini Design & Architecture 负责，内装设计与造船工程均由 Admiral Yachts 完成。船体与上层建筑为铝制半排水构型，型宽 7.7 米，吃水 3.08 米。
 

@@ -7,12 +7,14 @@ heroImage: "/blog-images/rossinavi-seazens-launch-2026/cover.jpg"
 tags: ['游艇资讯', 'YachtBuyer', 'Rossinavi', 'Seazens', '探险游艇', '超级游艇', '新船下水']
 ---
 
-> 来源：YachtBuyer（英国）｜原文刊于 2026-11-12
-> 原文链接：[Rossinavi Launches First 48m Adventure Yacht Seazens](https://www.yachtbuyer.com/en/news/rossinavi-launches-first-48m-adventure-superyacht-seazens)
-> 原文作者：Amelie Newby（YachtBuyer）
-> 配图来源：YachtBuyer / Rossinavi，图片版权归原作者及船厂所有
+> **来源**：YachtBuyer（英国）｜原文刊于 2026-11-12
+> **原文链接**：[Rossinavi Launches First 48m Adventure Yacht Seazens](https://www.yachtbuyer.com/en/news/rossinavi-launches-first-48m-adventure-superyacht-seazens)
+> **原文作者**：Amelie Newby（YachtBuyer）
+> **配图来源**：YachtBuyer / Rossinavi，图片版权归原作者及船厂所有
 
 意大利船厂 [Rossinavi](https://www.yachtbuyer.com/en/rossinavi) 在维亚雷焦下水 48 米超级游艇 Seazens，由此正式进入探险游艇领域——这是一艘为长时间远航与海上活动而设计的船。
+
+## 从 Project Berserk 47 到 Seazens
 
 此前名为 Project Berserk 47 的这艘全定制机动游艇，外观设计由 [Rossinavi](https://www.yachtbuyer.com/en/rossinavi) 负责，内装出自 Touch Studio，造船工程由 Arrabito Naval Architects 承担。钢制船体配铝制上层建筑，这艘 500 GT 以下的游艇在五间客舱中最多接待 11 位宾客。
 
