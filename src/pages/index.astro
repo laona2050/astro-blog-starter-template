@@ -12,12 +12,25 @@ const posts = (await getCollection('blog')).sort(
 
 const featuredPosts = posts.slice(0, 6);
 const totalPosts = posts.length;
+
+// 首页 hero 轮播底图：用户提供的图床图片（按提供顺序循环）
+const BANNER_IMAGES = [
+	{ src: 'https://pic.homesh.top/file/AgACAgUAAyEGAATfDUfbAAMjavb4BnbXm6koutLmNGQq8EBVnigAAvgbaxt-BrhX--fUvdTj1TwBAAMCAAN3AAM9BA.jpg', width: 1920, height: 894 },
+	{ src: 'https://pic.homesh.top/file/AgACAgUAAyEGAATfDUfbAAMkavb4BptVpFQNg00uGX1yS7_K8_QAAvkbaxt-BrhXSKR6llrMgBwBAAMCAAN3AAM9BA.jpg', width: 1920, height: 768 },
+	{ src: 'https://pic.homesh.top/file/AgACAgUAAyEGAATfDUfbAAMlavb4BgojPGO-HW-LHM8DCCIzVucAAvobaxt-BrhXtJbLrUycTbcBAAMCAAN3AAM9BA.jpg', width: 1920, height: 792 },
+	{ src: 'https://pic.homesh.top/file/AgACAgUAAyEGAATfDUfbAAMmavb4CB0ZnQLgh113iUM7BDzGXS8AAvsbaxt-BrhXzfyio1Vk3QABAQADAgADdwADPQQ.jpg', width: 1920, height: 700 },
+	{ src: 'https://pic.homesh.top/file/AgACAgUAAyEGAATfDUfbAAMnavb4CEecocLRGjmmtv_zTBRGoO8AAvwbaxt-BrhXtGmBJLT8DKEBAAMCAAN3AAM9BA.jpg', width: 1920, height: 666 },
+	{ src: 'https://pic.homesh.top/file/AgACAgUAAyEGAATfDUfbAAMoavb4DAOB1VrtsJUlvxjhC3lzMwAD_RtrG34GuFc5ZQsCpXfAIAEAAwIAA3cAAz0E.jpg', width: 1920, height: 700 },
+	{ src: 'https://pic.homesh.top/file/AgACAgUAAyEGAATfDUfbAAMpavb4DCmz9RunUN7Rs3BVwcRyxRsAAv4baxt-BrhXAlckiZcqNjUBAAMCAAN3AAM9BA.jpg', width: 1664, height: 936 },
+];
 ---
 
 <!doctype html>
 <html lang="zh-CN">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<link rel="preconnect" href="https://pic.homesh.top" />
+		<link rel="preload" as="image" href={BANNER_IMAGES[0].src} />
 		<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 	</head>
@@ -27,6 +40,21 @@ const totalPosts = posts.length;
 		<main>
 			<!-- Hero Section -->
 			<section class="hero">
+				<div class="hero-carousel" aria-hidden="true">
+					{BANNER_IMAGES.map((img, i) => (
+						<img
+							class:list={['hero-slide', { 'is-active': i === 0 }]}
+							src={i === 0 ? img.src : undefined}
+							data-src={i === 0 ? undefined : img.src}
+							width={img.width}
+							height={img.height}
+							alt=""
+							loading={i === 0 ? 'eager' : 'lazy'}
+							decoding="async"
+						/>
+					))}
+				</div>
+				<div class="hero-overlay" aria-hidden="true"></div>
 				<div class="hero-content">
 					<div class="hero-badge">
 						<i class="fas fa-anchor"></i>
@@ -125,15 +153,132 @@ const totalPosts = posts.length;
 		</main>
 		
 		<Footer />
+
+		<script>
+			// 首页 hero 轮播：按需加载、hover 暂停、后台标签页暂停、尊重减少动效偏好
+			(() => {
+				const hero = document.querySelector('.hero');
+				const carousel = document.querySelector('.hero-carousel');
+				if (!hero || !carousel) return;
+				const slides = Array.from(carousel.querySelectorAll('.hero-slide'));
+				if (slides.length < 2) return;
+
+				const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+				const INTERVAL = 5000;
+				let current = 0;
+				let timerId = null;
+
+				function load(i) {
+					const img = slides[i];
+					if (img && img.dataset.src) {
+						img.src = img.dataset.src;
+						delete img.dataset.src;
+					}
+				}
+				function show(i) {
+					current = (i + slides.length) % slides.length;
+					load(current);
+					load((current + 1) % slides.length);
+					slides.forEach((img, k) => img.classList.toggle('is-active', k === current));
+				}
+				function start() {
+					if (timerId !== null || reduceMotion.matches || document.visibilityState === 'hidden') return;
+					timerId = window.setInterval(() => show(current + 1), INTERVAL);
+				}
+				function stop() {
+					if (timerId === null) return;
+					window.clearInterval(timerId);
+					timerId = null;
+				}
+
+				show(0);
+				start();
+				hero.addEventListener('mouseenter', stop);
+				hero.addEventListener('mouseleave', start);
+				document.addEventListener('visibilitychange', () => {
+					if (document.visibilityState === 'hidden') stop(); else start();
+				});
+				if (typeof reduceMotion.addEventListener === 'function') {
+					reduceMotion.addEventListener('change', () => (reduceMotion.matches ? stop() : start()));
+				}
+			})();
+		</script>
 	</body>
 </html>
 
 <style>
 	/* Hero Section */
+	/* 全宽出血：抵消 main 的 1200px 上限，底图横向铺满浏览器宽度 */
 	.hero {
 		position: relative;
-		padding: 4rem 0 6rem;
+		width: 100vw;
+		margin-left: calc(50% - 50vw);
+		padding: 4rem 1.5rem 6rem;
+		background: var(--primary-dark);
 		overflow: hidden;
+	}
+	/* 轮播底图：cover 铺满 hero 区域，高度随内容自适应 */
+	.hero-carousel {
+		position: absolute;
+		inset: 0;
+		z-index: 0;
+		background: var(--primary-dark);
+		overflow: hidden;
+		pointer-events: none;
+	}
+	.hero-slide {
+		position: absolute;
+		inset: 0;
+		display: block;
+		width: 100%;
+		height: 100%;
+		max-width: none;
+		margin: 0;
+		border-radius: 0;
+		box-shadow: none;
+		object-fit: cover;
+		object-position: center;
+		opacity: 0;
+		transition: opacity 1.1s ease;
+	}
+	.hero-slide.is-active { opacity: 1; }
+	/* 默认 50% 虚化：模糊层半透明叠加在清晰原图上；鼠标移入或键盘聚焦时清晰 */
+	.hero-carousel::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+		-webkit-backdrop-filter: blur(12px);
+		backdrop-filter: blur(12px);
+		opacity: 0.5;
+		transition: opacity 0.6s ease;
+		pointer-events: none;
+	}
+	.hero:hover .hero-carousel::after,
+	.hero:focus-within .hero-carousel::after { opacity: 0; }
+	/* 浏览器不支持 backdrop-filter 时，降级为图片自身半强度模糊 */
+	@supports not ((backdrop-filter: blur(4px)) or (-webkit-backdrop-filter: blur(4px))) {
+		.hero-carousel::after { display: none; }
+		.hero-slide { filter: blur(6px); transition: opacity 1.1s ease, filter 0.6s ease; }
+		.hero:hover .hero-slide,
+		.hero:focus-within .hero-slide { filter: none; }
+	}
+	/* 深色中性遮罩：保证标题与正文在照片上的对比度 */
+	.hero-overlay {
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+		background: linear-gradient(180deg, rgba(2, 6, 23, 0.45) 0%, rgba(2, 6, 23, 0.68) 100%);
+		pointer-events: none;
+	}
+	@media (max-width: 768px) {
+		.hero { padding-left: 1rem; padding-right: 1rem; }
+	}
+	@media (hover: none) {
+		.hero:active .hero-carousel::after { opacity: 0; }
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.hero-slide, .hero-carousel::after { transition: none; }
 	}
 	
 	.hero-content {
@@ -427,4 +572,9 @@ const totalPosts = posts.length;
 	.section-footer {
 		text-align: center;
 	}
+</style>
+
+<!-- 全宽 hero 需要全局规则，避免滚动条宽度导致横向溢出 -->
+<style is:global>
+	html { overflow-x: clip; }
 </style>
