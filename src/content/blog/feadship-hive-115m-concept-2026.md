@@ -2,7 +2,7 @@
 title: "Feadship 发布 115 米 Hive 概念艇：20 米泳池、5MWh 电池与虚拟驾驶台"
 description: "115m × 17.5m、横跨四层的中央共享空间、20 米 ConraWave 泳池与水下观景 lounge；3×900kW HVO 发电机 + 5MWh 锂电池 + 燃料电池，Voith 推进，最高 16 节、续航最高 9,500 海里。"
 pubDate: "2026-11-18"
-category: "船型评测"
+category: "游艇评测"
 heroImage: "/blog-images/feadship-hive-115m-concept-2026/cover.jpg"
 tags: ['游艇资讯', 'YachtBuyer', 'Feadship', 'Hive', '概念游艇', '电动推进']
 ---

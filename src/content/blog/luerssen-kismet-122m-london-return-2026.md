@@ -2,7 +2,7 @@
 title: "122 米 Lürssen 超级游艇 Kismet 三访伦敦泰晤士河：柴电混合与双层主人套房"
 description: "4,918GT 的 Lürssen Kismet（122 米 × 约 17 米）2026 年 10 月再度现身伦敦；双层主人套房、水下观景休息室、柴电混合动力，最高约 18 节、12 节续航约 6,000 海里。"
 pubDate: "2026-11-18"
-category: "船型评测"
+category: "游艇评测"
 heroImage: "/blog-images/luerssen-kismet-122m-london-return-2026/cover.jpg"
 tags: ['游艇资讯', 'YachtBuyer', 'Lürssen', 'Kismet', '超级游艇', '柴电混合']
 ---

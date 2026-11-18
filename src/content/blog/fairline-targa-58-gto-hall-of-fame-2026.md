@@ -2,7 +2,7 @@
 title: "Fairline Targa 58 GTO 入选 YachtBuyer 名人堂：18 米旗舰夺 YB 五星"
 description: "17.96m × 4.99m、三舱住 6 人、双 Volvo Penta D13-1000（900/1000hp）传统轴传动；海试最高 32.5 节、2,200rpm 巡航 25.4 节、续航 215 海里；扩展示 27㎡ 驾驶舱。"
 pubDate: "2026-11-18"
-category: "船型评测"
+category: "游艇评测"
 heroImage: "/blog-images/fairline-targa-58-gto-hall-of-fame-2026/cover.jpg"
 tags: ['游艇资讯', 'YachtBuyer', 'Fairline', 'Targa 58 GTO', '运动巡航艇', '名人堂']
 ---
