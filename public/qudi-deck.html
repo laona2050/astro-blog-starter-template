@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#07131f">
+<meta name="robots" content="noindex, nofollow">
+<title>圈地运动｜产品方案</title>
+<style>
+:root{--bg:#07131f;--panel:#102333;--panel2:#142c3e;--line:#244255;--text:#f3f8fb;--muted:#a8bdc9;--green:#65e6a5;--cyan:#65d9ed;--orange:#ffb86b;--red:#ff7185}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:Inter,"PingFang SC","Microsoft YaHei",sans-serif}
+body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 80% 15%,#16405a66,transparent 32%),radial-gradient(circle at 10% 90%,#126c4b33,transparent 35%);pointer-events:none}
+.deck{height:100%;position:relative}.slide{position:absolute;inset:0;padding:5.5vh 7vw 8vh;display:flex;flex-direction:column;justify-content:center;opacity:0;transform:translateX(3%);transition:opacity .45s ease,transform .45s ease;pointer-events:none;overflow:auto}
+.slide.active{opacity:1;transform:none;pointer-events:auto}.eyebrow{color:var(--green);font-size:clamp(12px,1.1vw,16px);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:18px}
+h1{font-size:clamp(48px,8vw,108px);line-height:1.02;margin:0 0 22px;letter-spacing:-.055em}h2{font-size:clamp(30px,4.3vw,58px);line-height:1.12;margin:0 0 24px;letter-spacing:-.035em}h3{font-size:clamp(17px,1.7vw,23px);margin:0 0 10px}
+p{font-size:clamp(15px,1.5vw,21px);line-height:1.7;color:var(--muted);margin:0}.lead{max-width:850px;font-size:clamp(18px,2vw,27px);color:#d2e2e9}.accent{color:var(--green)}.cyan{color:var(--cyan)}.orange{color:var(--orange)}
+.grid{display:grid;gap:16px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{background:linear-gradient(145deg,#142c3ee8,#0d2030e8);border:1px solid var(--line);border-radius:18px;padding:clamp(16px,2vw,26px);min-width:0;box-shadow:0 14px 40px #0002}
+.card p{font-size:clamp(13px,1.15vw,16px)}.num{font-size:clamp(30px,4vw,54px);font-weight:800;letter-spacing:-.05em;color:var(--green);margin-bottom:8px}.tag{display:inline-flex;padding:7px 11px;border:1px solid #37614f;border-radius:99px;color:var(--green);font-size:12px;margin:5px 6px 0 0}
+.pill{display:inline-block;border-radius:7px;padding:5px 9px;font-size:12px;background:#183b36;color:var(--green);margin-bottom:10px}
+ul{padding-left:1.2em;margin:10px 0 0;color:var(--muted);line-height:1.8;font-size:clamp(14px,1.25vw,18px)}
+.hero-art{position:absolute;right:5vw;bottom:10vh;width:min(40vw,520px);opacity:.95;filter:drop-shadow(0 25px 50px #0006)}
+.map-art{width:100%;height:auto;display:block}.split{display:grid;grid-template-columns:1.05fr .95fr;gap:4vw;align-items:center}
+.kicker{font-size:13px;color:var(--muted);letter-spacing:.08em}.bigquote{font-size:clamp(24px,3vw,40px);line-height:1.35;font-weight:700;max-width:900px}
+.flow{display:flex;align-items:stretch;gap:10px;margin-top:22px}.flow .step{flex:1;background:#122b3b;border:1px solid var(--line);border-radius:14px;padding:17px 12px;text-align:center}.flow .step b{display:block;margin-bottom:7px;color:var(--green)}.arrow{align-self:center;color:var(--green);font-size:24px}
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}.phase{border-top:3px solid var(--green);padding:16px 14px;background:#102333;border-radius:0 0 14px 14px}.phase small{color:var(--green);font-weight:700}.phase p{font-size:14px;margin-top:8px}
+table{border-collapse:collapse;width:100%;font-size:clamp(13px,1.2vw,17px);background:#102333;border-radius:14px;overflow:hidden}th,td{text-align:left;padding:13px 15px;border-bottom:1px solid #244255}th{color:var(--green);font-weight:700;background:#153044}td{color:#d4e1e8}tr:last-child td{border:0}
+.controls{position:fixed;z-index:10;bottom:22px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;background:#0b1b28dd;border:1px solid #345063;border-radius:99px;padding:8px 12px;backdrop-filter:blur(12px)}
+button{border:0;background:#17384a;color:var(--text);padding:9px 14px;border-radius:99px;cursor:pointer;font-size:14px}button:hover{background:#24536a}button:disabled{opacity:.35;cursor:default}.progress{position:fixed;top:0;left:0;height:3px;background:var(--green);width:0;z-index:20;transition:width .3s}.counter{font-size:12px;color:var(--muted);min-width:48px;text-align:center}
+.hint{position:fixed;right:24px;bottom:28px;color:#77909e;font-size:12px}.dots{display:flex;gap:5px}.dots i{width:5px;height:5px;border-radius:50%;background:#496171}.dots i.on{background:var(--green);width:17px;border-radius:9px}
+.icon{font-size:27px;margin-bottom:12px}.footnote{font-size:12px;color:#7f99a8;margin-top:14px}.center{text-align:center;align-items:center}.center .lead{margin:auto}.mapframe{background:#0d2535;border:1px solid #315064;border-radius:20px;padding:12px;overflow:hidden}
+@media(max-width:760px){.slide{padding:6vh 6vw 12vh;justify-content:flex-start}.g3,.g4{grid-template-columns:repeat(2,minmax(0,1fr))}.g2,.split{grid-template-columns:1fr}.hero-art{position:relative;right:auto;bottom:auto;width:80%;margin:20px auto 0}.flow{flex-direction:column}.arrow{transform:rotate(90deg)}.timeline{grid-template-columns:repeat(2,1fr)}.hint{display:none}.slide h2{margin-top:4px}}
+@media(prefers-reduced-motion:reduce){.slide{transition:none}}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<main class="deck" id="deck">
+<section class="slide active">
+ <div class="eyebrow">PRODUCT CONCEPT · 2026</div>
+ <h1>圈地<span class="accent">运动</span></h1>
+ <p class="lead">跑出你的领地，跑出你的世界。</p>
+ <div style="margin-top:26px"><span class="tag">真实 GPS 跑步</span><span class="tag">城市地图圈地</span><span class="tag">个人与团队竞技</span></div>
+ <svg class="hero-art" viewBox="0 0 520 380" role="img" aria-label="城市地图领地示意">
+  <defs><pattern id="grid" width="38" height="38" patternUnits="userSpaceOnUse"><path d="M38 0H0V38" fill="none" stroke="#31566a" stroke-width="1"/></pattern></defs>
+  <rect width="520" height="380" rx="25" fill="#102b3c"/><rect width="520" height="380" rx="25" fill="url(#grid)"/>
+  <path d="M-10 85L530 275M80 -10L220 390M390 -10L300 390M-10 300L530 90" stroke="#476678" stroke-width="17" opacity=".45"/>
+  <path d="M-10 85L530 275M80 -10L220 390M390 -10L300 390M-10 300L530 90" stroke="#8aa2ad" stroke-width="2" opacity=".55"/>
+  <path d="M90 90L210 55L300 120L275 230L150 255L65 180Z" fill="#65e6a533" stroke="#65e6a5" stroke-width="3"/>
+  <path d="M300 120L430 90L470 205L390 290L275 230Z" fill="#65d9ed33" stroke="#65d9ed" stroke-width="3"/>
+  <path d="M90 90L210 55L300 120L275 230L150 255L65 180Z" fill="none" stroke="#65e6a5" stroke-width="4" stroke-dasharray="7 7"/>
+  <circle cx="90" cy="90" r="7" fill="#fff"/><circle cx="90" cy="90" r="15" fill="none" stroke="#65e6a5" stroke-width="2"/>
+  <text x="135" y="155" fill="#b9f7d8" font-size="17" font-weight="700">个人领地</text><text x="345" y="195" fill="#a9eff7" font-size="17" font-weight="700">团队领地</text>
+ </svg>
+ <div class="footnote">产品概念方案 · 微信小程序 · MVP 规划</div>
+</section>
+
+<section class="slide">
+ <div class="eyebrow">01 / PRODUCT VISION</div><h2>让每一次跑步，<span class="accent">改变城市地图</span></h2>
+ <p class="lead">把真实世界变成一张可以探索、占领、扩张与协作的运动地图。</p>
+ <div class="grid g3" style="margin-top:32px">
+  <div class="card"><div class="icon">🏃</div><h3>真实运动</h3><p>GPS 记录真实跑步轨迹，让运动成为所有游戏行为的基础。</p></div>
+  <div class="card"><div class="icon">🗺️</div><h3>城市领地</h3><p>闭合路线生成多边形，在真实道路地图上呈现个人与团队领地。</p></div>
+  <div class="card"><div class="icon">🤝</div><h3>多人互动</h3><p>好友、跑团、排行榜与区域挑战，让运动拥有持续目标。</p></div>
+ </div>
+</section>
+
+<section class="slide">
+ <div class="eyebrow">02 / CORE LOOP</div><h2>产品核心循环</h2>
+ <p class="lead">从一次真实跑步，到一次领地变化，再到下一次运动动力。</p>
+ <div class="flow">
+  <div class="step"><b>01 跑步</b><p>真实运动</p></div><div class="arrow">›</div>
+  <div class="step"><b>02 记录</b><p>GPS 轨迹</p></div><div class="arrow">›</div>
+  <div class="step"><b>03 圈地</b><p>闭环 / 扩张</p></div><div class="arrow">›</div>
+  <div class="step"><b>04 结算</b><p>领地归属</p></div><div class="arrow">›</div>
+  <div class="step"><b>05 互动</b><p>个人 / 团队</p></div>
+ </div>
+ <div class="card" style="margin-top:28px"><p class="bigquote">核心原则：<span class="accent">先有真实运动，再有游戏收益。</span></p><p style="margin-top:10px">不以开车绕行、模拟 GPS 或修改轨迹作为有效圈地；服务器验证通过后才结算。</p></div>
+</section>
+
+<section class="slide">
+ <div class="eyebrow">03 / TERRITORY RULES</div><h2>两种方式，获得领地</h2>
+ <div class="grid g2">
+  <div class="card">
+   <span class="pill">模式 A · 闭环圈地</span>
+   <svg viewBox="0 0 420 220" width="100%"><path d="M25 40H395M25 110H395M25 180H395M80 15V205M190 15V205M310 15V205" stroke="#315064" stroke-width="12" opacity=".5"/><path d="M95 155L120 55L285 45L340 145L225 185Z" fill="#65e6a533" stroke="#65e6a5" stroke-width="4"/><path d="M95 155L120 55L285 45L340 145L225 185Z" fill="none" stroke="#d8ffea" stroke-width="2" stroke-dasharray="6 6"/><circle cx="95" cy="155" r="7" fill="white"/></svg>
+   <h3>从起点出发，再回到起点附近</h3><p>轨迹形成有效闭合多边形，系统计算面积，优先获得无主区域。</p>
+  </div>
+  <div class="card">
+   <span class="pill">模式 B · 接壤扩张</span>
+   <svg viewBox="0 0 420 220" width="100%"><path d="M25 40H395M25 110H395M25 180H395M80 15V205M190 15V205M310 15V205" stroke="#315064" stroke-width="12" opacity=".5"/><path d="M75 70L180 35L230 100L190 180L80 165Z" fill="#65d9ed33" stroke="#65d9ed" stroke-width="3"/><path d="M180 35L300 55L350 145L260 190L190 180L230 100Z" fill="#65e6a533" stroke="#65e6a5" stroke-width="4"/><path d="M180 35L300 55L350 145L260 190L190 180L230 100Z" fill="none" stroke="white" stroke-dasharray="6 6" stroke-width="2"/></svg>
+   <h3>从已有领地附近继续扩张</h3><p>新闭环与本人或团队领地接壤，验证后合并新获得的无主区域。</p>
+  </div>
+ </div>
+ <p class="footnote">示意图仅表达玩法；具体边界由 GPS 轨迹和空间算法计算。</p>
+</section>
+
+<section class="slide">
+ <div class="eyebrow">04 / OWNERSHIP</div><h2>一块土地，明确一个归属</h2>
+ <div class="grid g4">
+  <div class="card"><div class="num">01</div><h3>无主土地</h3><p>符合规则即可申请占领。</p><span class="tag">开放</span></div>
+  <div class="card"><div class="num cyan">02</div><h3>个人领地</h3><p>由个人有效跑步获得。</p><span class="tag">个人资产</span></div>
+  <div class="card"><div class="num orange">03</div><h3>团队领地</h3><p>成员贡献，团队共同拥有。</p><span class="tag">团队协作</span></div>
+  <div class="card"><div class="num" style="color:var(--red)">04</div><h3>争夺区域</h3><p>进入挑战流程，不自动覆盖。</p><span class="tag">挑战中</span></div>
+ </div>
+ <div class="card" style="margin-top:20px"><h3>归属规则</h3><p>圈到无主区域可占领；圈到自己区域不重复计分；经过他人领地不代表占领；挑战成功后由服务器按规则变更归属。团队贡献与土地所有权分开记录，面积不重复统计。</p></div>
+</section>
+
+<section class="slide">
+ <div class="eyebrow">05 / TEAM PLAY</div><h2>个人成长，团队争霸</h2>
+ <div class="split">
+  <div>
+   <div class="card" style="margin-bottom:14px"><span class="pill">个人体系</span><h3>自己的跑步与领地</h3><p>累计里程、领地面积、成就勋章、个人排名与运动历史。</p></div>
+   <div class="card"><span class="pill" style="color:var(--cyan);background:#143542">团队体系</span><h3>共同建设一张领地版图</h3><p>创建跑团、成员贡献、团队领地、城市榜单与团队赛季。</p></div>
+  </div>
+  <div class="card">
+   <h3>挑战制，而非瞬间掠夺</h3>
+   <div class="flow" style="flex-direction:column">
+    <div class="step"><b>发起挑战</b><p>选择相邻敌对区域</p></div><div class="arrow">↓</div>
+    <div class="step"><b>双方参与</b><p>在限定时间完成有效运动</p></div><div class="arrow">↓</div>
+    <div class="step"><b>服务器结算</b><p>按有效贡献与规则判定</p></div><div class="arrow">↓</div>
+    <div class="step"><b>更新归属</b><p>保留完整历史记录</p></div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section class="slide">
+ <div class="eyebrow">06 / MAP EXPERIENCE</div><h2>真实地图，游戏化表达</h2>
+ <div class="split">
+  <div class="mapframe">
+   <svg class="map-art" viewBox="0 0 600 410">
+    <rect width="600" height="410" fill="#102a3b"/>
+    <path d="M-20 80L620 330M40 -20L230 440M420 -20L320 440M-20 330L620 75" stroke="#66808c" stroke-width="25" opacity=".22"/>
+    <path d="M-20 80L620 330M40 -20L230 440M420 -20L320 440M-20 330L620 75" stroke="#7994a0" stroke-width="2" opacity=".7"/>
+    <path d="M0 185L600 185M0 270L600 270M145 0L145 410M500 0L500 410" stroke="#355568" stroke-width="12" opacity=".5"/>
+    <path d="M65 95L190 55L300 115L265 235L125 255L45 175Z" fill="#65e6a544" stroke="#65e6a5" stroke-width="4"/>
+    <path d="M300 115L445 80L555 175L490 300L350 315L265 235Z" fill="#65d9ed44" stroke="#65d9ed" stroke-width="4"/>
+    <path d="M125 255L265 235L350 315L285 390L105 355Z" fill="#ffb86b33" stroke="#ffb86b" stroke-width="3"/>
+    <circle cx="65" cy="95" r="9" fill="#fff"/><circle cx="65" cy="95" r="20" fill="none" stroke="#65e6a5" stroke-width="3"/>
+    <text x="120" y="155" fill="#d8ffea" font-size="20">个人领地</text><text x="375" y="205" fill="#d8faff" font-size="20">团队领地</text><text x="175" y="330" fill="#ffe0bd" font-size="18">挑战区域</text>
+   </svg>
+  </div>
+  <div>
+   <div class="card" style="margin-bottom:12px"><h3>地图四层信息</h3><p>真实道路底图、个人领地、团队领地、运动轨迹与挑战目标。</p></div>
+   <div class="card"><h3>点选领地</h3><p>展示面积、所属玩家/跑团、贡献人数、最近活动、挑战状态与历史变化。</p></div>
+   <p class="footnote">示意地图为概念绘制，正式版使用合规地图服务和真实空间数据。</p>
+  </div>
+ </div>
+</section>
+
+<section class="slide">
+ <div class="eyebrow">07 / ANTI-CHEAT & SAFETY</div><h2>公平第一，安全优先</h2>
+ <div class="grid g2">
+  <div class="card"><h3>四级反作弊</h3><ul><li>GPS 精度、跳点、采样连续性检查</li><li>速度、距离、停留与轨迹形态分析</li><li>重复提交、数据篡改与模拟定位风险检查</li><li>服务器重新计算轨迹、面积与归属</li></ul></div>
+  <div class="card"><h3>安全与隐私</h3><ul><li>不鼓励穿越道路、隧道或私人区域</li><li>不公开实时精确位置和家庭起终点</li><li>用户可设置运动记录可见范围</li><li>异常数据先复核，不轻易误判正常用户</li></ul></div>
+ </div>
+ <div class="card" style="margin-top:16px"><p class="bigquote">反作弊不是追求“抓住所有人”，而是让<span class="accent">公平运动更容易、作弊收益更低</span>。</p></div>
+</section>
+
+<section class="slide">
+ <div class="eyebrow">08 / TECH ARCHITECTURE</div><h2>技术架构建议</h2>
+ <div class="card" style="padding:20px">
+  <div class="step"><b>微信原生小程序</b><p>GPS 定位 · map / polyline · 本地轨迹缓存 · 用户交互</p></div>
+  <div style="text-align:center;color:var(--green);padding:7px">↓ HTTPS API</div>
+  <div class="grid g4">
+   <div class="step"><b>运动服务</b><p>轨迹、距离、报告</p></div><div class="step"><b>圈地服务</b><p>闭环、面积、归属</p></div><div class="step"><b>社交服务</b><p>好友、跑团、消息</p></div><div class="step"><b>竞技服务</b><p>挑战、积分、排名</p></div>
+  </div>
+  <div style="text-align:center;color:var(--green);padding:7px">↓</div>
+  <div class="step"><b>PostgreSQL + PostGIS</b><p>用户 / 跑步 / 轨迹 / 多边形领地 / 空间索引 / 事务结算</p></div>
+  <div class="grid g2" style="margin-top:10px"><div class="step"><b>Redis（可选）</b><p>缓存与排行榜</p></div><div class="step"><b>对象存储</b><p>备份与非结构化文件</p></div></div>
+ </div>
+ <p class="footnote">Turf.js 用于前端/服务端几何辅助；最终领地校验和归属以服务端 PostGIS 计算为准。</p>
+</section>
+
+<section class="slide">
+ <div class="eyebrow">09 / DATA & GIS</div><h2>地理数据，必须算得准</h2>
+ <div class="grid g3">
+  <div class="card"><h3>轨迹数据</h3><p>跑步 ID、经纬度、时间戳、定位精度、速度；原始轨迹与展示轨迹分开管理。</p></div>
+  <div class="card"><h3>领地数据</h3><p>多边形、所有者类型、面积、状态、创建时间与空间索引。</p></div>
+  <div class="card"><h3>事件数据</h3><p>占领、合并、挑战、转移与撤销记录，确保领地变化可追溯。</p></div>
+ </div>
+ <div class="card" style="margin-top:18px"><h3>关键空间计算</h3><p><span class="accent">ST_IsValid</span> 检查多边形有效性　·　<span class="accent">ST_Area</span> 计算面积　·　<span class="accent">ST_Intersects</span> 检测相交　·　<span class="accent">ST_Difference</span> 扣除重叠　·　<span class="accent">ST_Union</span> 合并区域</p></div>
+ <p class="footnote">坐标系需统一：微信地图常用 GCJ-02；面积计算使用合适的投影坐标系或 PostGIS Geography，禁止混用坐标体系。</p>
+</section>
+
+<section class="slide">
+ <div class="eyebrow">10 / WECHAT FEASIBILITY</div><h2>微信定位：可做，但后台能力要先验证</h2>
+ <div class="grid g3">
+  <div class="card"><span class="pill">前台</span><h3>持续定位</h3><p>startLocationUpdate + onLocationChange，采集轨迹并实时绘制。</p></div>
+  <div class="card"><span class="pill" style="background:#3c2e1b;color:var(--orange)">后台</span><h3>锁屏与切换应用</h3><p>需申请并满足后台定位接口开放条件，不能假设所有类目都可用。</p></div>
+  <div class="card"><span class="pill">异常情况</span><h3>不能保证永不断点</h3><p>系统杀进程、权限关闭、弱 GPS 等情况需要本地缓存和恢复机制。</p></div>
+ </div>
+ <div class="card" style="margin-top:18px"><h3>立项前 P0 验证</h3><p>确认小程序主体与类目 → 检查接口准入 → 真机验证前台/切换 APP/锁屏 → 核查隐私指引与授权用途。</p></div>
+</section>
+
+<section class="slide">
+ <div class="eyebrow">11 / MVP SCOPE</div><h2>第一版只验证最重要的体验</h2>
+ <div class="grid g2">
+  <div class="card"><span class="pill">P0 · 必须完成</span><ul><li>GPS 定位与跑步记录</li><li>轨迹绘制、暂停与恢复</li><li>闭环识别与面积计算</li><li>个人领地生成</li><li>多人领地地图</li><li>服务器轨迹验证</li></ul></div>
+  <div class="card"><span class="pill" style="color:var(--cyan);background:#143542">P1 / P2 · 后续迭代</span><ul><li>跑团创建与成员管理</li><li>团队领地和贡献统计</li><li>排行榜与简单挑战</li><li>赛季、勋章与探索任务</li><li>实时聊天与复杂战争玩法</li></ul></div>
+ </div>
+ <p class="bigquote" style="margin-top:24px">先证明：普通用户跑一圈，真的能在地图上<span class="accent">准确圈出一块地</span>。</p>
+</section>
+
+<section class="slide">
+ <div class="eyebrow">12 / ROADMAP</div><h2>建议 8 周 MVP 开发节奏</h2>
+ <div class="timeline">
+  <div class="phase"><small>WEEK 01–02</small><h3>定位与地图</h3><p>微信定位、地图、轨迹绘制、本地缓存、跑步状态管理。</p></div>
+  <div class="phase"><small>WEEK 03–04</small><h3>圈地算法</h3><p>异常点过滤、闭环识别、多边形、面积计算、服务端验证。</p></div>
+  <div class="phase"><small>WEEK 05–06</small><h3>多人与跑团</h3><p>账户、领地查询、空间冲突、团队成员和贡献。</p></div>
+  <div class="phase"><small>WEEK 07–08</small><h3>测试与发布</h3><p>真机测试、定位权限、隐私合规、性能优化与审核。</p></div>
+ </div>
+ <div class="card" style="margin-top:22px"><h3>关键验收指标</h3><p>轨迹连续可恢复 · 闭环识别可靠 · 面积计算一致 · 重叠区域不重复归属 · 异常轨迹不自动结算 · 地图按视野加载。</p></div>
+</section>
+
+<section class="slide">
+ <div class="eyebrow">13 / BUSINESS & OPERATIONS</div><h2>先建立运动习惯，再考虑商业化</h2>
+ <div class="grid g3">
+  <div class="card"><div class="icon">🏅</div><h3>会员权益</h3><p>高级运动统计、领地装饰、个人主页展示。</p></div>
+  <div class="card"><div class="icon">🏙️</div><h3>城市赛事</h3><p>城市领地赛、社区探索任务、线下跑步活动。</p></div>
+  <div class="card"><div class="icon">👟</div><h3>品牌合作</h3><p>运动品牌活动、跑团赞助、装备体验。</p></div>
+ </div>
+ <div class="card" style="margin-top:18px"><p>不出售直接增加领地面积或改变竞技结果的付费道具，避免破坏公平。商业化以服务、活动和品牌合作为主。</p></div>
+</section>
+
+<section class="slide">
+ <div class="eyebrow">14 / RISKS & DECISIONS</div><h2>项目关键风险与立项决策</h2>
+ <table>
+  <thead><tr><th>风险</th><th>影响</th><th>应对</th></tr></thead>
+  <tbody>
+   <tr><td>后台定位准入</td><td>锁屏记录体验</td><td>立项前向微信核实并真机验证</td></tr>
+   <tr><td>GPS 漂移与断点</td><td>错误闭环、错误面积</td><td>精度过滤、轨迹平滑、异常复核</td></tr>
+   <tr><td>作弊与伪造轨迹</td><td>破坏公平</td><td>服务器验证、风险评分、延迟结算</td></tr>
+   <tr><td>领地重叠冲突</td><td>面积重复与并发问题</td><td>PostGIS、事务、唯一归属规则</td></tr>
+   <tr><td>位置隐私</td><td>暴露活动规律</td><td>模糊起终点、默认不公开实时位置</td></tr>
+  </tbody>
+ </table>
+ <p class="footnote">上线前还需核实地图服务授权、个人信息保护、地理信息数据处理和小程序平台审核要求。</p>
+</section>
+
+<section class="slide center">
+ <div class="eyebrow">NEXT STEP</div>
+ <h2>从一圈跑步，开始一座城市的游戏。</h2>
+ <p class="lead">先做一个可运行的四页面原型：地图首页、跑步记录、圈地结算、个人领地。</p>
+ <div class="grid g2" style="width:min(760px,100%);margin-top:28px;text-align:left">
+  <div class="card"><h3 class="accent">第一优先级</h3><p>验证微信定位权限与真机轨迹记录。</p></div>
+  <div class="card"><h3 class="cyan">第二优先级</h3><p>验证闭环生成、面积计算与领地归属。</p></div>
+ </div>
+ <div style="margin-top:34px;font-size:clamp(22px,3vw,36px);font-weight:800">圈地运动 <span class="accent">·</span> 跑出你的领地</div>
+ <p class="footnote">产品概念与技术规划稿 · 可继续迭代为交互原型</p>
+</section>
+</main>
+<div class="controls">
+ <button id="prev" aria-label="上一页">←</button>
+ <span class="counter" id="counter">01 / 15</span>
+ <div class="dots" id="dots"></div>
+ <button id="next" aria-label="下一页">→</button>
+ <button id="full" title="全屏演示">⛶</button>
+</div>
+<div class="hint">键盘 ← → 翻页 · 空格下一页 · F 全屏</div>
+<script>
+const slides=[...document.querySelectorAll('.slide')], progress=document.getElementById('progress'), counter=document.getElementById('counter'), dots=document.getElementById('dots');
+let index=0;
+slides.forEach((_,i)=>{const d=document.createElement('i');if(i===0)d.className='on';dots.appendChild(d)});
+function show(n){index=Math.max(0,Math.min(slides.length-1,n));slides.forEach((s,i)=>s.classList.toggle('active',i===index));[...dots.children].forEach((d,i)=>d.classList.toggle('on',i===index));counter.textContent=String(index+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');progress.style.width=((index+1)/slides.length*100)+'%';document.getElementById('prev').disabled=index===0;document.getElementById('next').disabled=index===slides.length-1}
+document.getElementById('prev').onclick=()=>show(index-1);document.getElementById('next').onclick=()=>show(index+1);
+[...dots.children].forEach((d,i)=>d.onclick=()=>show(i));
+document.addEventListener('keydown',e=>{if(['ArrowRight',' ','PageDown'].includes(e.key)){e.preventDefault();show(index+1)}if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(index-1)}if(e.key.toLowerCase()==='f')toggleFull()});
+let touchX=0;document.addEventListener('touchstart',e=>touchX=e.changedTouches[0].screenX,{passive:true});document.addEventListener('touchend',e=>{let dx=e.changedTouches[0].screenX-touchX;if(Math.abs(dx)>70)show(index+(dx<0?1:-1))},{passive:true});
+function toggleFull(){if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.()}
+document.getElementById('full').onclick=toggleFull;show(0);
+</script>
+</body></html>
